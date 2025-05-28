@@ -1,8 +1,9 @@
 
 import React, { useState } from 'react';
-import { Users, Plus } from 'lucide-react';
+import { Users, Plus, FileText } from 'lucide-react';
 import CharacterManager from './CharacterManager';
 import CharacterSheet from './CharacterSheet';
+import { generateCharacterPDF } from '../utils/pdfGenerator';
 
 interface Character {
   id: string;
@@ -35,6 +36,12 @@ const CharacterSheetApp = () => {
     }
   };
 
+  const handleGeneratePDF = () => {
+    if (selectedCharacter) {
+      generateCharacterPDF(selectedCharacter);
+    }
+  };
+
   if (showManager || !selectedCharacter) {
     return (
       <CharacterManager
@@ -58,7 +65,13 @@ const CharacterSheetApp = () => {
           Personagens
         </button>
         <h1 className="text-xl font-bold text-white">{selectedCharacter.name}</h1>
-        <div className="w-24"></div>
+        <button
+          onClick={handleGeneratePDF}
+          className="flex items-center gap-2 dnd-button"
+        >
+          <FileText size={20} />
+          PDF
+        </button>
       </div>
       
       <CharacterSheet character={selectedCharacter} />
