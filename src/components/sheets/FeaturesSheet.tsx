@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Settings, Star } from 'lucide-react';
+import { getRacialFeatures, getAvailableSubraces } from '../../utils/racialFeatures';
 
 interface Character {
   id: string;
@@ -28,6 +29,7 @@ interface Feature {
 const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
   const [features, setFeatures] = useState<Feature[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [selectedSubrace, setSelectedSubrace] = useState<string>('');
   const [newFeature, setNewFeature] = useState({
     name: '',
     type: 'other' as const,
@@ -36,6 +38,38 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
     maxUses: 1,
     rechargeOn: 'long' as const
   });
+
+  // Load racial features automatically when component mounts or character changes
+  useEffect(() => {
+    loadRacialFeatures();
+  }, [character.race, selectedSubrace]);
+
+  const loadRacialFeatures = () => {
+    const racialFeatures = getRacialFeatures(character.race, selectedSubrace);
+    
+    // Convert racial features to Feature objects
+    const racialFeatureObjects: Feature[] = racialFeatures.map((feature, index) => ({
+      id: `racial-${character.race}-${index}`,
+      name: feature.name,
+      type: 'racial',
+      description: feature.description,
+      ...(feature.uses && {
+        uses: {
+          max: feature.uses.max,
+          current: feature.uses.max,
+          rechargeOn: feature.uses.rechargeOn
+        }
+      })
+    }));
+
+    // Remove existing racial features and add new ones
+    setFeatures(prevFeatures => [
+      ...prevFeatures.filter(f => f.type !== 'racial'),
+      ...racialFeatureObjects
+    ]);
+  };
+
+  const availableSubraces = getAvailableSubraces(character.race);
 
   const handleAddFeature = () => {
     if (newFeature.name && newFeature.description) {
@@ -66,6 +100,11 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
   };
 
   const handleDeleteFeature = (featureId: string) => {
+    // Don't allow deletion of racial features
+    const feature = features.find(f => f.id === featureId);
+    if (feature?.type === 'racial') {
+      return;
+    }
     setFeatures(features.filter(feature => feature.id !== featureId));
   };
 
@@ -77,6 +116,7 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
     ));
   };
 
+  // ... keep existing code (getFeatureTypeColor, getFeatureTypeLabel functions)
   const getFeatureTypeColor = (type: string) => {
     switch (type) {
       case 'racial':
@@ -125,6 +165,25 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
         </button>
       </div>
 
+      {/* Subrace Selection */}
+      {availableSubraces.length > 0 && (
+        <div className="dnd-card">
+          <h3 className="text-lg font-semibold text-white mb-4">Subrace de {character.race}</h3>
+          <select
+            value={selectedSubrace}
+            onChange={(e) => setSelectedSubrace(e.target.value)}
+            className="dnd-input w-full"
+          >
+            <option value="">Selecione uma subrace...</option>
+            {availableSubraces.map((subrace) => (
+              <option key={subrace} value={subrace}>
+                {subrace}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
       {/* Add Feature Form */}
       {showAddForm && (
         <div className="dnd-card">
@@ -154,7 +213,6 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
                   className="dnd-input w-full"
                 >
                   <option value="other">Outro</option>
-                  <option value="racial">Racial</option>
                   <option value="class">Classe</option>
                   <option value="feat">Talento</option>
                 </select>
@@ -240,7 +298,7 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
         <div className="dnd-card">
           <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
             <Star size={20} className="text-green-400" />
-            Características Raciais
+            Características Raciais ({character.race}{selectedSubrace && ` - ${selectedSubrace}`})
           </h3>
           <div className="space-y-3">
             {racialFeatures.map((feature) => (
@@ -282,12 +340,9 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
                       </div>
                     )}
                   </div>
-                  <button
-                    onClick={() => handleDeleteFeature(feature.id)}
-                    className="text-red-400 hover:text-red-300 p-2 ml-2"
-                  >
-                    <Trash2 size={16} />
-                  </button>
+                  <div className="text-gray-500 text-xs">
+                    Automático
+                  </div>
                 </div>
               </div>
             ))}
