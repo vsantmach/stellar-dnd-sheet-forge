@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Settings, Star, Sword, CheckCircle } from 'lucide-react';
+import { Plus, Trash2, Settings, Star } from 'lucide-react';
 import { getRacialFeatures, getAvailableSubraces } from '../../utils/racialFeatures';
-import { getClassFeatures, getAvailableSubclasses } from '../../utils/classFeatures';
 
 interface Character {
   id: string;
@@ -18,7 +17,7 @@ interface FeaturesSheetProps {
 interface Feature {
   id: string;
   name: string;
-  type: 'racial' | 'class' | 'feat' | 'other';
+  type: 'racial' | 'feat' | 'other';
   description: string;
   uses?: {
     max: number;
@@ -31,8 +30,6 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
   const [features, setFeatures] = useState<Feature[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedSubrace, setSelectedSubrace] = useState<string>('');
-  const [selectedSubclass, setSelectedSubclass] = useState<string>('');
-  const [selectedClassFeatures, setSelectedClassFeatures] = useState<Set<string>>(new Set());
   const [newFeature, setNewFeature] = useState({
     name: '',
     type: 'other' as const,
@@ -42,11 +39,10 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
     rechargeOn: 'long' as const
   });
 
-  // Load racial and class features automatically when component mounts or character changes
+  // Load racial features automatically when component mounts or character changes
   useEffect(() => {
     loadRacialFeatures();
-    loadClassFeatures();
-  }, [character.race, character.class, character.level, selectedSubrace, selectedSubclass, selectedClassFeatures]);
+  }, [character.race, selectedSubrace]);
 
   const loadRacialFeatures = () => {
     const racialFeatures = getRacialFeatures(character.race, selectedSubrace);
@@ -73,52 +69,7 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
     ]);
   };
 
-  const loadClassFeatures = () => {
-    const classFeatures = getClassFeatures(character.class, character.level, selectedSubclass);
-    
-    // Filter only selected class features
-    const selectedFeatures = classFeatures.filter(feature => 
-      selectedClassFeatures.has(`${feature.name}-${feature.level}`)
-    );
-    
-    // Convert class features to Feature objects
-    const classFeatureObjects: Feature[] = selectedFeatures.map((feature, index) => ({
-      id: `class-${character.class}-${feature.level}-${index}`,
-      name: feature.name,
-      type: 'class',
-      description: feature.description,
-      ...(feature.uses && {
-        uses: {
-          max: feature.uses.max,
-          current: feature.uses.max,
-          rechargeOn: feature.uses.rechargeOn
-        }
-      })
-    }));
-
-    // Remove existing class features and add new ones
-    setFeatures(prevFeatures => [
-      ...prevFeatures.filter(f => f.type !== 'class'),
-      ...classFeatureObjects
-    ]);
-  };
-
   const availableSubraces = getAvailableSubraces(character.race);
-  const availableSubclasses = getAvailableSubclasses(character.class);
-  const availableClassFeatures = getClassFeatures(character.class, character.level, selectedSubclass);
-
-  const toggleClassFeature = (featureName: string, level: number) => {
-    const featureKey = `${featureName}-${level}`;
-    const newSelected = new Set(selectedClassFeatures);
-    
-    if (newSelected.has(featureKey)) {
-      newSelected.delete(featureKey);
-    } else {
-      newSelected.add(featureKey);
-    }
-    
-    setSelectedClassFeatures(newSelected);
-  };
 
   const handleAddFeature = () => {
     if (newFeature.name && newFeature.description) {
@@ -169,8 +120,6 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
     switch (type) {
       case 'racial':
         return 'bg-green-600';
-      case 'class':
-        return 'bg-blue-600';
       case 'feat':
         return 'bg-purple-600';
       default:
@@ -182,8 +131,6 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
     switch (type) {
       case 'racial':
         return 'Racial';
-      case 'class':
-        return 'Classe';
       case 'feat':
         return 'Talento';
       default:
@@ -192,7 +139,6 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
   };
 
   const racialFeatures = features.filter(f => f.type === 'racial');
-  const classFeatures = features.filter(f => f.type === 'class');
   const feats = features.filter(f => f.type === 'feat');
   const otherFeatures = features.filter(f => f.type === 'other');
 
@@ -232,88 +178,6 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
         </div>
       )}
 
-      {/* Subclass Selection and Class Features */}
-      {availableSubclasses.length > 0 && (
-        <div className="dnd-card">
-          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <Sword size={20} className="text-blue-400" />
-            Características de {character.class}
-          </h3>
-          
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Subclasse
-            </label>
-            <select
-              value={selectedSubclass}
-              onChange={(e) => setSelectedSubclass(e.target.value)}
-              className="dnd-input w-full"
-            >
-              <option value="">Selecione uma subclasse...</option>
-              {availableSubclasses.map((subclass) => (
-                <option key={subclass} value={subclass}>
-                  {subclass}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {availableClassFeatures.length > 0 && (
-            <div>
-              <h4 className="text-md font-medium text-white mb-3">
-                Características Disponíveis (Nível {character.level})
-              </h4>
-              <div className="space-y-2 max-h-64 overflow-y-auto">
-                {availableClassFeatures.map((feature) => {
-                  const featureKey = `${feature.name}-${feature.level}`;
-                  const isSelected = selectedClassFeatures.has(featureKey);
-                  
-                  return (
-                    <div
-                      key={featureKey}
-                      className={`p-3 rounded-lg border cursor-pointer transition-colors ${
-                        isSelected
-                          ? 'bg-blue-900 border-blue-600'
-                          : 'bg-gray-800 border-gray-600 hover:border-gray-500'
-                      }`}
-                      onClick={() => toggleClassFeature(feature.name, feature.level)}
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <CheckCircle 
-                              size={16} 
-                              className={isSelected ? 'text-blue-400' : 'text-gray-600'}
-                            />
-                            <h5 className="text-white font-medium">{feature.name}</h5>
-                            <span className="text-xs text-gray-400 bg-gray-700 px-2 py-1 rounded">
-                              Nível {feature.level}
-                            </span>
-                            {feature.subclass && (
-                              <span className="text-xs text-blue-300 bg-blue-900 px-2 py-1 rounded">
-                                {feature.subclass}
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-gray-300 text-sm">{feature.description}</p>
-                          {feature.uses && (
-                            <div className="mt-1">
-                              <span className="text-xs text-gray-400">
-                                Usos: {feature.uses.max} por {feature.uses.rechargeOn === 'short' ? 'Desc. Curto' : feature.uses.rechargeOn === 'long' ? 'Desc. Longo' : 'Outro'}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
       {/* Add Feature Form */}
       {showAddForm && (
         <div className="dnd-card">
@@ -343,7 +207,6 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
                   className="dnd-input w-full"
                 >
                   <option value="other">Outro</option>
-                  <option value="class">Classe</option>
                   <option value="feat">Talento</option>
                 </select>
               </div>
@@ -432,63 +295,6 @@ const FeaturesSheet: React.FC<FeaturesSheetProps> = ({ character }) => {
           </h3>
           <div className="space-y-3">
             {racialFeatures.map((feature) => (
-              <div key={feature.id} className="bg-gray-800 p-4 rounded-lg">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h4 className="text-white font-medium">{feature.name}</h4>
-                      <span className={`text-xs text-white px-2 py-1 rounded ${getFeatureTypeColor(feature.type)}`}>
-                        {getFeatureTypeLabel(feature.type)}
-                      </span>
-                    </div>
-                    <p className="text-gray-300 text-sm mb-2">{feature.description}</p>
-                    {feature.uses && (
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-400">Usos:</span>
-                        <div className="flex items-center gap-1">
-                          <button
-                            onClick={() => updateFeatureUses(feature.id, feature.uses!.current - 1)}
-                            className="w-6 h-6 bg-red-600 hover:bg-red-700 text-white rounded text-xs"
-                            disabled={feature.uses.current <= 0}
-                          >
-                            -
-                          </button>
-                          <span className="text-white px-2">
-                            {feature.uses.current}/{feature.uses.max}
-                          </span>
-                          <button
-                            onClick={() => updateFeatureUses(feature.id, feature.uses!.current + 1)}
-                            className="w-6 h-6 bg-green-600 hover:bg-green-700 text-white rounded text-xs"
-                            disabled={feature.uses.current >= feature.uses.max}
-                          >
-                            +
-                          </button>
-                        </div>
-                        <span className="text-xs text-gray-400">
-                          (Recarrega: {feature.uses.rechargeOn === 'short' ? 'Desc. Curto' : feature.uses.rechargeOn === 'long' ? 'Desc. Longo' : 'Outro'})
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="text-gray-500 text-xs">
-                    Automático
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Class Features */}
-      {classFeatures.length > 0 && (
-        <div className="dnd-card">
-          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <Sword size={20} className="text-blue-400" />
-            Características de Classe Ativas
-          </h3>
-          <div className="space-y-3">
-            {classFeatures.map((feature) => (
               <div key={feature.id} className="bg-gray-800 p-4 rounded-lg">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
