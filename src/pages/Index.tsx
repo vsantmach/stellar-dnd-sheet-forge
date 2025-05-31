@@ -1,12 +1,15 @@
 
 import React from 'react';
 import CharacterSheetApp from '../components/CharacterSheetApp';
+import { ThemeProvider } from '../hooks/useTheme';
 
 const Index = () => {
   return (
-    <div className="dnd-container">
-      <CharacterSheetApp />
-    </div>
+    <ThemeProvider>
+      <div className="dnd-container">
+        <CharacterSheetApp />
+      </div>
+    </ThemeProvider>
   );
 };
 

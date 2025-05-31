@@ -57,14 +57,54 @@
   @apply bg-gray-900 border border-gray-800 rounded-lg p-4;
 }
 
+.dnd-card-light {
+  @apply bg-gray-100 border border-gray-200 rounded-lg p-4;
+}
+
 .dnd-accent {
   @apply text-blue-400;
+}
+
+.dnd-accent-green {
+  @apply text-green-400;
+}
+
+.dnd-accent-cyan {
+  @apply text-cyan-400;
+}
+
+.dnd-accent-red {
+  @apply text-red-400;
+}
+
+.dnd-accent-purple {
+  @apply text-purple-400;
 }
 
 .dnd-button {
   @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors;
 }
 
+.dnd-button-green {
+  @apply bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors;
+}
+
+.dnd-button-cyan {
+  @apply bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg transition-colors;
+}
+
+.dnd-button-red {
+  @apply bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors;
+}
+
+.dnd-button-purple {
+  @apply bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors;
+}
+
 .dnd-input {
   @apply bg-gray-800 border border-gray-700 text-white px-3 py-2 rounded-lg focus:border-blue-400 focus:outline-none;
+}
+
+.dnd-input-light {
+  @apply bg-white border border-gray-300 text-gray-900 px-3 py-2 rounded-lg focus:border-blue-400 focus:outline-none;
 }

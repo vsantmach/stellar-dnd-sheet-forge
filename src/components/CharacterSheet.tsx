@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { User, TrendingUp, Backpack, Book, Star, Settings, Sword } from 'lucide-react';
 import BasicInfo from './sheets/BasicInfo';
@@ -7,6 +8,7 @@ import SpellsSheet from './sheets/SpellsSheet';
 import BackgroundSheet from './sheets/BackgroundSheet';
 import FeaturesSheet from './sheets/FeaturesSheet';
 import ClassFeaturesSheet from './sheets/ClassFeaturesSheet';
+import { useTheme } from '../hooks/useTheme';
 
 interface Character {
   id: string;
@@ -22,6 +24,7 @@ interface CharacterSheetProps {
 
 const CharacterSheet: React.FC<CharacterSheetProps> = ({ character }) => {
   const [activeTab, setActiveTab] = useState('basic');
+  const { mode, color, getBackgroundColor, getTextColor } = useTheme();
 
   const tabs = [
     { id: 'basic', label: 'Básico', icon: User },
@@ -32,6 +35,23 @@ const CharacterSheet: React.FC<CharacterSheetProps> = ({ character }) => {
     { id: 'background', label: 'Background', icon: Star },
     { id: 'features', label: 'Características', icon: Settings },
   ];
+
+  const getTabButtonClass = (isActive: boolean) => {
+    const baseClass = "flex items-center gap-2 px-4 py-3 min-w-max whitespace-nowrap transition-colors";
+    
+    if (isActive) {
+      const colorMap = {
+        blue: 'bg-blue-600 border-blue-400',
+        green: 'bg-green-600 border-green-400',
+        cyan: 'bg-cyan-600 border-cyan-400',
+        red: 'bg-red-600 border-red-400',
+        purple: 'bg-purple-600 border-purple-400',
+      };
+      return `${baseClass} ${colorMap[color]} text-white border-b-2`;
+    }
+    
+    return `${baseClass} ${mode === 'dark' ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`;
+  };
 
   const renderActiveSheet = () => {
     switch (activeTab) {
@@ -55,20 +75,16 @@ const CharacterSheet: React.FC<CharacterSheetProps> = ({ character }) => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-black">
+    <div className={`flex flex-col h-screen ${getBackgroundColor()}`}>
       {/* Navigation Tabs */}
-      <div className="flex overflow-x-auto bg-gray-900 border-b border-gray-800">
+      <div className={`flex overflow-x-auto ${mode === 'dark' ? 'bg-gray-900 border-gray-800' : 'bg-gray-50 border-gray-200'} border-b`}>
         {tabs.map((tab) => {
           const Icon = tab.icon;
           return (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-3 min-w-max whitespace-nowrap transition-colors ${
-                activeTab === tab.id
-                  ? 'bg-blue-600 text-white border-b-2 border-blue-400'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
-              }`}
+              className={getTabButtonClass(activeTab === tab.id)}
             >
               <Icon size={18} />
               <span className="text-sm font-medium">{tab.label}</span>
