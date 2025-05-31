@@ -1,4 +1,3 @@
-
 export interface ClassFeature {
   name: string;
   description: string;
@@ -64,11 +63,6 @@ export const classFeaturesData: { [key: string]: ClassData } = {
         level: 6
       },
       {
-        name: 'Ataque Extra (2)',
-        description: 'Pode atacar três vezes quando realizar ação de Ataque.',
-        level: 11
-      },
-      {
         name: 'Incremento no Valor de Habilidade',
         description: 'Aumente dois valores de habilidade em 1 ou um valor em 2.',
         level: 8
@@ -81,6 +75,11 @@ export const classFeaturesData: { [key: string]: ClassData } = {
           max: 1,
           rechargeOn: 'long'
         }
+      },
+      {
+        name: 'Ataque Extra (2)',
+        description: 'Pode atacar três vezes quando realizar ação de Ataque.',
+        level: 11
       },
       {
         name: 'Incremento no Valor de Habilidade',
@@ -162,7 +161,7 @@ export const classFeaturesData: { [key: string]: ClassData } = {
       'Mestre de Batalha': [
         {
           name: 'Superioridade em Combate',
-          description: 'Aprende manobras e ganha dados de superioridade.',
+          description: 'Aprende manobras e ganha dados de superioridade (4 dados d8).',
           level: 3,
           subclass: 'Mestre de Batalha',
           uses: {
@@ -178,13 +177,13 @@ export const classFeaturesData: { [key: string]: ClassData } = {
         },
         {
           name: 'Conhece o Inimigo',
-          description: 'Pode avaliar as capacidades de uma criatura.',
+          description: 'Pode avaliar as capacidades de uma criatura observando-a.',
           level: 7,
           subclass: 'Mestre de Batalha'
         },
         {
           name: 'Superioridade em Combate Aprimorada',
-          description: 'Ganha mais dados de superioridade e aprende mais manobras.',
+          description: 'Ganha mais dados de superioridade (5 dados) e aprende mais manobras.',
           level: 10,
           subclass: 'Mestre de Batalha',
           uses: {
@@ -194,9 +193,57 @@ export const classFeaturesData: { [key: string]: ClassData } = {
         },
         {
           name: 'Implacável',
-          description: 'Recupera um dado de superioridade se não tiver nenhum restante.',
+          description: 'Recupera um dado de superioridade se não tiver nenhum restante ao rolar iniciativa.',
           level: 15,
           subclass: 'Mestre de Batalha'
+        },
+        {
+          name: 'Superioridade em Combate Suprema',
+          description: 'Ganha mais dados de superioridade (6 dados) e aprende mais manobras.',
+          level: 18,
+          subclass: 'Mestre de Batalha',
+          uses: {
+            max: 6,
+            rechargeOn: 'short'
+          }
+        }
+      ],
+      'Cavaleiro Místico': [
+        {
+          name: 'Conjuração',
+          description: 'Ganha a habilidade de conjurar magias. Inteligência é seu atributo de conjuração.',
+          level: 3,
+          subclass: 'Cavaleiro Místico'
+        },
+        {
+          name: 'Vínculo com Arma',
+          description: 'Pode se vincular com uma arma mágica e conjurá-la como ação bônus.',
+          level: 3,
+          subclass: 'Cavaleiro Místico'
+        },
+        {
+          name: 'Magia de Guerra',
+          description: 'Quando conjurar truque, pode fazer um ataque com arma como ação bônus.',
+          level: 7,
+          subclass: 'Cavaleiro Místico'
+        },
+        {
+          name: 'Surto Místico',
+          description: 'Quando usar Surto de Ação, pode conjurar uma magia (ação) ou se teletransportar.',
+          level: 10,
+          subclass: 'Cavaleiro Místico'
+        },
+        {
+          name: 'Magia de Guerra Aprimorada',
+          description: 'Quando conjurar magia, pode fazer um ataque com arma como ação bônus.',
+          level: 15,
+          subclass: 'Cavaleiro Místico'
+        },
+        {
+          name: 'Carga Mística Aprimorada',
+          description: 'Pode se teletransportar antes de atacar e causar dano de força adicional.',
+          level: 18,
+          subclass: 'Cavaleiro Místico'
         }
       ]
     }
@@ -278,7 +325,7 @@ export const classFeaturesData: { [key: string]: ClassData } = {
         },
         {
           name: 'Evocação Empoderada',
-          description: 'Pode maximizar o dano de uma magia de evocação.',
+          description: 'Pode maximizar o dano de uma magia de evocação uma vez por descanso longo.',
           level: 10,
           subclass: 'Escola de Evocação',
           uses: {
@@ -288,7 +335,7 @@ export const classFeaturesData: { [key: string]: ClassData } = {
         },
         {
           name: 'Supercarga',
-          description: 'Aumenta o dano de suas magias de evocação.',
+          description: 'Aumenta o dano de suas magias de evocação adicionando seu modificador de Inteligência.',
           level: 14,
           subclass: 'Escola de Evocação'
         }
@@ -296,7 +343,7 @@ export const classFeaturesData: { [key: string]: ClassData } = {
       'Escola de Divinação': [
         {
           name: 'Adivinho',
-          description: 'Recupera espaços de magia quando conjura magias de divinação.',
+          description: 'Recupera espaços de magia quando conjura magias de divinação de 2º nível ou superior.',
           level: 2,
           subclass: 'Escola de Divinação'
         },
@@ -318,7 +365,7 @@ export const classFeaturesData: { [key: string]: ClassData } = {
         },
         {
           name: 'Terceiro Olho',
-          description: 'Ganha diferentes visões mágicas.',
+          description: 'Ganha diferentes visões mágicas usando ação.',
           level: 10,
           subclass: 'Escola de Divinação',
           uses: {
@@ -335,6 +382,42 @@ export const classFeaturesData: { [key: string]: ClassData } = {
             max: 3,
             rechargeOn: 'long'
           }
+        }
+      ],
+      'Escola de Encantamento': [
+        {
+          name: 'Encantador Hipnótico',
+          description: 'Quando uma criatura falha em resistir a sua magia de encantamento, você pode encantar outra criatura.',
+          level: 2,
+          subclass: 'Escola de Encantamento'
+        },
+        {
+          name: 'Olhar Hipnótico',
+          description: 'Pode encantar uma criatura como ação usando olhar hipnótico.',
+          level: 2,
+          subclass: 'Escola de Encantamento',
+          uses: {
+            max: 1,
+            rechargeOn: 'long'
+          }
+        },
+        {
+          name: 'Encantamento Dividido',
+          description: 'Quando conjurar magia de encantamento de alvo único, pode mirar em segunda criatura.',
+          level: 6,
+          subclass: 'Escola de Encantamento'
+        },
+        {
+          name: 'Encantos Focados',
+          description: 'Magias de encantamento não afetam você mesmo.',
+          level: 10,
+          subclass: 'Escola de Encantamento'
+        },
+        {
+          name: 'Encantamento Duradouro',
+          description: 'Certas magias de encantamento duram mais tempo.',
+          level: 14,
+          subclass: 'Escola de Encantamento'
         }
       ]
     }
@@ -516,13 +599,13 @@ export const classFeaturesData: { [key: string]: ClassData } = {
         },
         {
           name: 'Assassinar',
-          description: 'Vantagem em ataques contra criaturas que ainda não agiram no combate.',
+          description: 'Vantagem em ataques contra criaturas que ainda não agiram no combate. Acertos críticos em criaturas surpresas.',
           level: 3,
           subclass: 'Assassino'
         },
         {
           name: 'Maestria em Infiltração',
-          description: 'Pode criar identidades falsas.',
+          description: 'Pode criar identidades falsas para si mesmo.',
           level: 9,
           subclass: 'Assassino'
         },
@@ -536,7 +619,47 @@ export const classFeaturesData: { [key: string]: ClassData } = {
           name: 'Golpe Mortal',
           description: 'Pode tentar matar instantaneamente uma criatura com ataque furtivo.',
           level: 17,
-          subclass: 'Assassino'
+          subclass: 'Assassino',
+          uses: {
+            max: 1,
+            rechargeOn: 'long'
+          }
+        }
+      ],
+      'Trapaceiro Arcano': [
+        {
+          name: 'Conjuração',
+          description: 'Ganha a habilidade de conjurar magias. Inteligência é seu atributo de conjuração.',
+          level: 3,
+          subclass: 'Trapaceiro Arcano'
+        },
+        {
+          name: 'Truque de Mão Mágica',
+          description: 'Aprende truque mão mágica e pode usá-lo como ação bônus.',
+          level: 3,
+          subclass: 'Trapaceiro Arcano'
+        },
+        {
+          name: 'Emboscada Mágica',
+          description: 'Pode conjurar magia e se esconder como ação bônus.',
+          level: 9,
+          subclass: 'Trapaceiro Arcano'
+        },
+        {
+          name: 'Ladrão Versátil',
+          description: 'Ganha resistência a dano e proficiência adicional em ferramentas de ladrão.',
+          level: 13,
+          subclass: 'Trapaceiro Arcano'
+        },
+        {
+          name: 'Surpresa Mágica',
+          description: 'Pode roubar conhecimento de magia de outro conjurador e conjurá-la.',
+          level: 17,
+          subclass: 'Trapaceiro Arcano',
+          uses: {
+            max: 1,
+            rechargeOn: 'long'
+          }
         }
       ]
     }
@@ -587,6 +710,15 @@ export const classFeaturesData: { [key: string]: ClassData } = {
         level: 8
       },
       {
+        name: 'Intervenção Divina',
+        description: 'Pode pedir ajuda direta de sua divindade.',
+        level: 10,
+        uses: {
+          max: 1,
+          rechargeOn: 'long'
+        }
+      },
+      {
         name: 'Incremento no Valor de Habilidade',
         description: 'Aumente dois valores de habilidade em 1 ou um valor em 2.',
         level: 12
@@ -609,15 +741,6 @@ export const classFeaturesData: { [key: string]: ClassData } = {
         name: 'Incremento no Valor de Habilidade',
         description: 'Aumente dois valores de habilidade em 1 ou um valor em 2.',
         level: 19
-      },
-      {
-        name: 'Intervenção Divina',
-        description: 'Pode pedir ajuda direta de sua divindade.',
-        level: 10,
-        uses: {
-          max: 1,
-          rechargeOn: 'long'
-        }
       },
       {
         name: 'Intervenção Divina Aprimorada',
@@ -647,13 +770,13 @@ export const classFeaturesData: { [key: string]: ClassData } = {
         },
         {
           name: 'Curandeiro Abençoado Aprimorado',
-          description: 'As magias de cura também curam você.',
+          description: 'As magias de cura também curam você pela metade.',
           level: 6,
           subclass: 'Domínio da Vida'
         },
         {
           name: 'Ataque Divino',
-          description: 'Seus ataques com arma causam 1d8 de dano radiante adicional.',
+          description: 'Seus ataques com arma causam 1d8 de dano radiante adicional uma vez por turno.',
           level: 8,
           subclass: 'Domínio da Vida'
         },
@@ -699,7 +822,7 @@ export const classFeaturesData: { [key: string]: ClassData } = {
         },
         {
           name: 'Ataque Divino',
-          description: 'Seus ataques com arma causam 1d8 de dano adicional.',
+          description: 'Seus ataques com arma causam 1d8 de dano adicional uma vez por turno.',
           level: 8,
           subclass: 'Domínio da Guerra'
         },
@@ -708,6 +831,56 @@ export const classFeaturesData: { [key: string]: ClassData } = {
           description: 'Ganha resistência a dano cortante, perfurante e contundente de armas não mágicas.',
           level: 17,
           subclass: 'Domínio da Guerra'
+        }
+      ],
+      'Domínio da Luz': [
+        {
+          name: 'Truque Bônus',
+          description: 'Aprende o truque luz se ainda não souber.',
+          level: 1,
+          subclass: 'Domínio da Luz'
+        },
+        {
+          name: 'Labareda Protetora',
+          description: 'Quando atacado, pode usar reação para causar dano radiante ao atacante.',
+          level: 1,
+          subclass: 'Domínio da Luz',
+          uses: {
+            max: 1,
+            rechargeOn: 'long'
+          }
+        },
+        {
+          name: 'Radiance do Amanhecer',
+          description: 'Usa Canalizar Divindade para causar dano radiante em área.',
+          level: 2,
+          subclass: 'Domínio da Luz'
+        },
+        {
+          name: 'Labareda Protetora Aprimorada',
+          description: 'Pode usar Labareda Protetora mais vezes por descanso.',
+          level: 6,
+          subclass: 'Domínio da Luz',
+          uses: {
+            max: 2,
+            rechargeOn: 'long'
+          }
+        },
+        {
+          name: 'Ataque Divino',
+          description: 'Seus ataques com arma causam 1d8 de dano radiante adicional uma vez por turno.',
+          level: 8,
+          subclass: 'Domínio da Luz'
+        },
+        {
+          name: 'Corona de Luz',
+          description: 'Emana luz brilhante que cega inimigos próximos.',
+          level: 17,
+          subclass: 'Domínio da Luz',
+          uses: {
+            max: 1,
+            rechargeOn: 'long'
+          }
         }
       ]
     }
@@ -837,7 +1010,7 @@ export const classFeaturesData: { [key: string]: ClassData } = {
         },
         {
           name: 'Fúria Incauta',
-          description: 'Não pode ser enfeitiçado ou amedrontado durante a fúria.',
+          description: 'Não pode ser enfeitiçado ou amedrontado durante a fúria. Se já estiver, o efeito é suspenso.',
           level: 6,
           subclass: 'Caminho do Guerreiro Furioso'
         },
@@ -861,13 +1034,13 @@ export const classFeaturesData: { [key: string]: ClassData } = {
       'Caminho do Totem Guerreiro': [
         {
           name: 'Espírito Totem',
-          description: 'Escolha um espírito animal totem que lhe concede benefícios.',
+          description: 'Escolha um espírito animal totem que lhe concede benefícios durante a fúria.',
           level: 3,
           subclass: 'Caminho do Totem Guerreiro'
         },
         {
           name: 'Aspecto do Totem',
-          description: 'Ganha um aspecto místico do seu animal totem.',
+          description: 'Ganha um aspecto místico do seu animal totem fora da fúria.',
           level: 6,
           subclass: 'Caminho do Totem Guerreiro'
         },
@@ -1397,6 +1570,42 @@ export const classFeaturesData: { [key: string]: ClassData } = {
             rechargeOn: 'long'
           }
         }
+      ],
+      'Juramento de Vingança': [
+        {
+          name: 'Inimigo Jurado',
+          description: 'Pode usar Canalizar Divindade para marcar um inimigo e ganhar vantagem contra ele.',
+          level: 3,
+          subclass: 'Juramento de Vingança'
+        },
+        {
+          name: 'Voto de Inimizade',
+          description: 'Pode usar Canalizar Divindade para ganhar vantagem em ataques contra uma criatura.',
+          level: 3,
+          subclass: 'Juramento de Vingança'
+        },
+        {
+          name: 'Perseguidor Implacável',
+          description: 'Pode se mover através de criaturas e terreno difícil sem custo extra.',
+          level: 7,
+          subclass: 'Juramento de Vingança'
+        },
+        {
+          name: 'Alma de Vingança',
+          description: 'Quando uma criatura próxima atacar alguém que não seja você, pode usar reação para atacá-la.',
+          level: 15,
+          subclass: 'Juramento de Vingança'
+        },
+        {
+          name: 'Anjo Vingador',
+          description: 'Pode se transformar em forma angelical com asas e aura de medo.',
+          level: 20,
+          subclass: 'Juramento de Vingança',
+          uses: {
+            max: 1,
+            rechargeOn: 'long'
+          }
+        }
       ]
     }
   },
@@ -1854,6 +2063,40 @@ export const classFeaturesData: { [key: string]: ClassData } = {
             rechargeOn: 'long'
           }
         }
+      ],
+      'A Grande Entidade Ancestral': [
+        {
+          name: 'Mente Desperta',
+          description: 'Pode se comunicar telepaticamente e ganha resistência a dano psíquico.',
+          level: 1,
+          subclass: 'A Grande Entidade Ancestral'
+        },
+        {
+          name: 'Proteção Entrópica',
+          description: 'Pode usar reação para forçar atacante a refazer jogada de ataque.',
+          level: 6,
+          subclass: 'A Grande Entidade Ancestral',
+          uses: {
+            max: 1,
+            rechargeOn: 'short'
+          }
+        },
+        {
+          name: 'Mente Protegida',
+          description: 'Resistência a dano psíquico e imunidade a ser enfeitiçado.',
+          level: 10,
+          subclass: 'A Grande Entidade Ancestral'
+        },
+        {
+          name: 'Criar Lacaio',
+          description: 'Pode criar um lacaio humanoide para servir você.',
+          level: 14,
+          subclass: 'A Grande Entidade Ancestral',
+          uses: {
+            max: 1,
+            rechargeOn: 'long'
+          }
+        }
       ]
     }
   },
@@ -2038,6 +2281,32 @@ export const classFeaturesData: { [key: string]: ClassData } = {
           description: 'Pode fazer ataque de oportunidade sem usar reação quando inimigo for atingido por outro.',
           level: 17,
           subclass: 'Caminho da Sombra'
+        }
+      ],
+      'Caminho dos Quatro Elementos': [
+        {
+          name: 'Discípulo dos Elementos',
+          description: 'Aprende disciplinas elementais que usam ki para imitar magias.',
+          level: 3,
+          subclass: 'Caminho dos Quatro Elementos'
+        },
+        {
+          name: 'Disciplinas Elementais Adicionais',
+          description: 'Aprende disciplinas elementais adicionais.',
+          level: 6,
+          subclass: 'Caminho dos Quatro Elementos'
+        },
+        {
+          name: 'Disciplinas Elementais Adicionais',
+          description: 'Aprende disciplinas elementais adicionais.',
+          level: 11,
+          subclass: 'Caminho dos Quatro Elementos'
+        },
+        {
+          name: 'Disciplinas Elementais Adicionais',
+          description: 'Aprende disciplinas elementais adicionais.',
+          level: 17,
+          subclass: 'Caminho dos Quatro Elementos'
         }
       ]
     }
