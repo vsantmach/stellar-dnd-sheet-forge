@@ -1,5 +1,4 @@
-
-import { Sword, Shield, Shirt, Potion, Backpack, Bow, Hammer, Wand, Book, Gem, Crown, Ring } from 'lucide-react';
+import { Sword, Shield, Shirt, Zap, Backpack, Target, Hammer, Wand, Book, Gem, Crown, CircleDot } from 'lucide-react';
 
 export interface EquipmentItem {
   id: string;
@@ -78,7 +77,7 @@ export const predefinedEquipment: EquipmentItem[] = [
     type: 'weapon',
     description: '1d8 perfurante (munição 45/180, pesada, duas mãos)',
     category: 'Arma Marcial à Distância',
-    icon: Bow,
+    icon: Target,
     rarity: 'common',
     cost: '50 po',
     weight: '1 kg'
@@ -89,7 +88,7 @@ export const predefinedEquipment: EquipmentItem[] = [
     type: 'weapon',
     description: '1d6 perfurante (munição 24/96, duas mãos)',
     category: 'Arma Simples à Distância',
-    icon: Bow,
+    icon: Target,
     rarity: 'common',
     cost: '25 po',
     weight: '1 kg'
@@ -182,7 +181,7 @@ export const predefinedEquipment: EquipmentItem[] = [
     type: 'item',
     description: 'Recupera 2d4+2 pontos de vida',
     category: 'Poção',
-    icon: Potion,
+    icon: Zap,
     rarity: 'common',
     cost: '50 po',
     weight: '0,25 kg'
@@ -193,7 +192,7 @@ export const predefinedEquipment: EquipmentItem[] = [
     type: 'item',
     description: 'Recupera 4d4+4 pontos de vida',
     category: 'Poção',
-    icon: Potion,
+    icon: Zap,
     rarity: 'uncommon',
     cost: '150 po',
     weight: '0,25 kg'
@@ -230,7 +229,7 @@ export const predefinedEquipment: EquipmentItem[] = [
     type: 'accessory',
     description: '+1 CA e +1 em testes de resistência',
     category: 'Anel',
-    icon: Ring,
+    icon: CircleDot,
     rarity: 'rare'
   },
   {

@@ -1,22 +1,21 @@
-
 import { ClassFeature, SubclassFeature } from '../types';
 
 export const paladinFeatures: ClassFeature[] = [
   {
-    id: 'divineSense',
+    id: 'divinesense',
     name: 'Sentido Divino',
-    description: 'A presença do mal registra em seus sentidos como um odor nocivo, e o bem poderoso toca como música celestial em seus ouvidos.',
+    description: 'A presença de mal fortificado é registrada pelos seus sentidos como um odor nocivo, e o bem poderoso soa como música celestial em seus ouvidos.',
     level: 1,
-    uses: { max: 1, rechargeOn: 'long' }
+    uses: { max: 1, current: 1, rechargeOn: 'long' }
   },
   {
-    id: 'layOnHands',
+    id: 'layonhands',
     name: 'Imposição das Mãos',
     description: 'Seu toque abençoado pode curar feridas. Você tem um conjunto de pontos de cura que se reabastece quando você termina um descanso longo.',
     level: 1,
   },
   {
-    id: 'fightingStyle',
+    id: 'fightingstyle',
     name: 'Estilo de Luta',
     description: 'Você adota um estilo de luta como sua especialidade.',
     level: 2,
