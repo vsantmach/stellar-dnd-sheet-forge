@@ -1,3 +1,4 @@
+
 import { ClassFeature, SubclassFeature } from '../types';
 
 export const fighterFeatures: ClassFeature[] = [
@@ -52,7 +53,7 @@ export const fighterSubclasses: Record<string, SubclassFeature[]> = {
       description: 'Você aprende manobras que são alimentadas por dados especiais chamados dados de superioridade.',
       level: 3,
       subclass: 'Mestre de Batalha',
-      uses: { max: 4, current: 4, rechargeOn: 'short' }
+      uses: { max: 4, rechargeOn: 'short' }
     },
     {
       name: 'Conhecer Seu Inimigo',
@@ -84,7 +85,7 @@ export const fighterSubclasses: Record<string, SubclassFeature[]> = {
       description: 'Você aprende a desatar magia especial com alguns de seus tiros. Quando você ganha essa característica, aprende duas opções de Tiro Arcano.',
       level: 3,
       subclass: 'Arcano Archer',
-      uses: { max: 2, current: 2, rechargeOn: 'short' }
+      uses: { max: 2, rechargeOn: 'short' }
     },
     {
       name: 'Flecha Mágica',
@@ -115,7 +116,7 @@ export const fighterSubclasses: Record<string, SubclassFeature[]> = {
       description: 'Você abraça um espírito de luta que lhe dá velocidade sobrenatural. Você pode se dar vantagem em jogadas de ataque com armas durante esse turno.',
       level: 3,
       subclass: 'Samurai',
-      uses: { max: 3, current: 3, rechargeOn: 'long' }
+      uses: { max: 3, rechargeOn: 'long' }
     },
     {
       name: 'Cortesia Elegante',
@@ -138,7 +139,7 @@ export const fighterSubclasses: Record<string, SubclassFeature[]> = {
       description: 'Você pode aumentar a violência do seu eco. Sempre que você realizar a ação Atacar, pode fazer um ataque adicional a partir da posição do seu eco.',
       level: 3,
       subclass: 'Eco Knight',
-      uses: { max: 1, current: 1, rechargeOn: 'long' }
+      uses: { max: 1, rechargeOn: 'long' }
     }
   ],
 
