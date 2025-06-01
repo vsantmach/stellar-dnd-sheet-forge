@@ -1,3 +1,4 @@
+
 import { Sword, Shield, Shirt, Zap, Backpack, Target, Hammer, Wand, Book, Gem, Crown, CircleDot } from 'lucide-react';
 
 export interface EquipmentItem {
@@ -13,27 +14,16 @@ export interface EquipmentItem {
 }
 
 export const predefinedEquipment: EquipmentItem[] = [
-  // Weapons - Melee
+  // ARMAS SIMPLES CORPO A CORPO
   {
-    id: 'longsword',
-    name: 'Espada Longa',
+    id: 'club',
+    name: 'Clava',
     type: 'weapon',
-    description: '1d8 cortante (versátil 1d10)',
-    category: 'Arma Marcial Corpo a Corpo',
-    icon: Sword,
+    description: '1d4 concussão (leve)',
+    category: 'Arma Simples Corpo a Corpo',
+    icon: Hammer,
     rarity: 'common',
-    cost: '15 po',
-    weight: '1,5 kg'
-  },
-  {
-    id: 'shortsword',
-    name: 'Espada Curta',
-    type: 'weapon',
-    description: '1d6 perfurante (ágil, leve)',
-    category: 'Arma Marcial Corpo a Corpo',
-    icon: Sword,
-    rarity: 'common',
-    cost: '10 po',
+    cost: '1 pp',
     weight: '1 kg'
   },
   {
@@ -48,6 +38,164 @@ export const predefinedEquipment: EquipmentItem[] = [
     weight: '0,5 kg'
   },
   {
+    id: 'dart',
+    name: 'Dardo',
+    type: 'weapon',
+    description: '1d4 perfurante (ágil, arremesso 6/18)',
+    category: 'Arma Simples Corpo a Corpo',
+    icon: Target,
+    rarity: 'common',
+    cost: '5 pc',
+    weight: '0,125 kg'
+  },
+  {
+    id: 'handaxe',
+    name: 'Machado de Mão',
+    type: 'weapon',
+    description: '1d6 cortante (leve, arremesso 6/18)',
+    category: 'Arma Simples Corpo a Corpo',
+    icon: Hammer,
+    rarity: 'common',
+    cost: '5 po',
+    weight: '1 kg'
+  },
+  {
+    id: 'javelin',
+    name: 'Azagaia',
+    type: 'weapon',
+    description: '1d6 perfurante (arremesso 9/36)',
+    category: 'Arma Simples Corpo a Corpo',
+    icon: Target,
+    rarity: 'common',
+    cost: '5 pp',
+    weight: '1 kg'
+  },
+  {
+    id: 'light-hammer',
+    name: 'Martelo Leve',
+    type: 'weapon',
+    description: '1d4 concussão (leve, arremesso 6/18)',
+    category: 'Arma Simples Corpo a Corpo',
+    icon: Hammer,
+    rarity: 'common',
+    cost: '2 po',
+    weight: '1 kg'
+  },
+  {
+    id: 'mace',
+    name: 'Maça',
+    type: 'weapon',
+    description: '1d6 concussão',
+    category: 'Arma Simples Corpo a Corpo',
+    icon: Hammer,
+    rarity: 'common',
+    cost: '5 po',
+    weight: '2 kg'
+  },
+  {
+    id: 'quarterstaff',
+    name: 'Bordão',
+    type: 'weapon',
+    description: '1d6 concussão (versátil 1d8)',
+    category: 'Arma Simples Corpo a Corpo',
+    icon: Hammer,
+    rarity: 'common',
+    cost: '2 pp',
+    weight: '2 kg'
+  },
+  {
+    id: 'sickle',
+    name: 'Foice',
+    type: 'weapon',
+    description: '1d4 cortante (leve)',
+    category: 'Arma Simples Corpo a Corpo',
+    icon: Sword,
+    rarity: 'common',
+    cost: '1 po',
+    weight: '1 kg'
+  },
+  {
+    id: 'spear',
+    name: 'Lança',
+    type: 'weapon',
+    description: '1d6 perfurante (arremesso 6/18, versátil 1d8)',
+    category: 'Arma Simples Corpo a Corpo',
+    icon: Target,
+    rarity: 'common',
+    cost: '1 po',
+    weight: '1,5 kg'
+  },
+
+  // ARMAS SIMPLES À DISTÂNCIA
+  {
+    id: 'crossbow-light',
+    name: 'Besta Leve',
+    type: 'weapon',
+    description: '1d8 perfurante (munição 24/96, carregamento, duas mãos)',
+    category: 'Arma Simples à Distância',
+    icon: Target,
+    rarity: 'common',
+    cost: '25 po',
+    weight: '2,5 kg'
+  },
+  {
+    id: 'shortbow',
+    name: 'Arco Curto',
+    type: 'weapon',
+    description: '1d6 perfurante (munição 24/96, duas mãos)',
+    category: 'Arma Simples à Distância',
+    icon: Target,
+    rarity: 'common',
+    cost: '25 po',
+    weight: '1 kg'
+  },
+  {
+    id: 'sling',
+    name: 'Funda',
+    type: 'weapon',
+    description: '1d4 concussão (munição 9/36)',
+    category: 'Arma Simples à Distância',
+    icon: Target,
+    rarity: 'common',
+    cost: '1 pp',
+    weight: '—'
+  },
+
+  // ARMAS MARCIAIS CORPO A CORPO
+  {
+    id: 'battleaxe',
+    name: 'Machado de Batalha',
+    type: 'weapon',
+    description: '1d8 cortante (versátil 1d10)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Hammer,
+    rarity: 'common',
+    cost: '10 po',
+    weight: '2 kg'
+  },
+  {
+    id: 'flail',
+    name: 'Mangual',
+    type: 'weapon',
+    description: '1d8 concussão',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Hammer,
+    rarity: 'common',
+    cost: '10 po',
+    weight: '1 kg'
+  },
+  {
+    id: 'glaive',
+    name: 'Glaive',
+    type: 'weapon',
+    description: '1d10 cortante (pesada, alcance, duas mãos)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Target,
+    rarity: 'common',
+    cost: '20 po',
+    weight: '3 kg'
+  },
+  {
     id: 'greataxe',
     name: 'Machado Grande',
     type: 'weapon',
@@ -57,6 +205,138 @@ export const predefinedEquipment: EquipmentItem[] = [
     rarity: 'common',
     cost: '30 po',
     weight: '3,5 kg'
+  },
+  {
+    id: 'greatsword',
+    name: 'Espada Grande',
+    type: 'weapon',
+    description: '2d6 cortante (pesada, duas mãos)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Sword,
+    rarity: 'common',
+    cost: '50 po',
+    weight: '3 kg'
+  },
+  {
+    id: 'halberd',
+    name: 'Alabarda',
+    type: 'weapon',
+    description: '1d10 cortante (pesada, alcance, duas mãos)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Target,
+    rarity: 'common',
+    cost: '20 po',
+    weight: '3 kg'
+  },
+  {
+    id: 'lance',
+    name: 'Lança de Montaria',
+    type: 'weapon',
+    description: '1d12 perfurante (alcance, especial)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Target,
+    rarity: 'common',
+    cost: '10 po',
+    weight: '3 kg'
+  },
+  {
+    id: 'longsword',
+    name: 'Espada Longa',
+    type: 'weapon',
+    description: '1d8 cortante (versátil 1d10)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Sword,
+    rarity: 'common',
+    cost: '15 po',
+    weight: '1,5 kg'
+  },
+  {
+    id: 'maul',
+    name: 'Malho',
+    type: 'weapon',
+    description: '2d6 concussão (pesada, duas mãos)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Hammer,
+    rarity: 'common',
+    cost: '10 po',
+    weight: '5 kg'
+  },
+  {
+    id: 'morningstar',
+    name: 'Estrela da Manhã',
+    type: 'weapon',
+    description: '1d8 perfurante',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Hammer,
+    rarity: 'common',
+    cost: '15 po',
+    weight: '2 kg'
+  },
+  {
+    id: 'pike',
+    name: 'Pique',
+    type: 'weapon',
+    description: '1d10 perfurante (pesada, alcance, duas mãos)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Target,
+    rarity: 'common',
+    cost: '5 po',
+    weight: '9 kg'
+  },
+  {
+    id: 'rapier',
+    name: 'Rapieira',
+    type: 'weapon',
+    description: '1d8 perfurante (ágil)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Sword,
+    rarity: 'common',
+    cost: '25 po',
+    weight: '1 kg'
+  },
+  {
+    id: 'scimitar',
+    name: 'Cimitarra',
+    type: 'weapon',
+    description: '1d6 cortante (ágil, leve)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Sword,
+    rarity: 'common',
+    cost: '25 po',
+    weight: '1,5 kg'
+  },
+  {
+    id: 'shortsword',
+    name: 'Espada Curta',
+    type: 'weapon',
+    description: '1d6 perfurante (ágil, leve)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Sword,
+    rarity: 'common',
+    cost: '10 po',
+    weight: '1 kg'
+  },
+  {
+    id: 'trident',
+    name: 'Tridente',
+    type: 'weapon',
+    description: '1d6 perfurante (arremesso 6/18, versátil 1d8)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Target,
+    rarity: 'common',
+    cost: '5 po',
+    weight: '2 kg'
+  },
+  {
+    id: 'war-pick',
+    name: 'Picareta de Guerra',
+    type: 'weapon',
+    description: '1d8 perfurante',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Hammer,
+    rarity: 'common',
+    cost: '5 po',
+    weight: '1 kg'
   },
   {
     id: 'warhammer',
@@ -69,8 +349,52 @@ export const predefinedEquipment: EquipmentItem[] = [
     cost: '15 po',
     weight: '1 kg'
   },
+  {
+    id: 'whip',
+    name: 'Chicote',
+    type: 'weapon',
+    description: '1d4 cortante (ágil, alcance)',
+    category: 'Arma Marcial Corpo a Corpo',
+    icon: Target,
+    rarity: 'common',
+    cost: '2 po',
+    weight: '1,5 kg'
+  },
 
-  // Weapons - Ranged
+  // ARMAS MARCIAIS À DISTÂNCIA
+  {
+    id: 'blowgun',
+    name: 'Zarabatana',
+    type: 'weapon',
+    description: '1 perfurante (munição 7,5/30, carregamento)',
+    category: 'Arma Marcial à Distância',
+    icon: Target,
+    rarity: 'common',
+    cost: '10 po',
+    weight: '0,5 kg'
+  },
+  {
+    id: 'crossbow-hand',
+    name: 'Besta de Mão',
+    type: 'weapon',
+    description: '1d6 perfurante (munição 9/36, carregamento, leve)',
+    category: 'Arma Marcial à Distância',
+    icon: Target,
+    rarity: 'common',
+    cost: '75 po',
+    weight: '1,5 kg'
+  },
+  {
+    id: 'crossbow-heavy',
+    name: 'Besta Pesada',
+    type: 'weapon',
+    description: '1d10 perfurante (munição 30/120, carregamento, pesada, duas mãos)',
+    category: 'Arma Marcial à Distância',
+    icon: Target,
+    rarity: 'common',
+    cost: '50 po',
+    weight: '9 kg'
+  },
   {
     id: 'longbow',
     name: 'Arco Longo',
@@ -83,15 +407,15 @@ export const predefinedEquipment: EquipmentItem[] = [
     weight: '1 kg'
   },
   {
-    id: 'shortbow',
-    name: 'Arco Curto',
+    id: 'net',
+    name: 'Rede',
     type: 'weapon',
-    description: '1d6 perfurante (munição 24/96, duas mãos)',
-    category: 'Arma Simples à Distância',
+    description: '— (especial, arremesso 1,5/4,5)',
+    category: 'Arma Marcial à Distância',
     icon: Target,
     rarity: 'common',
-    cost: '25 po',
-    weight: '1 kg'
+    cost: '1 po',
+    weight: '1,5 kg'
   },
 
   // Magic Items
