@@ -73,7 +73,44 @@ export const barbarianSubclasses: Record<string, SubclassFeature[]> = {
       level: 6,
       subclass: 'Caminho da Fera'
     }
+  ],
+
+  // Xanathar's Guide
+  'Caminho do Arauto da Tempestade': [
+    {
+      name: 'Aura da Tempestade',
+      description: 'Quando entra em fúria, você emana uma aura tempestuosa. A aura se estende 3 metros de você em todas as direções, mas não através de cobertura total.',
+      level: 3,
+      subclass: 'Caminho do Arauto da Tempestade'
+    },
+    {
+      name: 'Alma da Tempestade',
+      description: 'A tempestade lhe dá benefícios mesmo quando não está em fúria. Você tem resistência a dano de raio e trovão.',
+      level: 6,
+      subclass: 'Caminho do Arauto da Tempestade'
+    }
+  ],
+
+  'Caminho do Zealote': [
+    {
+      name: 'Fúria Divina',
+      description: 'Você pode canalizar fúria divina em seus ataques. Enquanto está em fúria, o primeiro ataque que você fizer em cada turno causa 1d6 + metade do seu nível de bárbaro de dano adicional.',
+      level: 3,
+      subclass: 'Caminho do Zealote'
+    },
+    {
+      name: 'Presença de Guerreiro',
+      description: 'No 6º nível, você aprende a lutar com tal ferocidade que outros não conseguem impedir seus ataques. Sua velocidade aumenta em 3 metros quando não está usando armadura pesada.',
+      level: 6,
+      subclass: 'Caminho do Zealote'
+    }
   ]
 };
 
-export const barbarianAvailableSubclasses = ['Caminho do Ancestral Guardião', 'Caminho da Magia Selvagem', 'Caminho da Fera'];
+export const barbarianAvailableSubclasses = [
+  'Caminho do Ancestral Guardião', 
+  'Caminho da Magia Selvagem', 
+  'Caminho da Fera',
+  'Caminho do Arauto da Tempestade',
+  'Caminho do Zealote'
+];

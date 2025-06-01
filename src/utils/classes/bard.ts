@@ -1,4 +1,3 @@
-
 import { ClassFeature, SubclassFeature } from '../types';
 
 export const bardFeatures: ClassFeature[] = [
@@ -111,7 +110,48 @@ export const bardSubclasses: Record<string, SubclassFeature[]> = {
       level: 3,
       subclass: 'Colégio das Espadas'
     }
+  ],
+
+  // Xanathar's Guide
+  'Colégio da Glamúria': [
+    {
+      name: 'Presença Sedutora',
+      description: 'Você ganha a habilidade de tecer magia fey em suas palavras e música. Como ação bônus, pode gastar uma Inspiração Bárdica.',
+      level: 3,
+      subclass: 'Colégio da Glamúria'
+    },
+    {
+      name: 'Manto de Majestade',
+      description: 'Como ação bônus, pode assumir uma aparência majestosa por 1 minuto ou até sua concentração acabar.',
+      level: 6,
+      subclass: 'Colégio da Glamúria',
+      uses: { max: 1, rechargeOn: 'short' }
+    }
+  ],
+
+  'Colégio dos Sussurros': [
+    {
+      name: 'Veneno Psíquico',
+      description: 'Você pode infundir palavras inocentes com uma magia insidiosa. Como ação bônus, pode gastar uma Inspiração Bárdica para causar dano psíquico.',
+      level: 3,
+      subclass: 'Colégio dos Sussurros'
+    },
+    {
+      name: 'Palavras do Terror',
+      description: 'Você aprende a infundir palavras aparentemente inocentes com uma magia terrível. Como ação, pode sussurrar uma frase mágica que apenas uma criatura pode ouvir.',
+      level: 3,
+      subclass: 'Colégio dos Sussurros',
+      uses: { max: 1, rechargeOn: 'short' }
+    }
   ]
 };
 
-export const bardAvailableSubclasses = ['Colégio da Eloquência', 'Colégio da Criação', 'Colégio dos Sussurros', 'Colégio da Glamúria', 'Colégio das Espadas'];
+export const bardAvailableSubclasses = [
+  'Colégio da Eloquência', 
+  'Colégio da Criação', 
+  'Colégio dos Sussurros', 
+  'Colégio da Glamúria', 
+  'Colégio das Espadas',
+  'Colégio da Glamúria',
+  'Colégio dos Sussurros'
+];
