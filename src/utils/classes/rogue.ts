@@ -39,14 +39,20 @@ export const rogueSubclasses: Record<string, SubclassFeature[]> = {
     },
     {
       name: 'Pés Ligeiros',
-      description: 'Você pode escalar mais rapidamente que o normal; escalar não custa movimento extra para você.',
+      description: 'Você pode escalar mais rapidamente que o normal; escalar não custa movimento extra para você. Além disso, quando você faz um salto correndo, a distância que você cobre aumenta em um número de metros igual ao seu modificador de Destreza.',
       level: 3,
       subclass: 'Ladrão'
     },
     {
-      name: 'Furtividade Suprema',
-      description: 'No 9º nível, você tem vantagem em um teste de Destreza (Furtividade) se você se mover não mais que metade da sua velocidade no turno.',
-      level: 9,
+      name: 'Escalada de Segundo Andar',
+      description: 'Você ganha a habilidade de escalar mais rapidamente que o normal; escalar não custa movimento extra para você.',
+      level: 3,
+      subclass: 'Ladrão'
+    },
+    {
+      name: 'Usar Objeto Mágico',
+      description: 'Você aprendeu o suficiente sobre o funcionamento da magia para poder improvisar o uso de itens mesmo quando eles não são destinados para você.',
+      level: 13,
       subclass: 'Ladrão'
     }
   ],
@@ -60,14 +66,26 @@ export const rogueSubclasses: Record<string, SubclassFeature[]> = {
     },
     {
       name: 'Assassinar',
-      description: 'Você é mais mortal quando consegue a vantagem da surpresa.',
+      description: 'Você é mais mortal quando consegue a vantagem da surpresa. Você tem vantagem nas jogadas de ataque contra qualquer criatura que ainda não tenha agido no combate.',
       level: 3,
       subclass: 'Assassino'
     },
     {
       name: 'Especialização em Infiltração',
-      description: 'Você pode criar falsas identidades para si mesmo com facilidade.',
+      description: 'Você pode criar falsas identidades para si mesmo. Você deve gastar uma semana e 25 po para estabelecer os antecedentes, história e aparência de uma identidade.',
       level: 9,
+      subclass: 'Assassino'
+    },
+    {
+      name: 'Impostor',
+      description: 'No 13º nível, você ganha a habilidade de imitar infalivelmente a fala, escrita e comportamento de outra pessoa.',
+      level: 13,
+      subclass: 'Assassino'
+    },
+    {
+      name: 'Golpe Mortal',
+      description: 'No 17º nível, você se torna um mestre da morte instantânea. Quando você ataca e atinge uma criatura que está surpresa, ela deve fazer um teste de resistência de Constituição (CD 8 + seu modificador de Destreza + seu bônus de proficiência).',
+      level: 17,
       subclass: 'Assassino'
     }
   ],
@@ -75,129 +93,33 @@ export const rogueSubclasses: Record<string, SubclassFeature[]> = {
   'Trapaceiro Arcano': [
     {
       name: 'Conjuração',
-      description: 'Você ganha a habilidade de conjurar magias.',
+      description: 'Você ganha a habilidade de conjurar magias. Veja o capítulo 10 para as regras gerais de conjuração e o capítulo 11 para a lista de magias de mago.',
       level: 3,
       subclass: 'Trapaceiro Arcano'
     },
     {
       name: 'Prestidigitação de Mage Hand',
-      description: 'Quando você conjura mage hand, você pode tornar a mão espectral invisível.',
+      description: 'Quando você conjura mage hand, você pode tornar a mão espectral invisível, e pode realizar as seguintes tarefas adicionais com ela: Você pode guardar um objeto que a mão está segurando em um recipiente vestido ou carregado por outra criatura.',
       level: 3,
       subclass: 'Trapaceiro Arcano'
     },
     {
       name: 'Emboscada Mágica',
-      description: 'Você pode imbui sua Arma de Ataque Furtivo com magia de força.',
+      description: 'No 9º nível, você ganha a habilidade de imbur sua Arma de Ataque Furtivo com magia de força, fazendo com que ela cause dano de força.',
       level: 9,
       subclass: 'Trapaceiro Arcano'
-    }
-  ],
-
-  // Xanathar's Guide
-  'Mastermind': [
-    {
-      name: 'Mestre de Intrigas',
-      description: 'Você ganha proficiência com o kit de falsificação, o kit de disfarce e uma ferramenta de jogo à sua escolha.',
-      level: 3,
-      subclass: 'Mastermind'
     },
     {
-      name: 'Mestre de Táticas',
-      description: 'Você pode usar a ação Ajuda como ação bônus. Além disso, quando você usa a ação Ajuda para ajudar um aliado em combate, o alcance do seu auxílio aumenta para 9 metros.',
-      level: 3,
-      subclass: 'Mastermind'
+      name: 'Ladrão Versátil',
+      description: 'No 13º nível, você ganha a habilidade de distrair alvos com sua Prestidigitação de Mage Hand.',
+      level: 13,
+      subclass: 'Trapaceiro Arcano'
     },
     {
-      name: 'Infiltração',
-      description: 'Você pode criar duas identidades falsas para si mesmo.',
-      level: 9,
-      subclass: 'Mastermind'
-    }
-  ],
-
-  'Swashbuckler': [
-    {
-      name: 'Trabalho Extravagante',
-      description: 'Seu charme se torna extraordinariamente convincente. Como ação bônus, você pode fazer um teste de Carisma (Persuasão) contestado por um teste de Sabedoria (Intuição) de uma criatura.',
-      level: 3,
-      subclass: 'Swashbuckler'
-    },
-    {
-      name: 'Esgrima Extravagante',
-      description: 'Você aprende uma flourish deslumbrante. Enquanto você está empunhando uma arma corpo a corpo finesse, você ganha os seguintes benefícios.',
-      level: 3,
-      subclass: 'Swashbuckler'
-    },
-    {
-      name: 'Elegância Panache',
-      description: 'Seu charme se torna mais refinado.',
-      level: 9,
-      subclass: 'Swashbuckler'
-    }
-  ],
-
-  'Inquisitivo': [
-    {
-      name: 'Ouvido para Falsidade',
-      description: 'Você desenvolve um talento para detectar mentiras.',
-      level: 3,
-      subclass: 'Inquisitivo'
-    },
-    {
-      name: 'Olho para Detalhe',
-      description: 'Você pode usar uma ação bônus para fazer um teste de Sabedoria (Intuição) para detectar pistas visuais escondidas.',
-      level: 3,
-      subclass: 'Inquisitivo'
-    },
-    {
-      name: 'Ouvido Apurado',
-      description: 'Você pode ouvir através de conversas sussurradas.',
-      level: 9,
-      subclass: 'Inquisitivo'
-    }
-  ],
-
-  // Tasha's Cauldron
-  'Phantom': [
-    {
-      name: 'Sussurros do Morto',
-      description: 'Ecos de quem morreu começam a assombrá-lo, concedendo-lhe bits e pedaços de conhecimento perdido.',
-      level: 3,
-      subclass: 'Phantom'
-    },
-    {
-      name: 'Sussurros de Morte',
-      description: 'Ecos de morte can now haunt your strikes.',
-      level: 3,
-      subclass: 'Phantom'
-    },
-    {
-      name: 'Tokens dos Mortos',
-      description: 'Ao final de um descanso longo, uma soul token aparece em sua mão.',
-      level: 9,
-      subclass: 'Phantom'
-    }
-  ],
-
-  'Soulknife': [
-    {
-      name: 'Telepatia Psiônica',
-      description: 'Seu despertar psiônico permite que você se comunique telepaticamente.',
-      level: 3,
-      subclass: 'Soulknife'
-    },
-    {
-      name: 'Lâminas Psíquicas',
-      description: 'Você pode manifestar sua energia psiônica como lâminas resplandecentes de força psíquica.',
-      level: 3,
-      subclass: 'Soulknife'
-    },
-    {
-      name: 'Energia Psíquica',
-      description: 'Você abriga um poço de energia psiônica dentro de si mesmo.',
-      level: 9,
-      subclass: 'Soulknife',
-      uses: { max: 2, rechargeOn: 'long' }
+      name: 'Surpresa Mágica',
+      description: 'No 17º nível, você ganha a habilidade de roubar o conhecimento de como conjurar uma magia e conjurá-la você mesmo.',
+      level: 17,
+      subclass: 'Trapaceiro Arcano'
     }
   ]
 };
@@ -205,10 +127,5 @@ export const rogueSubclasses: Record<string, SubclassFeature[]> = {
 export const rogueAvailableSubclasses = [
   'Ladrão',
   'Assassino',
-  'Trapaceiro Arcano',
-  'Mastermind',
-  'Swashbuckler',
-  'Inquisitivo',
-  'Phantom',
-  'Soulknife'
+  'Trapaceiro Arcano'
 ];
