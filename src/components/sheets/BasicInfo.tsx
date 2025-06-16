@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Plus, X } from 'lucide-react';
+import { getAvailableSubclasses } from '../../utils/classFeatures';
 
 interface Character {
   id: string;
@@ -17,6 +18,7 @@ interface BasicInfoProps {
 interface ClassLevel {
   class: string;
   level: number;
+  subclass?: string;
 }
 
 const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
@@ -37,12 +39,29 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
   });
 
   const [mainLevel, setMainLevel] = useState(character.level);
+  const [mainSubclass, setMainSubclass] = useState<string>('');
   const [multiclass, setMulticlass] = useState<ClassLevel[]>([]);
 
   const classes = [
     'Bárbaro', 'Bardo', 'Bruxo', 'Clérigo', 'Druida', 'Feiticeiro', 
     'Guerreiro', 'Ladino', 'Mago', 'Monge', 'Paladino', 'Patrulheiro'
   ];
+
+  // Map Portuguese class names to English for the utility functions
+  const classNameMap: Record<string, string> = {
+    'Bárbaro': 'Barbarian',
+    'Bardo': 'Bard',
+    'Bruxo': 'Warlock',
+    'Clérigo': 'Cleric',
+    'Druida': 'Druid',
+    'Feiticeiro': 'Sorcerer',
+    'Guerreiro': 'Fighter',
+    'Ladino': 'Rogue',
+    'Mago': 'Wizard',
+    'Monge': 'Monk',
+    'Paladino': 'Paladin',
+    'Patrulheiro': 'Ranger'
+  };
 
   const getTotalLevel = () => {
     return mainLevel + multiclass.reduce((total, mc) => total + mc.level, 0);
@@ -56,11 +75,20 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
     setMulticlass(multiclass.filter((_, i) => i !== index));
   };
 
-  const updateMulticlass = (index: number, field: 'class' | 'level', value: string | number) => {
+  const updateMulticlass = (index: number, field: 'class' | 'level' | 'subclass', value: string | number) => {
     const updated = multiclass.map((mc, i) => 
       i === index ? { ...mc, [field]: value } : mc
     );
     setMulticlass(updated);
+  };
+
+  const getSubclassOptions = (className: string) => {
+    const englishClassName = classNameMap[className] || className;
+    return getAvailableSubclasses(englishClassName);
+  };
+
+  const shouldShowSubclass = (level: number) => {
+    return level >= 3; // Most classes get subclasses at level 3
   };
 
   return (
@@ -112,6 +140,25 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
             </div>
           </div>
 
+          {/* Main Class Subclass */}
+          {shouldShowSubclass(mainLevel) && (
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Subclasse Principal
+              </label>
+              <select
+                value={mainSubclass}
+                onChange={(e) => setMainSubclass(e.target.value)}
+                className="dnd-input w-full"
+              >
+                <option value="">Selecione uma subclasse</option>
+                {getSubclassOptions(character.class).map(subclass => (
+                  <option key={subclass} value={subclass}>{subclass}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
           {/* Multiclass Section */}
           <div>
             <div className="flex items-center justify-between mb-2">
@@ -128,32 +175,50 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
             </div>
             
             {multiclass.map((mc, index) => (
-              <div key={index} className="grid grid-cols-2 gap-2 mb-2 p-2 bg-gray-800 rounded">
-                <select
-                  value={mc.class}
-                  onChange={(e) => updateMulticlass(index, 'class', e.target.value)}
-                  className="dnd-input text-sm"
-                >
-                  {classes.map(cls => (
-                    <option key={cls} value={cls}>{cls}</option>
-                  ))}
-                </select>
-                <div className="flex gap-2">
-                  <input
-                    type="number"
-                    value={mc.level}
-                    onChange={(e) => updateMulticlass(index, 'level', parseInt(e.target.value) || 1)}
-                    className="dnd-input text-sm flex-1"
-                    min="1"
-                    max="20"
-                  />
-                  <button
-                    onClick={() => removeMulticlass(index)}
-                    className="text-red-400 hover:text-red-300 p-1"
+              <div key={index} className="space-y-2 mb-4 p-3 bg-gray-800 rounded">
+                <div className="grid grid-cols-2 gap-2">
+                  <select
+                    value={mc.class}
+                    onChange={(e) => updateMulticlass(index, 'class', e.target.value)}
+                    className="dnd-input text-sm"
                   >
-                    <X size={16} />
-                  </button>
+                    {classes.map(cls => (
+                      <option key={cls} value={cls}>{cls}</option>
+                    ))}
+                  </select>
+                  <div className="flex gap-2">
+                    <input
+                      type="number"
+                      value={mc.level}
+                      onChange={(e) => updateMulticlass(index, 'level', parseInt(e.target.value) || 1)}
+                      className="dnd-input text-sm flex-1"
+                      min="1"
+                      max="20"
+                    />
+                    <button
+                      onClick={() => removeMulticlass(index)}
+                      className="text-red-400 hover:text-red-300 p-1"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
                 </div>
+                
+                {/* Multiclass Subclass Selection */}
+                {shouldShowSubclass(mc.level) && (
+                  <div>
+                    <select
+                      value={mc.subclass || ''}
+                      onChange={(e) => updateMulticlass(index, 'subclass', e.target.value)}
+                      className="dnd-input text-sm w-full"
+                    >
+                      <option value="">Selecione uma subclasse</option>
+                      {getSubclassOptions(mc.class).map(subclass => (
+                        <option key={subclass} value={subclass}>{subclass}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
             ))}
           </div>
