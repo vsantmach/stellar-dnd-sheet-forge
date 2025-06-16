@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
-import { Plus, X } from 'lucide-react';
+import { Plus, X, Settings } from 'lucide-react';
 import { getAvailableSubclasses } from '../../utils/classFeatures';
+import ClassAbilitiesModal from './ClassAbilitiesModal';
 
 interface Character {
   id: string;
@@ -41,6 +41,12 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
   const [mainLevel, setMainLevel] = useState(character.level);
   const [mainSubclass, setMainSubclass] = useState<string>('');
   const [multiclass, setMulticlass] = useState<ClassLevel[]>([]);
+  const [showAbilitiesModal, setShowAbilitiesModal] = useState(false);
+  const [selectedClassForAbilities, setSelectedClassForAbilities] = useState<{
+    className: string;
+    subclass?: string;
+    level: number;
+  } | null>(null);
 
   const classes = [
     'Bárbaro', 'Bardo', 'Bruxo', 'Clérigo', 'Druida', 'Feiticeiro', 
@@ -91,6 +97,16 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
     return level >= 3; // Most classes get subclasses at level 3
   };
 
+  const openAbilitiesModal = (className: string, subclass?: string, level?: number) => {
+    const englishClassName = classNameMap[className] || className;
+    setSelectedClassForAbilities({
+      className: englishClassName,
+      subclass,
+      level: level || mainLevel
+    });
+    setShowAbilitiesModal(true);
+  };
+
   return (
     <div className="p-4 space-y-6 bg-black">
       {/* Character Header */}
@@ -121,8 +137,17 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Classe Principal
               </label>
-              <div className="dnd-input cursor-not-allowed opacity-75">
-                {character.class}
+              <div className="flex gap-2">
+                <div className="dnd-input cursor-not-allowed opacity-75 flex-1">
+                  {character.class}
+                </div>
+                <button
+                  onClick={() => openAbilitiesModal(character.class, mainSubclass, mainLevel)}
+                  className="dnd-button px-3 py-2 flex items-center gap-1"
+                  title="Ver habilidades da classe"
+                >
+                  <Settings size={16} />
+                </button>
               </div>
             </div>
             <div>
@@ -177,15 +202,24 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
             {multiclass.map((mc, index) => (
               <div key={index} className="space-y-2 mb-4 p-3 bg-gray-800 rounded">
                 <div className="grid grid-cols-2 gap-2">
-                  <select
-                    value={mc.class}
-                    onChange={(e) => updateMulticlass(index, 'class', e.target.value)}
-                    className="dnd-input text-sm"
-                  >
-                    {classes.map(cls => (
-                      <option key={cls} value={cls}>{cls}</option>
-                    ))}
-                  </select>
+                  <div className="flex gap-2">
+                    <select
+                      value={mc.class}
+                      onChange={(e) => updateMulticlass(index, 'class', e.target.value)}
+                      className="dnd-input text-sm flex-1"
+                    >
+                      {classes.map(cls => (
+                        <option key={cls} value={cls}>{cls}</option>
+                      ))}
+                    </select>
+                    <button
+                      onClick={() => openAbilitiesModal(mc.class, mc.subclass, mc.level)}
+                      className="dnd-button px-2 py-1 flex items-center"
+                      title="Ver habilidades da classe"
+                    >
+                      <Settings size={14} />
+                    </button>
+                  </div>
                   <div className="flex gap-2">
                     <input
                       type="number"
@@ -379,6 +413,17 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
           </div>
         </div>
       </div>
+
+      {/* Class Abilities Modal */}
+      {selectedClassForAbilities && (
+        <ClassAbilitiesModal
+          isOpen={showAbilitiesModal}
+          onClose={() => setShowAbilitiesModal(false)}
+          className={selectedClassForAbilities.className}
+          subclass={selectedClassForAbilities.subclass}
+          characterLevel={selectedClassForAbilities.level}
+        />
+      )}
     </div>
   );
 };
