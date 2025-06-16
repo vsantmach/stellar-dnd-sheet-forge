@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Plus, X } from 'lucide-react';
 
 interface Character {
   id: string;
@@ -11,6 +12,11 @@ interface Character {
 
 interface BasicInfoProps {
   character: Character;
+}
+
+interface ClassLevel {
+  class: string;
+  level: number;
 }
 
 const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
@@ -30,6 +36,33 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
     deathSaves: { successes: 0, failures: 0 }
   });
 
+  const [mainLevel, setMainLevel] = useState(character.level);
+  const [multiclass, setMulticlass] = useState<ClassLevel[]>([]);
+
+  const classes = [
+    'Bárbaro', 'Bardo', 'Bruxo', 'Clérigo', 'Druida', 'Feiticeiro', 
+    'Guerreiro', 'Ladino', 'Mago', 'Monge', 'Paladino', 'Patrulheiro'
+  ];
+
+  const getTotalLevel = () => {
+    return mainLevel + multiclass.reduce((total, mc) => total + mc.level, 0);
+  };
+
+  const addMulticlass = () => {
+    setMulticlass([...multiclass, { class: 'Guerreiro', level: 1 }]);
+  };
+
+  const removeMulticlass = (index: number) => {
+    setMulticlass(multiclass.filter((_, i) => i !== index));
+  };
+
+  const updateMulticlass = (index: number, field: 'class' | 'level', value: string | number) => {
+    const updated = multiclass.map((mc, i) => 
+      i === index ? { ...mc, [field]: value } : mc
+    );
+    setMulticlass(updated);
+  };
+
   return (
     <div className="p-4 space-y-6 bg-black">
       {/* Character Header */}
@@ -45,23 +78,96 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
-              Classe e Nível
-            </label>
-            <div className="dnd-input cursor-not-allowed opacity-75">
-              {character.class} {character.level}
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
               Raça
             </label>
             <div className="dnd-input cursor-not-allowed opacity-75">
               {character.race}
             </div>
           </div>
+        </div>
+
+        <div className="space-y-4">
+          {/* Main Class and Level */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Classe Principal
+              </label>
+              <div className="dnd-input cursor-not-allowed opacity-75">
+                {character.class}
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Nível da Classe Principal
+              </label>
+              <input
+                type="number"
+                value={mainLevel}
+                onChange={(e) => setMainLevel(parseInt(e.target.value) || 1)}
+                className="dnd-input w-full"
+                min="1"
+                max="20"
+              />
+            </div>
+          </div>
+
+          {/* Multiclass Section */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-medium text-gray-300">
+                Multiclasse
+              </label>
+              <button
+                onClick={addMulticlass}
+                className="flex items-center gap-1 text-blue-400 hover:text-blue-300 text-sm"
+              >
+                <Plus size={16} />
+                Adicionar Classe
+              </button>
+            </div>
+            
+            {multiclass.map((mc, index) => (
+              <div key={index} className="grid grid-cols-2 gap-2 mb-2 p-2 bg-gray-800 rounded">
+                <select
+                  value={mc.class}
+                  onChange={(e) => updateMulticlass(index, 'class', e.target.value)}
+                  className="dnd-input text-sm"
+                >
+                  {classes.map(cls => (
+                    <option key={cls} value={cls}>{cls}</option>
+                  ))}
+                </select>
+                <div className="flex gap-2">
+                  <input
+                    type="number"
+                    value={mc.level}
+                    onChange={(e) => updateMulticlass(index, 'level', parseInt(e.target.value) || 1)}
+                    className="dnd-input text-sm flex-1"
+                    min="1"
+                    max="20"
+                  />
+                  <button
+                    onClick={() => removeMulticlass(index)}
+                    className="text-red-400 hover:text-red-300 p-1"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Total Level Display */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">
+              Nível Total
+            </label>
+            <div className="dnd-input cursor-not-allowed opacity-75 text-blue-400 font-semibold">
+              {getTotalLevel()}
+            </div>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
               Background
