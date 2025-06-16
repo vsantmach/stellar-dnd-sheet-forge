@@ -22,13 +22,24 @@ const ClassAbilitiesModal: React.FC<ClassAbilitiesModalProps> = ({
   const [selectedAbilities, setSelectedAbilities] = useState<Set<string>>(new Set());
   const [abilityUses, setAbilityUses] = useState<Record<string, { current: number; max: number }>>({});
 
-  // Get all available abilities for the class (levels 1-20)
-  const allAbilities = getClassFeatures(className, 20, subclass);
+  // Get abilities available for the current level and subclass
+  const availableAbilities = getClassFeatures(className, characterLevel, subclass).filter(ability => {
+    // Show ability if it's at or below character level
+    if (ability.level > characterLevel) return false;
+    
+    // If we have a subclass, show base class abilities and matching subclass abilities
+    if (subclass) {
+      return !ability.subclass || ability.subclass === subclass;
+    }
+    
+    // If no subclass selected, only show base class abilities
+    return !ability.subclass;
+  });
 
   useEffect(() => {
     // Initialize ability uses for abilities that have uses
     const initialUses: Record<string, { current: number; max: number }> = {};
-    allAbilities.forEach(ability => {
+    availableAbilities.forEach(ability => {
       if (ability.uses) {
         const abilityKey = `${ability.name}-${ability.level}`;
         initialUses[abilityKey] = {
@@ -38,7 +49,7 @@ const ClassAbilitiesModal: React.FC<ClassAbilitiesModalProps> = ({
       }
     });
     setAbilityUses(initialUses);
-  }, [allAbilities]);
+  }, [availableAbilities]);
 
   const toggleAbility = (abilityName: string, level: number) => {
     const abilityKey = `${abilityName}-${level}`;
@@ -65,7 +76,7 @@ const ClassAbilitiesModal: React.FC<ClassAbilitiesModalProps> = ({
 
   const resetAllUses = (rechargeType: 'short' | 'long') => {
     const updatedUses = { ...abilityUses };
-    allAbilities.forEach(ability => {
+    availableAbilities.forEach(ability => {
       if (ability.uses && (rechargeType === 'long' || ability.uses.rechargeOn === 'short')) {
         const abilityKey = `${ability.name}-${ability.level}`;
         if (updatedUses[abilityKey]) {
@@ -84,7 +95,7 @@ const ClassAbilitiesModal: React.FC<ClassAbilitiesModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
           <h2 className="text-xl font-bold text-white">
-            Habilidades de {className} {subclass && `- ${subclass}`}
+            Habilidades de {className} {subclass && `- ${subclass}`} (Nível {characterLevel})
           </h2>
           <div className="flex items-center gap-2">
             <button
@@ -110,29 +121,29 @@ const ClassAbilitiesModal: React.FC<ClassAbilitiesModalProps> = ({
 
         {/* Content */}
         <div className="p-4 overflow-y-auto max-h-[calc(90vh-80px)]">
-          {allAbilities.length === 0 ? (
+          {availableAbilities.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-400">Nenhuma habilidade disponível para esta classe.</p>
+              <p className="text-gray-400">
+                Nenhuma habilidade disponível para {className} nível {characterLevel}
+                {subclass && ` com subclasse ${subclass}`}.
+              </p>
             </div>
           ) : (
             <div className="space-y-3">
-              {allAbilities.map((ability) => {
+              {availableAbilities.map((ability) => {
                 const abilityKey = `${ability.name}-${ability.level}`;
                 const isSelected = selectedAbilities.has(abilityKey);
-                const isAvailable = ability.level <= characterLevel;
                 const uses = abilityUses[abilityKey];
                 
                 return (
                   <div
                     key={abilityKey}
-                    className={`p-4 rounded-lg border transition-colors ${
+                    className={`p-4 rounded-lg border transition-colors cursor-pointer ${
                       isSelected
                         ? 'bg-blue-900 border-blue-600'
-                        : isAvailable
-                        ? 'bg-gray-800 border-gray-600 hover:border-gray-500 cursor-pointer'
-                        : 'bg-gray-900 border-gray-700 opacity-50'
+                        : 'bg-gray-800 border-gray-600 hover:border-gray-500'
                     }`}
-                    onClick={() => isAvailable && toggleAbility(ability.name, ability.level)}
+                    onClick={() => toggleAbility(ability.name, ability.level)}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
@@ -142,19 +153,12 @@ const ClassAbilitiesModal: React.FC<ClassAbilitiesModalProps> = ({
                             className={isSelected ? 'text-blue-400' : 'text-gray-600'}
                           />
                           <h4 className="text-white font-medium">{ability.name}</h4>
-                          <span className={`text-xs px-2 py-1 rounded ${
-                            isAvailable ? 'text-gray-300 bg-gray-700' : 'text-gray-500 bg-gray-800'
-                          }`}>
+                          <span className="text-xs px-2 py-1 rounded text-gray-300 bg-gray-700">
                             Nível {ability.level}
                           </span>
                           {ability.subclass && (
                             <span className="text-xs text-blue-300 bg-blue-900 px-2 py-1 rounded">
                               {ability.subclass}
-                            </span>
-                          )}
-                          {!isAvailable && (
-                            <span className="text-xs text-red-400 bg-red-900 px-2 py-1 rounded">
-                              Bloqueado
                             </span>
                           )}
                         </div>
@@ -206,7 +210,7 @@ const ClassAbilitiesModal: React.FC<ClassAbilitiesModalProps> = ({
         <div className="p-4 border-t border-gray-700 bg-gray-800">
           <div className="flex justify-between items-center">
             <p className="text-sm text-gray-400">
-              {selectedAbilities.size} habilidade(s) selecionada(s)
+              {selectedAbilities.size} habilidade(s) selecionada(s) • Nível {characterLevel}
             </p>
             <button
               onClick={onClose}
