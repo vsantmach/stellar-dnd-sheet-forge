@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, X, Settings } from 'lucide-react';
 import { getAvailableSubclasses } from '../../utils/classFeatures';
 import ClassAbilitiesModal from './ClassAbilitiesModal';
+import RaceSelector from '../forms/RaceSelector';
 
 interface Character {
   id: string;
@@ -47,6 +48,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
     subclass?: string;
     level: number;
   } | null>(null);
+  const [raceSubrace, setRaceSubrace] = useState<string>('');
 
   const classes = [
     'Bárbaro', 'Bardo', 'Bruxo', 'Clérigo', 'Druida', 'Feiticeiro', 
@@ -150,6 +152,16 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
     setShowAbilitiesModal(true);
   };
 
+  const handleRaceChange = (race: string) => {
+    // Race is read-only in BasicInfo as it comes from character prop
+    // This is just for display purposes
+    console.log('Race change attempted:', race);
+  };
+
+  const handleSubraceChange = (subrace: string) => {
+    setRaceSubrace(subrace);
+  };
+
   return (
     <div className="p-4 space-y-6 bg-black">
       {/* Character Header */}
@@ -167,9 +179,13 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
             <label className="block text-sm font-medium text-gray-300 mb-1">
               Raça
             </label>
-            <div className="dnd-input cursor-not-allowed opacity-75">
-              {character.race}
-            </div>
+            <RaceSelector
+              selectedRace={character.race}
+              selectedSubrace={raceSubrace}
+              onRaceChange={handleRaceChange}
+              onSubraceChange={handleSubraceChange}
+              disabled={true}
+            />
           </div>
         </div>
 

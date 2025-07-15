@@ -285,7 +285,15 @@ export const racialFeaturesData: { [key: string]: RaceData } = {
 };
 
 export const getRacialFeatures = (race: string, subrace?: string): RacialFeature[] => {
-  const raceData = racialFeaturesData[race];
+  // Check default races first
+  let raceData = racialFeaturesData[race];
+  
+  // If not found in default races, check custom races
+  if (!raceData) {
+    const customRaces = getCustomRaces();
+    raceData = customRaces[race];
+  }
+  
   if (!raceData) return [];
   
   const features = [...raceData.features];
@@ -298,8 +306,35 @@ export const getRacialFeatures = (race: string, subrace?: string): RacialFeature
 };
 
 export const getAvailableSubraces = (race: string): string[] => {
-  const raceData = racialFeaturesData[race];
+  // Check default races first
+  let raceData = racialFeaturesData[race];
+  
+  // If not found in default races, check custom races
+  if (!raceData) {
+    const customRaces = getCustomRaces();
+    raceData = customRaces[race];
+  }
+  
   if (!raceData || !raceData.subraces) return [];
   
   return Object.keys(raceData.subraces);
+};
+
+// Helper function to get custom races from localStorage
+export const getCustomRaces = (): { [key: string]: RaceData } => {
+  try {
+    const saved = localStorage.getItem('custom-races');
+    return saved ? JSON.parse(saved) : {};
+  } catch (error) {
+    console.log('Error loading custom races:', error);
+    return {};
+  }
+};
+
+// Helper function to get all available races (default + custom)
+export const getAllAvailableRaces = (): string[] => {
+  const defaultRaces = Object.keys(racialFeaturesData);
+  const customRaces = Object.keys(getCustomRaces());
+  
+  return [...defaultRaces, ...customRaces].sort();
 };
