@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Trash2, Edit, ArrowLeft } from 'lucide-react';
 import RaceSelector from './forms/RaceSelector';
+import ClassSelector from './forms/ClassSelector';
 
 interface Character {
   id: string;
@@ -49,6 +50,10 @@ const CharacterManager: React.FC<CharacterManagerProps> = ({
     setNewCharacter({ ...newCharacter, race });
   };
 
+  const handleClassChange = (className: string) => {
+    setNewCharacter({ ...newCharacter, class: className });
+  };
+
   if (showCreateForm) {
     return (
       <div className="min-h-screen bg-black p-4">
@@ -76,30 +81,10 @@ const CharacterManager: React.FC<CharacterManagerProps> = ({
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Classe
-            </label>
-            <select
-              value={newCharacter.class}
-              onChange={(e) => setNewCharacter({ ...newCharacter, class: e.target.value })}
-              className="dnd-input w-full"
-            >
-              <option value="">Selecione uma classe</option>
-              <option value="Bárbaro">Bárbaro</option>
-              <option value="Bardo">Bardo</option>
-              <option value="Bruxo">Bruxo</option>
-              <option value="Clérigo">Clérigo</option>
-              <option value="Druida">Druida</option>
-              <option value="Feiticeiro">Feiticeiro</option>
-              <option value="Guerreiro">Guerreiro</option>
-              <option value="Ladino">Ladino</option>
-              <option value="Mago">Mago</option>
-              <option value="Monge">Monge</option>
-              <option value="Paladino">Paladino</option>
-              <option value="Patrulheiro">Patrulheiro</option>
-            </select>
-          </div>
+          <ClassSelector
+            selectedClass={newCharacter.class}
+            onClassChange={handleClassChange}
+          />
 
           <RaceSelector
             selectedRace={newCharacter.race}

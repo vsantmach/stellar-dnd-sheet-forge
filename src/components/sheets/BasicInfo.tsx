@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, X, Settings } from 'lucide-react';
-import { getAvailableSubclasses } from '../../utils/classFeatures';
+import { getAvailableSubclasses, isCustomClass } from '../../utils/classFeatures';
 import ClassAbilitiesModal from './ClassAbilitiesModal';
 import RaceSelector from '../forms/RaceSelector';
+import ClassSelector from '../forms/ClassSelector';
 
 interface Character {
   id: string;
@@ -134,16 +135,26 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
   };
 
   const getSubclassOptions = (className: string) => {
+    // Check if it's a custom class
+    if (isCustomClass(className)) {
+      return []; // Custom classes don't have subclasses for now
+    }
+    
     const englishClassName = classNameMap[className] || className;
     return getAvailableSubclasses(englishClassName);
   };
 
-  const shouldShowSubclass = (level: number) => {
+  const shouldShowSubclass = (level: number, className: string) => {
+    // Custom classes don't have subclasses for now
+    if (isCustomClass(className)) {
+      return false;
+    }
     return level >= 3; // Most classes get subclasses at level 3
   };
 
   const openAbilitiesModal = (className: string, subclass?: string, level?: number) => {
-    const englishClassName = classNameMap[className] || className;
+    // For custom classes, use the class name directly
+    const englishClassName = isCustomClass(className) ? className : (classNameMap[className] || className);
     setSelectedClassForAbilities({
       className: englishClassName,
       subclass,
@@ -225,7 +236,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
           </div>
 
           {/* Main Class Subclass */}
-          {shouldShowSubclass(mainLevel) && (
+          {shouldShowSubclass(mainLevel, character.class) && (
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Subclasse Principal
@@ -262,15 +273,11 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
               <div key={index} className="space-y-2 mb-4 p-3 bg-gray-800 rounded">
                 <div className="grid grid-cols-2 gap-2">
                   <div className="flex gap-2">
-                    <select
-                      value={mc.class}
-                      onChange={(e) => updateMulticlass(index, 'class', e.target.value)}
-                      className="dnd-input text-sm flex-1"
-                    >
-                      {classes.map(cls => (
-                        <option key={cls} value={cls}>{cls}</option>
-                      ))}
-                    </select>
+                    <ClassSelector
+                      selectedClass={mc.class}
+                      onClassChange={(className) => updateMulticlass(index, 'class', className)}
+                      disabled={false}
+                    />
                     <button
                       onClick={() => openAbilitiesModal(mc.class, mc.subclass, mc.level)}
                       className="dnd-button px-2 py-1 flex items-center"
@@ -298,7 +305,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
                 </div>
                 
                 {/* Multiclass Subclass Selection */}
-                {shouldShowSubclass(mc.level) && (
+                {shouldShowSubclass(mc.level, mc.class) && (
                   <div>
                     <select
                       value={mc.subclass || ''}
