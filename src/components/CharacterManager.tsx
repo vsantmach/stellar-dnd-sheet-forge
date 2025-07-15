@@ -1,6 +1,6 @@
-
 import React, { useState } from 'react';
 import { Plus, Trash2, Edit, ArrowLeft } from 'lucide-react';
+import RaceSelector from './forms/RaceSelector';
 
 interface Character {
   id: string;
@@ -43,6 +43,10 @@ const CharacterManager: React.FC<CharacterManagerProps> = ({
       setNewCharacter({ name: '', class: '', level: 1, race: '' });
       setShowCreateForm(false);
     }
+  };
+
+  const handleRaceChange = (race: string) => {
+    setNewCharacter({ ...newCharacter, race });
   };
 
   if (showCreateForm) {
@@ -97,27 +101,10 @@ const CharacterManager: React.FC<CharacterManagerProps> = ({
             </select>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Raça
-            </label>
-            <select
-              value={newCharacter.race}
-              onChange={(e) => setNewCharacter({ ...newCharacter, race: e.target.value })}
-              className="dnd-input w-full"
-            >
-              <option value="">Selecione uma raça</option>
-              <option value="Humano">Humano</option>
-              <option value="Elfo">Elfo</option>
-              <option value="Anão">Anão</option>
-              <option value="Halfling">Halfling</option>
-              <option value="Draconato">Draconato</option>
-              <option value="Gnomo">Gnomo</option>
-              <option value="Meio-elfo">Meio-elfo</option>
-              <option value="Meio-orc">Meio-orc</option>
-              <option value="Tiefling">Tiefling</option>
-            </select>
-          </div>
+          <RaceSelector
+            selectedRace={newCharacter.race}
+            onRaceChange={handleRaceChange}
+          />
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
