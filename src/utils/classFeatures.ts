@@ -1,82 +1,108 @@
+import { ClassFeature, SubclassFeature } from '../types';
+import { artificerSubclasses, artificerAvailableSubclasses } from './artificer';
+import { barbarianFeatures, barbarianSubclasses, barbarianAvailableSubclasses } from './barbarian';
+import { bardFeatures, bardSubclasses, bardAvailableSubclasses } from './bard';
+import { clericFeatures, clericSubclasses, clericAvailableSubclasses } from './cleric';
+import { fighterFeatures, fighterSubclasses, fighterAvailableSubclasses } from './fighter';
+import { monkFeatures, monkSubclasses, monkAvailableSubclasses } from './monk';
+import { paladinFeatures, paladinSubclasses, paladinAvailableSubclasses } from './paladin';
+import { rangerFeatures, rangerSubclasses, rangerAvailableSubclasses } from './ranger';
+import { rogueFeatures, rogueSubclasses, rogueAvailableSubclasses } from './rogue';
+import { sorcererFeatures, sorcererSubclasses, sorcererAvailableSubclasses } from './sorcerer';
+import { warlockFeatures, warlockSubclasses, warlockAvailableSubclasses } from './warlock';
+import { wizardFeatures, wizardSubclasses, wizardAvailableSubclasses } from './wizard';
 
-import { ClassFeature } from './types';
-import { baseClassFeatures, allSubclassFeatures, allAvailableSubclasses } from './classes';
+// Combine all base class features
+const baseClassFeatures: Record<string, ClassFeature[]> = {
+  Artificer: [], // Artificer não tem características base definidas ainda
+  Barbarian: barbarianFeatures,
+  Bard: bardFeatures,
+  Cleric: clericFeatures,
+  Fighter: fighterFeatures,
+  Monk: monkFeatures,
+  Paladin: paladinFeatures,
+  Ranger: rangerFeatures,
+  Rogue: rogueFeatures,
+  Sorcerer: sorcererFeatures,
+  Warlock: warlockFeatures,
+  Wizard: wizardFeatures,
+};
 
-export function getClassFeatures(className: string, level: number, subclass?: string): ClassFeature[] {
-  // Check for custom classes first
-  const customClassFeatures = getCustomClassFeatures(className, level);
-  if (customClassFeatures.length > 0) {
-    return customClassFeatures;
+// Combine all subclass features
+const allSubclassFeatures: Record<string, SubclassFeature[]> = {
+  ...artificerSubclasses,
+  ...barbarianSubclasses,
+  ...bardSubclasses,
+  ...clericSubclasses,
+  ...fighterSubclasses,
+  ...monkSubclasses,
+  ...paladinSubclasses,
+  ...rangerSubclasses,
+  ...rogueSubclasses,
+  ...sorcererSubclasses,
+  ...warlockSubclasses,
+  ...wizardSubclasses,
+};
+
+// Combine all available subclasses mappings
+const allAvailableSubclasses: Record<string, string[]> = {
+  Artificer: artificerAvailableSubclasses,
+  Barbarian: barbarianAvailableSubclasses,
+  Bard: bardAvailableSubclasses,
+  Cleric: clericAvailableSubclasses,
+  Fighter: fighterAvailableSubclasses,
+  Monk: monkAvailableSubclasses,
+  Paladin: paladinAvailableSubclasses,
+  Ranger: rangerAvailableSubclasses,
+  Rogue: rogueAvailableSubclasses,
+  Sorcerer: sorcererAvailableSubclasses,
+  Warlock: warlockAvailableSubclasses,
+  Wizard: wizardAvailableSubclasses,
+};
+
+// Classes
+export const classFeatures: Record<string, ClassFeature[]> = {
+  Barbarian: [],
+  Bard: [],
+  Cleric: [],
+  Fighter: [],
+  Monk: [],
+  Paladin: [],
+  Ranger: [],
+  Rogue: [],
+  Sorcerer: [],
+  Warlock: [],
+  Wizard: [],
+};
+
+// Função para obter classes personalizadas do localStorage
+export const getCustomClasses = (): string[] => {
+  try {
+    const stored = localStorage.getItem('dnd-custom-classes');
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
   }
+};
 
-  // Use default class features
-  const baseFeatures = baseClassFeatures[className] || [];
-  const subclassFeaturesList = subclass ? allSubclassFeatures[subclass] || [] : [];
-  const features = [...baseFeatures];
-
-  // Add subclass features that are at or below the character level
-  for (const feature of subclassFeaturesList) {
-    if (feature.level <= level) {
-      features.push({
-        id: `${subclass}-${feature.name}-${feature.level}`,
-        name: feature.name,
-        description: feature.description,
-        level: feature.level,
-        subclass: feature.subclass,
-        uses: feature.uses ? { ...feature.uses, current: feature.uses.max } : undefined,
-      });
+// Função para salvar uma nova classe personalizada
+export const saveCustomClass = (className: string): void => {
+  try {
+    const customClasses = getCustomClasses();
+    if (!customClasses.includes(className)) {
+      customClasses.push(className);
+      localStorage.setItem('dnd-custom-classes', JSON.stringify(customClasses));
     }
-  }
-
-  return features;
-}
-
-function getCustomClassFeatures(className: string, level: number): ClassFeature[] {
-  try {
-    const savedFeatures = localStorage.getItem('custom-class-features');
-    if (!savedFeatures) return [];
-    
-    const classFeatures = JSON.parse(savedFeatures);
-    const features = classFeatures[className] || [];
-    
-    return features
-      .filter((feature: any) => feature.level <= level)
-      .map((feature: any, index: number) => ({
-        id: `custom-${className}-${feature.name}-${index}`,
-        name: feature.name,
-        description: feature.description,
-        level: feature.level,
-        uses: undefined
-      }));
   } catch (error) {
-    console.log('Error loading custom class features:', error);
-    return [];
+    console.error('Error saving custom class:', error);
   }
-}
+};
 
-export function getAvailableSubclasses(className: string): string[] {
-  // Custom classes don't have subclasses for now
-  const customClasses = getCustomClassNames();
-  if (customClasses.includes(className)) {
-    return [];
-  }
-  
-  return allAvailableSubclasses[className] || [];
-}
+// Função para obter todas as classes (padrão + personalizadas)
+export const getAllClasses = (): string[] => {
+  const standardClasses = Object.keys(classFeatures);
+  const customClasses = getCustomClasses();
+  return [...standardClasses, ...customClasses];
+};
 
-export function getCustomClassNames(): string[] {
-  try {
-    const savedClasses = localStorage.getItem('custom-classes');
-    if (!savedClasses) return [];
-    
-    const classes = JSON.parse(savedClasses);
-    return classes.map((cls: any) => cls.name);
-  } catch (error) {
-    console.log('Error loading custom class names:', error);
-    return [];
-  }
-}
-
-export function isCustomClass(className: string): boolean {
-  return getCustomClassNames().includes(className);
-}
+export { baseClassFeatures, allSubclassFeatures, allAvailableSubclasses };

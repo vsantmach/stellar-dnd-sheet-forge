@@ -4,8 +4,11 @@ import { Users, Plus, FileText, Settings } from 'lucide-react';
 import CharacterManager from './CharacterManager';
 import CharacterSheet from './CharacterSheet';
 import ThemeSelector from './ThemeSelector';
+import StorageAlert from './StorageAlert';
 import { generateCharacterPDF } from '../utils/pdfGenerator';
 import { useTheme } from '../hooks/useTheme';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import { toast } from './ui/use-toast';
 
 interface Character {
   id: string;
@@ -16,39 +19,70 @@ interface Character {
 }
 
 const CharacterSheetApp = () => {
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+  const [characters, setCharacters] = useLocalStorage<Character[]>('dnd-characters', []);
+  const [selectedCharacterId, setSelectedCharacterId] = useLocalStorage<string | null>('dnd-selected-character', null);
   const [showManager, setShowManager] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const { getBackgroundColor, getTextColor, getAccentColor } = useTheme();
 
+  const selectedCharacter = characters.find(c => c.id === selectedCharacterId) || null;
+
   const handleCharacterSelect = (character: Character) => {
-    setSelectedCharacter(character);
+    setSelectedCharacterId(character.id);
     setShowManager(false);
   };
 
   const handleCharacterCreate = (character: Character) => {
     setCharacters([...characters, character]);
-    setSelectedCharacter(character);
+    setSelectedCharacterId(character.id);
     setShowManager(false);
+    toast({
+      title: "Personagem criado!",
+      description: `${character.name} foi salvo localmente`,
+    });
   };
 
   const handleCharacterDelete = (characterId: string) => {
     setCharacters(characters.filter(c => c.id !== characterId));
-    if (selectedCharacter?.id === characterId) {
-      setSelectedCharacter(null);
+    if (selectedCharacterId === characterId) {
+      setSelectedCharacterId(null);
     }
+    toast({
+      title: "Personagem excluído",
+      description: "O personagem foi removido permanentemente",
+    });
   };
 
   const handleGeneratePDF = () => {
     if (selectedCharacter) {
       generateCharacterPDF(selectedCharacter);
+      toast({
+        title: "PDF gerado!",
+        description: `Ficha de ${selectedCharacter.name} foi baixada`,
+      });
     }
+  };
+
+  const handleClearStorage = () => {
+    setCharacters([]);
+    setSelectedCharacterId(null);
+    localStorage.removeItem('dnd-custom-races');
+    localStorage.removeItem('dnd-custom-classes');
+    toast({
+      title: "Armazenamento limpo",
+      description: "Todos os dados foram removidos",
+    });
   };
 
   if (showManager || !selectedCharacter) {
     return (
       <div className={getBackgroundColor()}>
+        <div className="p-4">
+          <StorageAlert 
+            characters={characters} 
+            onClearStorage={handleClearStorage}
+          />
+        </div>
         <CharacterManager
           characters={characters}
           onCharacterSelect={handleCharacterSelect}
@@ -73,6 +107,10 @@ const CharacterSheetApp = () => {
               Voltar
             </button>
           </div>
+          <StorageAlert 
+            characters={characters} 
+            onClearStorage={handleClearStorage}
+          />
           <ThemeSelector />
         </div>
       </div>

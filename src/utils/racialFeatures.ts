@@ -1,340 +1,99 @@
+import { AbilityBonus } from './types';
 
-export interface RacialFeature {
-  name: string;
-  description: string;
-  uses?: {
-    max: number;
-    rechargeOn: 'short' | 'long' | 'other';
-  };
-}
-
-export interface RaceData {
-  features: RacialFeature[];
-  subraces?: {
-    [key: string]: RacialFeature[];
-  };
-}
-
-export const racialFeaturesData: { [key: string]: RaceData } = {
-  'Humano': {
-    features: [
-      {
-        name: 'Versatilidade',
-        description: '+1 em todos os atributos. Perícia adicional à sua escolha. Talento adicional no 1º nível.'
-      }
-    ]
-  },
-  'Humano Variante': {
-    features: [
-      {
-        name: 'Atributos Versáteis',
-        description: '+1 em dois atributos diferentes à sua escolha.'
-      },
-      {
-        name: 'Perícias',
-        description: 'Proficiência em uma perícia à sua escolha.'
-      },
-      {
-        name: 'Talento',
-        description: 'Um talento à sua escolha.'
-      }
-    ]
-  },
-  'Elfo': {
-    features: [
-      {
-        name: 'Visão no Escuro',
-        description: 'Pode ver no escuro a até 18 metros como se fosse luz fraca, e em luz fraca como se fosse luz plena.'
-      },
-      {
-        name: 'Sentidos Aguçados',
-        description: 'Proficiência na perícia Percepção.'
-      },
-      {
-        name: 'Ancestral Feérico',
-        description: 'Vantagem em testes de resistência contra ser enfeitiçado, e magia não pode colocá-lo para dormir.'
-      },
-      {
-        name: 'Transe',
-        description: 'Não precisa dormir, em vez disso medita profundamente por 4 horas.'
-      }
-    ],
-    subraces: {
-      'Alto Elfo': [
-        {
-          name: 'Truque',
-          description: 'Conhece um truque à sua escolha da lista de magias de mago. Inteligência é seu atributo de conjuração.'
-        },
-        {
-          name: 'Treinamento Élfico com Armas',
-          description: 'Proficiência com espadas longas, espadas curtas, arcos longos e arcos curtos.'
-        },
-        {
-          name: 'Idioma Adicional',
-          description: 'Pode falar, ler e escrever um idioma adicional à sua escolha.'
-        }
-      ],
-      'Elfo da Floresta': [
-        {
-          name: 'Treinamento Élfico com Armas',
-          description: 'Proficiência com espadas longas, espadas curtas, arcos longos e arcos curtos.'
-        },
-        {
-          name: 'Pés Ligeiros',
-          description: 'Sua velocidade base de caminhada aumenta para 10,5 metros.'
-        },
-        {
-          name: 'Máscara da Natureza',
-          description: 'Pode tentar se esconder mesmo quando apenas levemente obscurecido por folhagem, chuva forte, neve, névoa e outros fenômenos naturais.'
-        }
-      ],
-      'Elfo Negro (Drow)': [
-        {
-          name: 'Visão no Escuro Superior',
-          description: 'Sua visão no escuro tem alcance de 36 metros.'
-        },
-        {
-          name: 'Sensibilidade à Luz Solar',
-          description: 'Desvantagem em jogadas de ataque e testes de Percepção que dependam da visão quando você, o alvo ou o que quer que esteja tentando perceber estiver sob luz solar direta.'
-        },
-        {
-          name: 'Magia Drow',
-          description: 'Conhece o truque luzes dançantes. No 3º nível, pode conjurar fogo das fadas uma vez por dia. No 5º nível, pode conjurar escuridão uma vez por dia. Carisma é seu atributo de conjuração.'
-        },
-        {
-          name: 'Treinamento Drow com Armas',
-          description: 'Proficiência com rapieiras, espadas curtas e bestas de mão.'
-        }
-      ]
-    }
-  },
-  'Anão': {
-    features: [
-      {
-        name: 'Visão no Escuro',
-        description: 'Pode ver no escuro a até 18 metros como se fosse luz fraca, e em luz fraca como se fosse luz plena.'
-      },
-      {
-        name: 'Resistência Anã',
-        description: 'Vantagem em testes de resistência contra veneno, e resistência a dano de veneno.'
-      },
-      {
-        name: 'Treinamento Anão em Combate',
-        description: 'Proficiência com machados de batalha, machadinhas, martelos leves e martelos de guerra.'
-      },
-      {
-        name: 'Proficiência com Ferramentas',
-        description: 'Proficiência com ferramentas de artesão à sua escolha: ferramentas de ferreiro, suprimentos de cervejeiro ou ferramentas de pedreiro.'
-      },
-      {
-        name: 'Especialização em Rochas',
-        description: 'Sempre que fizer um teste de Inteligência (História) relacionado à origem de um trabalho em pedra, é considerado proficiente na perícia História e adiciona o dobro do bônus de proficiência.'
-      }
-    ],
-    subraces: {
-      'Anão da Montanha': [
-        {
-          name: 'Treinamento com Armadura',
-          description: 'Proficiência com armaduras leves e médias.'
-        }
-      ],
-      'Anão da Colina': [
-        {
-          name: 'Tenacidade Anã',
-          description: 'Seus pontos de vida máximos aumentam em 1, e aumentam em 1 sempre que você ganha um nível.'
-        }
-      ]
-    }
-  },
-  'Halfling': {
-    features: [
-      {
-        name: 'Sortudo',
-        description: 'Quando obtiver um 1 natural em uma jogada de ataque, teste de habilidade ou teste de resistência, pode rolar o dado novamente e deve usar o novo resultado.'
-      },
-      {
-        name: 'Bravura',
-        description: 'Vantagem em testes de resistência contra ser amedrontado.'
-      },
-      {
-        name: 'Agilidade Halfling',
-        description: 'Pode mover-se através do espaço de qualquer criatura que seja de um tamanho maior que o seu.'
-      }
-    ],
-    subraces: {
-      'Pés Ligeiros': [
-        {
-          name: 'Furtividade Natural',
-          description: 'Pode tentar se esconder mesmo quando obscurecido apenas por uma criatura que seja pelo menos um tamanho maior que você.'
-        }
-      ],
-      'Robusto': [
-        {
-          name: 'Resistência dos Robustos',
-          description: 'Vantagem em testes de resistência contra veneno, e resistência a dano de veneno.'
-        }
-      ]
-    }
-  },
-  'Draconato': {
-    features: [
-      {
-        name: 'Ancestral Dracônico',
-        description: 'Escolha um tipo de dragão. Seu tipo de dano e área de sopro são determinados pelo tipo de dragão, conforme mostrado na tabela.'
-      },
-      {
-        name: 'Arma de Sopro',
-        description: 'Pode usar sua ação para exalar energia destrutiva. O tipo de dano e área são determinados pela sua ancestralidade dracônica. CD = 8 + modificador de Constituição + bônus de proficiência.',
-        uses: {
-          max: 1,
-          rechargeOn: 'short'
-        }
-      },
-      {
-        name: 'Resistência a Dano',
-        description: 'Resistência ao tipo de dano associado à sua ancestralidade dracônica.'
-      }
-    ]
-  },
-  'Gnomo': {
-    features: [
-      {
-        name: 'Visão no Escuro',
-        description: 'Pode ver no escuro a até 18 metros como se fosse luz fraca, e em luz fraca como se fosse luz plena.'
-      },
-      {
-        name: 'Esperteza Gnômica',
-        description: 'Vantagem em todos os testes de resistência de Inteligência, Sabedoria e Carisma contra magia.'
-      }
-    ],
-    subraces: {
-      'Gnomo da Floresta': [
-        {
-          name: 'Ilusionista Nato',
-          description: 'Conhece o truque ilusão menor. Inteligência é seu atributo de conjuração para esta magia.'
-        },
-        {
-          name: 'Falar com Bestas Pequenas',
-          description: 'Através de sons e gestos, pode comunicar ideias simples com bestas Pequenas ou menores.'
-        }
-      ],
-      'Gnomo das Rochas': [
-        {
-          name: 'Conhecimento de Artífice',
-          description: 'Proficiência com ferramentas de artífice (bugigangas). Sempre que fizer um teste de Inteligência (História) relacionado a itens mágicos, alquímicos ou tecnológicos, adiciona o dobro do bônus de proficiência.'
-        },
-        {
-          name: 'Engenhoqueiro',
-          description: 'Conhece o truque consertar. Inteligência é seu atributo de conjuração para esta magia.'
-        }
-      ]
-    }
-  },
-  'Meio-elfo': {
-    features: [
-      {
-        name: 'Visão no Escuro',
-        description: 'Pode ver no escuro a até 18 metros como se fosse luz fraca, e em luz fraca como se fosse luz plena.'
-      },
-      {
-        name: 'Ancestral Feérico',
-        description: 'Vantagem em testes de resistência contra ser enfeitiçado, e magia não pode colocá-lo para dormir.'
-      },
-      {
-        name: 'Versatilidade em Perícias',
-        description: 'Proficiência em duas perícias à sua escolha.'
-      }
-    ]
-  },
-  'Meio-orc': {
-    features: [
-      {
-        name: 'Visão no Escuro',
-        description: 'Pode ver no escuro a até 18 metros como se fosse luz fraca, e em luz fraca como se fosse luz plena.'
-      },
-      {
-        name: 'Resistência Implacável',
-        description: 'Quando é reduzido a 0 pontos de vida mas não morto, pode voltar a 1 ponto de vida. Só pode usar esta característica uma vez por descanso longo.',
-        uses: {
-          max: 1,
-          rechargeOn: 'long'
-        }
-      },
-      {
-        name: 'Ataques Selvagens',
-        description: 'Quando consegue um acerto crítico com um ataque corpo a corpo, pode rolar um dos dados de dano da arma mais uma vez e adicioná-lo ao dano extra do acerto crítico.'
-      }
-    ]
-  },
-  'Tiefling': {
-    features: [
-      {
-        name: 'Visão no Escuro',
-        description: 'Pode ver no escuro a até 18 metros como se fosse luz fraca, e em luz fraca como se fosse luz plena.'
-      },
-      {
-        name: 'Resistência Infernal',
-        description: 'Resistência a dano de fogo.'
-      },
-      {
-        name: 'Legado Infernal',
-        description: 'Conhece o truque taumaturgia. No 3º nível, pode conjurar repreensão infernal uma vez por dia. No 5º nível, pode conjurar escuridão uma vez por dia. Carisma é seu atributo de conjuração.'
-      }
-    ]
-  }
+// Define os bônus de habilidade racial para cada raça
+export const raceAbilityBonuses: Record<string, AbilityBonus> = {
+  'Humano': { strength: 1, dexterity: 1, constitution: 1, intelligence: 1, wisdom: 1, charisma: 1 },
+  'Elfo da Floresta': { dexterity: 2, wisdom: 1 },
+  'Elfo Negro (Drow)': { dexterity: 2, charisma: 1 },
+  'Anão da Colina': { constitution: 2, wisdom: 1 },
+  'Anão da Montanha': { constitution: 2, strength: 2 },
+  'Halfling Leve': { dexterity: 2, charisma: 1 },
+  'Halfling Robusto': { dexterity: 2, constitution: 1 },
+  'Draconato': { strength: 2, charisma: 1 },
+  'Gnomo da Floresta': { intelligence: 2, dexterity: 1 },
+  'Gnomo da Rocha': { intelligence: 2, constitution: 1 },
+  'Meio-Elfo': { charisma: 2, extra1: 1, extra2: 1 },
+  'Meio-Orc': { strength: 2, constitution: 1 },
+  'Tiefling': { intelligence: 1, charisma: 2 },
+  'Aasimar': { charisma: 2, wisdom: 1 },
+  'Firbolg': { wisdom: 2, strength: 1 },
+  'Goliath': { strength: 2, constitution: 1 },
+  'Kenku': { dexterity: 2, wisdom: 1 },
+  'Lizardfolk': { constitution: 2, wisdom: 1 },
+  'Tabaxi': { dexterity: 2, charisma: 1 },
+  'Triton': { strength: 1, constitution: 1, charisma: 1 },
+  'Bugbear': { strength: 2, dexterity: 1 },
+  'Goblin': { dexterity: 2, constitution: 1 },
+  'Hobgoblin': { constitution: 2, intelligence: 1 },
+  'Orc': { strength: 2, constitution: 1, intelligence: -2 },
+  'Kobold': { dexterity: 2, strength: -2 },
+  'Yuan-ti Pureblood': { charisma: 2, intelligence: 1 },
+  'Tortle': { strength: 2, wisdom: 1 },
+  'Aarakocra': { dexterity: 2, wisdom: 1 },
+  'Genasi do Ar': { dexterity: 2, intelligence: 1 },
+  'Genasi da Água': { constitution: 2, wisdom: 1 },
+  'Genasi do Fogo': { intelligence: 2, constitution: 1 },
+  'Genasi da Terra': { strength: 2, wisdom: 1 },
+  'Githyanki': { strength: 2, intelligence: 1 },
+  'Githzerai': { wisdom: 2, intelligence: 1 },
+  'Centauro': { strength: 2, wisdom: 1 },
+  'Loxodon': { constitution: 2, wisdom: 1 },
+  'Minotauro': { strength: 2, charisma: 1 },
+  'Simic Hybrid': { constitution: 2, extra1: 1 },
+  'Vedalken': { intelligence: 2, wisdom: 1 },
+  'Kalashtar': { wisdom: 2, charisma: 1 },
+  'Changeling': { charisma: 2, dexterity: 1 },
+  'Shifter (Beasthide)': { strength: 2, dexterity: 1 },
+  'Shifter (Longtooth)': { strength: 2, wisdom: 1 },
+  'Shifter (Swiftstride)': { dexterity: 2, charisma: 1 },
+  'Shifter (Wildhunt)': { wisdom: 2, dexterity: 1 },
+  'Warforged': { constitution: 2, extra1: 1 },
+  ' অটোম্যাটন ': { constitution: 2, extra1: 1 },
 };
 
-export const getRacialFeatures = (race: string, subrace?: string): RacialFeature[] => {
-  // Check default races first
-  let raceData = racialFeaturesData[race];
-  
-  // If not found in default races, check custom races
-  if (!raceData) {
-    const customRaces = getCustomRaces();
-    raceData = customRaces[race];
-  }
-  
-  if (!raceData) return [];
-  
-  const features = [...raceData.features];
-  
-  if (subrace && raceData.subraces && raceData.subraces[subrace]) {
-    features.push(...raceData.subraces[subrace]);
-  }
-  
-  return features;
+// Lista de raças disponíveis
+export const availableRaces = [
+  'Humano', 'Elfo da Floresta', 'Elfo Negro (Drow)', 'Anão da Colina', 'Anão da Montanha',
+  'Halfling Leve', 'Halfling Robusto', 'Draconato', 'Gnomo da Floresta', 'Gnomo da Rocha',
+  'Meio-Elfo', 'Meio-Orc', 'Tiefling', 'Aasimar', 'Firbolg', 'Goliath', 'Kenku', 'Lizardfolk',
+  'Tabaxi', 'Triton', 'Bugbear', 'Goblin', 'Hobgoblin', 'Orc', 'Kobold', 'Yuan-ti Pureblood',
+  'Tortle', 'Aarakocra', 'Genasi do Ar', 'Genasi da Água', 'Genasi do Fogo', 'Genasi da Terra',
+  'Githyanki', 'Githzerai', 'Centauro', 'Loxodon', 'Minotauro', 'Simic Hybrid', 'Vedalken',
+  'Kalashtar', 'Changeling', 'Shifter (Beasthide)', 'Shifter (Longtooth)', 'Shifter (Swiftstride)',
+  'Shifter (Wildhunt)', 'Warforged', ' অটোম্যাটন '
+];
+
+// Função para obter bônus de habilidade racial
+export const getRaceAbilityBonus = (race: string): AbilityBonus => {
+  return raceAbilityBonuses[race] || {};
 };
 
-export const getAvailableSubraces = (race: string): string[] => {
-  // Check default races first
-  let raceData = racialFeaturesData[race];
-  
-  // If not found in default races, check custom races
-  if (!raceData) {
-    const customRaces = getCustomRaces();
-    raceData = customRaces[race];
-  }
-  
-  if (!raceData || !raceData.subraces) return [];
-  
-  return Object.keys(raceData.subraces);
-};
-
-// Helper function to get custom races from localStorage
-export const getCustomRaces = (): { [key: string]: RaceData } => {
+// Função para obter raças personalizadas do localStorage
+export const getCustomRaces = (): string[] => {
   try {
-    const saved = localStorage.getItem('custom-races');
-    return saved ? JSON.parse(saved) : {};
-  } catch (error) {
-    console.log('Error loading custom races:', error);
-    return {};
+    const stored = localStorage.getItem('dnd-custom-races');
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
   }
 };
 
-// Helper function to get all available races (default + custom)
-export const getAllAvailableRaces = (): string[] => {
-  const defaultRaces = Object.keys(racialFeaturesData);
-  const customRaces = Object.keys(getCustomRaces());
-  
-  return [...defaultRaces, ...customRaces].sort();
+// Função para salvar uma nova raça personalizada
+export const saveCustomRace = (raceName: string): void => {
+  try {
+    const customRaces = getCustomRaces();
+    if (!customRaces.includes(raceName)) {
+      customRaces.push(raceName);
+      localStorage.setItem('dnd-custom-races', JSON.stringify(customRaces));
+    }
+  } catch (error) {
+    console.error('Error saving custom race:', error);
+  }
+};
+
+// Função para obter todas as raças (padrão + personalizadas)
+export const getAllRaces = (): string[] => {
+  const standardRaces = Object.keys(raceAbilityBonuses);
+  const customRaces = getCustomRaces();
+  return [...standardRaces, ...customRaces];
 };
