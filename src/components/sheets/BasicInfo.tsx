@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, X, Settings } from 'lucide-react';
 import { getAvailableSubclasses } from '../../utils/classFeatures';
 import ClassAbilitiesModal from './ClassAbilitiesModal';
@@ -69,16 +69,59 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
     'Patrulheiro': 'Ranger'
   };
 
+  // Load saved data on component mount
+  useEffect(() => {
+    const savedData = localStorage.getItem(`character-${character.id}-basic-info`);
+    if (savedData) {
+      try {
+        const parsed = JSON.parse(savedData);
+        if (parsed.characterData) {
+          setCharacterData(parsed.characterData);
+        }
+        if (parsed.mainLevel) {
+          setMainLevel(parsed.mainLevel);
+        }
+        if (parsed.mainSubclass) {
+          setMainSubclass(parsed.mainSubclass);
+        }
+        if (parsed.multiclass) {
+          setMulticlass(parsed.multiclass);
+        }
+      } catch (error) {
+        console.log('Error loading saved character data:', error);
+      }
+    }
+  }, [character.id]);
+
+  // Auto save function
+  const saveData = () => {
+    const dataToSave = {
+      characterData,
+      mainLevel,
+      mainSubclass,
+      multiclass,
+      lastSaved: new Date().toISOString()
+    };
+    localStorage.setItem(`character-${character.id}-basic-info`, JSON.stringify(dataToSave));
+  };
+
+  // Auto save whenever data changes
+  useEffect(() => {
+    saveData();
+  }, [characterData, mainLevel, mainSubclass, multiclass]);
+
   const getTotalLevel = () => {
     return mainLevel + multiclass.reduce((total, mc) => total + mc.level, 0);
   };
 
   const addMulticlass = () => {
-    setMulticlass([...multiclass, { class: 'Guerreiro', level: 1 }]);
+    const newMulticlass = [...multiclass, { class: 'Guerreiro', level: 1 }];
+    setMulticlass(newMulticlass);
   };
 
   const removeMulticlass = (index: number) => {
-    setMulticlass(multiclass.filter((_, i) => i !== index));
+    const newMulticlass = multiclass.filter((_, i) => i !== index);
+    setMulticlass(newMulticlass);
   };
 
   const updateMulticlass = (index: number, field: 'class' | 'level' | 'subclass', value: string | number) => {
