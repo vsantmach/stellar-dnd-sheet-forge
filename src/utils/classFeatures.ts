@@ -2,6 +2,10 @@
 import { ClassFeature, SubclassFeature } from './types';
 import { baseClassFeatures, allSubclassFeatures, allAvailableSubclasses } from './classes/index';
 
+console.log('Debug - baseClassFeatures:', Object.keys(baseClassFeatures));
+console.log('Debug - allSubclassFeatures:', Object.keys(allSubclassFeatures));
+console.log('Debug - allAvailableSubclasses:', Object.keys(allAvailableSubclasses));
+
 // Classes
 export const classFeatures: Record<string, ClassFeature[]> = baseClassFeatures;
 
