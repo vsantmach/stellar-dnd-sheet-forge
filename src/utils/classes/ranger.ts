@@ -31,6 +31,24 @@ export const rangerFeatures: ClassFeature[] = [
     name: 'Consciência Primitiva',
     description: 'Você pode usar sua ação e gastar um espaço de magia de ranger para focar sua consciência através da região ao redor.',
     level: 3,
+  },
+  {
+    id: 'extraAttack',
+    name: 'Ataque Extra',
+    description: 'Você pode atacar duas vezes, em vez de uma, sempre que realizar a ação Atacar em seu turno.',
+    level: 5,
+  },
+  {
+    id: 'landStride',
+    name: 'Caminho Livre',
+    description: 'Mover-se através de terreno difícil não mágico não custa movimento extra.',
+    level: 8,
+  },
+  {
+    id: 'hideInPlainSight',
+    name: 'Esconder-se à Vista',
+    description: 'Você pode gastar 1 minuto criando camuflagem para si mesmo.',
+    level: 10,
   }
 ];
 

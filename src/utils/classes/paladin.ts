@@ -31,6 +31,36 @@ export const paladinFeatures: ClassFeature[] = [
     name: 'Golpe Divino',
     description: 'Quando você atinge uma criatura com um ataque corpo a corpo com arma, pode expandir um espaço de magia para causar dano radiante adicional ao alvo.',
     level: 2,
+  },
+  {
+    id: 'sacredOath',
+    name: 'Juramento Sagrado',
+    description: 'Você faz o juramento que o liga como um paladino para sempre.',
+    level: 3,
+  },
+  {
+    id: 'channelDivinity',
+    name: 'Canalizar Divindade',
+    description: 'Você ganha a habilidade de canalizar energia divina diretamente de sua divindade.',
+    level: 3,
+  },
+  {
+    id: 'extraAttack',
+    name: 'Ataque Extra',
+    description: 'Você pode atacar duas vezes, em vez de uma, sempre que realizar a ação Atacar em seu turno.',
+    level: 5,
+  },
+  {
+    id: 'auraOfProtection',
+    name: 'Aura de Proteção',
+    description: 'Você e criaturas amigáveis a até 3 metros de você ganham um bônus em testes de resistência igual ao seu modificador de Carisma.',
+    level: 6,
+  },
+  {
+    id: 'auraOfCourage',
+    name: 'Aura de Coragem',
+    description: 'Você e criaturas amigáveis a até 3 metros de você não podem ser amedrontadas enquanto você estiver consciente.',
+    level: 10,
   }
 ];
 

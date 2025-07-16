@@ -21,10 +21,46 @@ export const monkFeatures: ClassFeature[] = [
     level: 2,
   },
   {
+    id: 'unarmoredMovement',
+    name: 'Movimento sem Armadura',
+    description: 'Sua velocidade aumenta em 3 metros enquanto não estiver usando armadura ou escudo.',
+    level: 2,
+  },
+  {
     id: 'deflectMissiles',
     name: 'Aparar Projéteis',
     description: 'Você pode usar sua reação para aparar ou apanhar projéteis quando você é atingido por um ataque à distância com armas.',
     level: 3,
+  },
+  {
+    id: 'monasticTradition',
+    name: 'Tradição Monástica',
+    description: 'Você se compromete com uma tradição monástica.',
+    level: 3,
+  },
+  {
+    id: 'abilityScoreImprovement',
+    name: 'Evolução de Atributo',
+    description: 'Você pode aumentar um atributo em 2 ou dois atributos em 1.',
+    level: 4,
+  },
+  {
+    id: 'extraAttack',
+    name: 'Ataque Extra',
+    description: 'Você pode atacar duas vezes, em vez de uma, sempre que realizar a ação Atacar em seu turno.',
+    level: 5,
+  },
+  {
+    id: 'stunningStrike',
+    name: 'Ataque Atordoante',
+    description: 'Você pode interferir no fluxo de chi do corpo de um oponente.',
+    level: 5,
+  },
+  {
+    id: 'kiEmpoweredStrikes',
+    name: 'Ataques Empoderados por Chi',
+    description: 'Seus ataques desarmados contam como mágicos para o propósito de superar resistência.',
+    level: 6,
   }
 ];
 

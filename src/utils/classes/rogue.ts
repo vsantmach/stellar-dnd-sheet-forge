@@ -121,11 +121,106 @@ export const rogueSubclasses: Record<string, SubclassFeature[]> = {
       level: 17,
       subclass: 'Trapaceiro Arcano'
     }
+  ],
+
+  // Xanathar's Guide
+  'Batedor': [
+    {
+      name: 'Skirmisher',
+      description: 'Você pode se mover até metade de sua velocidade como uma reação quando um inimigo termina seu turno a 1,5 metro de você.',
+      level: 3,
+      subclass: 'Batedor'
+    },
+    {
+      name: 'Sobrevivência',
+      description: 'Você ganha proficiências que lhe ajudam a navegar na natureza.',
+      level: 3,
+      subclass: 'Batedor'
+    },
+    {
+      name: 'Emboscada Superior',
+      description: 'Você pode usar a ação Ajudar como ação bônus.',
+      level: 9,
+      subclass: 'Batedor'
+    }
+  ],
+
+  'Inquisitivo': [
+    {
+      name: 'Ouvido para Mentira',
+      description: 'Você desenvolve um talento para descobrir informações e, com mais importante ainda, detectar mentiras.',
+      level: 3,
+      subclass: 'Inquisitivo'
+    },
+    {
+      name: 'Olho para Detalhe',
+      description: 'Você pode usar uma ação bônus para fazer um teste de Sabedoria (Percepção) para localizar uma criatura escondida ou para fazer um teste de Inteligência (Investigação) para descobrir ou deduzir pistas.',
+      level: 3,
+      subclass: 'Inquisitivo'
+    },
+    {
+      name: 'Ataque Furtivo Insidioso',
+      description: 'Você pode usar Ataque Furtivo contra um alvo mesmo se você não tiver vantagem, contanto que você não tenha desvantagem e nenhuma outra criatura esteja a 1,5 metro do alvo.',
+      level: 3,
+      subclass: 'Inquisitivo'
+    }
+  ],
+
+  'Assassino Espiritual': [
+    {
+      name: 'Lâminas Sussurrantes',
+      description: 'Você aprende a fazer suas armas ecoarem com energia necrótica capturada dos Shadowfell.',
+      level: 3,
+      subclass: 'Assassino Espiritual'
+    },
+    {
+      name: 'Forças das Trevas',
+      description: 'Você ganha resistência a dano necrótico e quando você causa dano necrótico a uma criatura, você ignora a resistência daquela criatura ao dano necrótico.',
+      level: 3,
+      subclass: 'Assassino Espiritual'
+    }
+  ],
+
+  // Tasha's Cauldron
+  'Fantasma': [
+    {
+      name: 'Caminhada Fantasma',
+      description: 'No 3º nível, você pode fase através de objetos e criaturas.',
+      level: 3,
+      subclass: 'Fantasma',
+      uses: { max: 1, rechargeOn: 'long' }
+    },
+    {
+      name: 'Espírito Fantasma',
+      description: 'Quando você usa sua característica Ataque Furtivo, pode causar o dano como dano necrótico.',
+      level: 3,
+      subclass: 'Fantasma'
+    }
+  ],
+
+  'Alma Blade': [
+    {
+      name: 'Psíquicos Sussurrantes',
+      description: 'Você pode atacar mentes com suas lâminas.',
+      level: 3,
+      subclass: 'Alma Blade'
+    },
+    {
+      name: 'Telepatia Psíquica',
+      description: 'Você pode comunicar telepaticamente.',
+      level: 3,
+      subclass: 'Alma Blade'
+    }
   ]
 };
 
 export const rogueAvailableSubclasses = [
   'Ladrão',
   'Assassino',
-  'Trapaceiro Arcano'
+  'Trapaceiro Arcano',
+  'Batedor',
+  'Inquisitivo', 
+  'Assassino Espiritual',
+  'Fantasma',
+  'Alma Blade'
 ];

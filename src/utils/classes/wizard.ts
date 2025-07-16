@@ -230,6 +230,51 @@ export const wizardSubclasses: Record<string, SubclassFeature[]> = {
       level: 6,
       subclass: 'Ordem dos Escribas'
     }
+  ],
+
+  // Critical Role: Explorer's Guide to Wildemount
+  'Escola de Cronurgia': [
+    {
+      name: 'Savante Cronúrgico',
+      description: 'Você aprende truques e magias adicionais que representam sua maestria sobre o tempo.',
+      level: 2,
+      subclass: 'Escola de Cronurgia'
+    },
+    {
+      name: 'Consciência Temporal',
+      description: 'Você pode adicionar seu modificador de Inteligência para rolagens de iniciativa.',
+      level: 2,
+      subclass: 'Escola de Cronurgia'
+    },
+    {
+      name: 'Fissura Cronúrgica',
+      description: 'Você pode dividir um momento em múltiplos possibilidades.',
+      level: 6,
+      subclass: 'Escola de Cronurgia',
+      uses: { max: 1, rechargeOn: 'long' }
+    }
+  ],
+
+  'Escola de Graviturgia': [
+    {
+      name: 'Savante Gravitúrgico',
+      description: 'Você aprende magias que lhe permitem controlar as forças da gravidade.',
+      level: 2,
+      subclass: 'Escola de Graviturgia'
+    },
+    {
+      name: 'Ajustar Densidade',
+      description: 'Você pode aumentar ou diminuir a densidade de objetos e criaturas.',
+      level: 2,
+      subclass: 'Escola de Graviturgia',
+      uses: { max: 1, rechargeOn: 'long' }
+    },
+    {
+      name: 'Passo Gravitacional',
+      description: 'Quando você conjura uma magia de 1º nível ou superior, pode mover a si mesmo ou uma criatura.',
+      level: 6,
+      subclass: 'Escola de Graviturgia'
+    }
   ]
 };
 
@@ -243,5 +288,7 @@ export const wizardAvailableSubclasses = [
   'Escola de Necromancia',
   'Escola de Transmutação',
   'Escola de Guerra',
-  'Ordem dos Escribas'
+  'Ordem dos Escribas',
+  'Escola de Cronurgia',
+  'Escola de Graviturgia'
 ];
