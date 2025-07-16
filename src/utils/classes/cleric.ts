@@ -1,4 +1,3 @@
-
 import { ClassFeature, SubclassFeature } from '../types';
 
 export const clericFeatures: ClassFeature[] = [
@@ -29,6 +28,68 @@ export const clericFeatures: ClassFeature[] = [
 ];
 
 export const clericSubclasses: Record<string, SubclassFeature[]> = {
+  'Domínio da Vida': [
+    {
+      name: 'Discípulo da Vida',
+      description: 'Seus feitiços de cura são mais eficazes. Sempre que usar uma magia de 1º nível ou superior para restaurar PV, o alvo recupera PV adicionais igual a 2 + o nível da magia.',
+      level: 1,
+      subclass: 'Domínio da Vida'
+    }
+  ],
+  'Domínio do Conhecimento': [
+    {
+      name: 'Bênção do Conhecimento',
+      description: 'Você aprende dois idiomas à sua escolha e ganha proficiência com duas perícias à sua escolha entre Arcana, História, Natureza ou Religião.',
+      level: 1,
+      subclass: 'Domínio do Conhecimento'
+    }
+  ],
+  'Domínio da Tempestade': [
+    {
+      name: 'Fúria da Tempestade',
+      description: 'Como reação, quando for atingido por um ataque corpo a corpo, pode causar dano elétrico ao atacante.',
+      level: 1,
+      subclass: 'Domínio da Tempestade'
+    },
+    {
+      name: 'Fúria Trovejante',
+      description: 'Quando você usar um efeito de relâmpago ou trovão, pode empurrar criaturas até 3 metros para longe.',
+      level: 1,
+      subclass: 'Domínio da Tempestade'
+    }
+  ],
+  'Domínio da Guerra': [
+    {
+      name: 'Proeficiência Bônus',
+      description: 'Você ganha proficiência com armaduras pesadas e armas marciais.',
+      level: 1,
+      subclass: 'Domínio da Guerra'
+    },
+    {
+      name: 'Golpe de Guerra',
+      description: 'Quando realiza um ataque com arma como ação, pode fazer outro ataque como reação. Usos limitados por descanso.',
+      level: 1,
+      subclass: 'Domínio da Guerra',
+      uses: { max: 1, rechargeOn: 'short' }
+    }
+  ],
+  'Domínio do Engano': [
+    {
+      name: 'Bênção do Engano',
+      description: 'Você pode usar sua ação para tocar uma criatura e conceder-lhe vantagem em testes de Furtividade por 1 hora, ou até que ela ataque ou lance uma magia.',
+      level: 1,
+      subclass: 'Domínio do Engano',
+      uses: { max: 1, rechargeOn: 'short' }
+    }
+  ],
+  'Domínio da Natureza': [
+    {
+      name: 'Acolhido pela Natureza',
+      description: 'Você ganha um truque de druida à sua escolha. Também ganha proficiência com armaduras pesadas e com uma perícia entre Adestrar Animais, Natureza ou Sobrevivência.',
+      level: 1,
+      subclass: 'Domínio da Natureza'
+    }
+  ],
   'Domínio da Forja': [
     {
       name: 'Proficiências Bônus',
@@ -49,7 +110,6 @@ export const clericSubclasses: Record<string, SubclassFeature[]> = {
       subclass: 'Domínio da Forja'
     }
   ],
-
   'Domínio da Tumba': [
     {
       name: 'Círculo da Mortalidade',
@@ -70,7 +130,6 @@ export const clericSubclasses: Record<string, SubclassFeature[]> = {
       subclass: 'Domínio da Tumba'
     }
   ],
-
   'Domínio da Ordem': [
     {
       name: 'Proficiências Bônus',
@@ -91,7 +150,6 @@ export const clericSubclasses: Record<string, SubclassFeature[]> = {
       subclass: 'Domínio da Ordem'
     }
   ],
-
   'Domínio da Paz': [
     {
       name: 'Implemento da Paz',
@@ -113,7 +171,6 @@ export const clericSubclasses: Record<string, SubclassFeature[]> = {
       subclass: 'Domínio da Paz'
     }
   ],
-
   'Domínio do Crepúsculo': [
     {
       name: 'Proficiências Bônus',
@@ -134,7 +191,63 @@ export const clericSubclasses: Record<string, SubclassFeature[]> = {
       subclass: 'Domínio do Crepúsculo',
       uses: { max: 1, rechargeOn: 'long' }
     }
+  ],
+  'Domínio da Gravidade': [
+    {
+      name: 'Obrigações do Equilíbrio',
+      description: 'Você pode manipular forças gravitacionais sutis. Pode escolher entre Percepção ou Intuição e aprende a magia “feixe gravitacional”.',
+      level: 1,
+      subclass: 'Domínio da Gravidade'
+    },
+    {
+      name: 'Pressão de Gravidade',
+      description: 'Como ação, você invoca um campo gravitacional. Criaturas em uma área de 3 metros devem realizar um teste de Força ou sofrer dano e ficarem caídas.',
+      level: 1,
+      subclass: 'Domínio da Gravidade',
+      uses: { max: 1, rechargeOn: 'long' }
+    },
+    {
+      name: 'Canalizar Divindade: Bem da Gravidade',
+      description: 'Pode usar Canalizar Divindade para criar um poço gravitacional. Todas as criaturas a até 9 metros do ponto escolhido são puxadas para ele.',
+      level: 2,
+      subclass: 'Domínio da Gravidade'
+    }
+  ],
+  'Domínio do Fogo Solar': [
+    {
+      name: 'Luz Restauradora',
+      description: 'Você aprende a magia “Palavra Curativa” e pode usá-la sem gasto de espaço. Também adiciona +1d4 de cura adicional.',
+      level: 1,
+      subclass: 'Domínio do Fogo Solar'
+    },
+    {
+      name: 'Raio Radiante',
+      description: 'Como ação, pode disparar um raio de energia radiante que causa dano e ofusca o inimigo.',
+      level: 1,
+      subclass: 'Domínio do Fogo Solar',
+      uses: { max: 1, rechargeOn: 'long' }
+    },
+    {
+      name: 'Canalizar Divindade: Raio Incandescente',
+      description: 'Pode usar Canalizar Divindade para liberar um feixe radiante. Todas as criaturas em uma linha de 9 metros sofrem dano radiante.',
+      level: 2,
+      subclass: 'Domínio do Fogo Solar'
+    }
   ]
 };
 
-export const clericAvailableSubclasses = ['Domínio da Forja', 'Domínio da Tumba', 'Domínio da Ordem', 'Domínio da Paz', 'Domínio do Crepúsculo'];
+export const clericAvailableSubclasses = [
+  'Domínio da Vida',
+  'Domínio do Conhecimento',
+  'Domínio da Tempestade',
+  'Domínio da Guerra',
+  'Domínio do Engano',
+  'Domínio da Natureza',
+  'Domínio da Forja',
+  'Domínio da Tumba',
+  'Domínio da Ordem',
+  'Domínio da Paz',
+  'Domínio do Crepúsculo',
+  'Domínio da Gravidade',
+  'Domínio do Fogo Solar'
+];
