@@ -49,6 +49,13 @@ export const druidFeatures: ClassFeature[] = [
     name: 'Arquidruida',
     description: 'No 20º nível, você pode usar sua Forma Selvagem um número ilimitado de vezes.',
     level: 20,
+  },
+  // Nova habilidade: Proteção da Natureza (Tasha's Cauldron)
+  {
+    id: 'natureProtection',
+    name: 'Proteção da Natureza',
+    description: 'Você pode gastar uma magia de 1º nível para conceder resistência contra dano não-mágico a você ou a um aliado por 1 minuto.',
+    level: 5,  // Novo recurso introduzido por Tasha
   }
 ];
 
@@ -118,10 +125,32 @@ export const druidSubclasses: Record<string, SubclassFeature[]> = {
       level: 14,
       subclass: 'Círculo da Lua'
     }
+  ],
+  // Nova subclasse adicionada por Tasha's Cauldron: Círculo da Aranha (opcional)
+  'Círculo da Aranha': [
+    {
+      name: 'Teias Mágicas',
+      description: 'Você pode conjurar magias de teia que podem imobilizar criaturas em um raio de 30 pés.',
+      level: 2,
+      subclass: 'Círculo da Aranha'
+    },
+    {
+      name: 'Movimento Aracnídeo',
+      description: 'Você pode escalar superfícies e se mover com agilidade impressionante, ignorando terreno difícil feito de teias.',
+      level: 6,
+      subclass: 'Círculo da Aranha'
+    },
+    {
+      name: 'Teia Imunizante',
+      description: 'Você ganha resistência contra dano de venenoso e pode ignorar os efeitos de venenos em sua forma aracnídea.',
+      level: 10,
+      subclass: 'Círculo da Aranha'
+    }
   ]
 };
 
 export const druidAvailableSubclasses = [
   'Círculo da Terra',
-  'Círculo da Lua'
+  'Círculo da Lua',
+  'Círculo da Aranha'  // Nova subclasse adicionada
 ];
