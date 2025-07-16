@@ -1,4 +1,5 @@
-import { AbilityBonus } from './types';
+
+import { AbilityBonus, RacialFeature, RaceData } from './types';
 
 // Define os bônus de habilidade racial para cada raça
 export const raceAbilityBonuses: Record<string, AbilityBonus> = {
@@ -51,6 +52,30 @@ export const raceAbilityBonuses: Record<string, AbilityBonus> = {
   ' অটোম্যাটন ': { constitution: 2, extra1: 1 },
 };
 
+// Default racial features data
+export const racialFeaturesData: Record<string, RaceData> = {
+  'Humano': {
+    features: [
+      { name: 'Versatilidade', description: '+1 em todas as habilidades' },
+      { name: 'Talento Extra', description: 'Ganha um talento adicional no 1º nível' }
+    ]
+  },
+  'Elfo da Floresta': {
+    features: [
+      { name: 'Visão no Escuro', description: 'Enxerga no escuro até 18 metros' },
+      { name: 'Sentidos Aguçados', description: 'Proficiência em Percepção' },
+      { name: 'Ancestral Feérico', description: 'Vantagem contra charme e imune a sono mágico' }
+    ]
+  },
+  'Anão da Montanha': {
+    features: [
+      { name: 'Visão no Escuro', description: 'Enxerga no escuro até 18 metros' },
+      { name: 'Resistência Anã', description: 'Vantagem contra veneno' },
+      { name: 'Proficiência com Armaduras', description: 'Proficiência com armaduras leves e médias' }
+    ]
+  }
+};
+
 // Lista de raças disponíveis
 export const availableRaces = [
   'Humano', 'Elfo da Floresta', 'Elfo Negro (Drow)', 'Anão da Colina', 'Anão da Montanha',
@@ -68,24 +93,69 @@ export const getRaceAbilityBonus = (race: string): AbilityBonus => {
   return raceAbilityBonuses[race] || {};
 };
 
+// Função para obter características raciais
+export const getRacialFeatures = (race: string, subrace?: string): RacialFeature[] => {
+  const customRaces = getCustomRaces();
+  
+  // Check custom races first
+  if (customRaces[race]) {
+    const raceData = customRaces[race];
+    let features = [...raceData.features];
+    
+    if (subrace && raceData.subraces && raceData.subraces[subrace]) {
+      features = [...features, ...raceData.subraces[subrace]];
+    }
+    
+    return features;
+  }
+  
+  // Check default races
+  const raceData = racialFeaturesData[race];
+  if (!raceData) return [];
+  
+  let features = [...raceData.features];
+  
+  if (subrace && raceData.subraces && raceData.subraces[subrace]) {
+    features = [...features, ...raceData.subraces[subrace]];
+  }
+  
+  return features;
+};
+
+// Função para obter subraças disponíveis
+export const getAvailableSubraces = (race: string): string[] => {
+  const customRaces = getCustomRaces();
+  
+  // Check custom races first
+  if (customRaces[race] && customRaces[race].subraces) {
+    return Object.keys(customRaces[race].subraces);
+  }
+  
+  // Check default races
+  const raceData = racialFeaturesData[race];
+  if (raceData && raceData.subraces) {
+    return Object.keys(raceData.subraces);
+  }
+  
+  return [];
+};
+
 // Função para obter raças personalizadas do localStorage
-export const getCustomRaces = (): string[] => {
+export const getCustomRaces = (): Record<string, RaceData> => {
   try {
     const stored = localStorage.getItem('dnd-custom-races');
-    return stored ? JSON.parse(stored) : [];
+    return stored ? JSON.parse(stored) : {};
   } catch {
-    return [];
+    return {};
   }
 };
 
 // Função para salvar uma nova raça personalizada
-export const saveCustomRace = (raceName: string): void => {
+export const saveCustomRace = (raceName: string, raceData: RaceData): void => {
   try {
     const customRaces = getCustomRaces();
-    if (!customRaces.includes(raceName)) {
-      customRaces.push(raceName);
-      localStorage.setItem('dnd-custom-races', JSON.stringify(customRaces));
-    }
+    customRaces[raceName] = raceData;
+    localStorage.setItem('dnd-custom-races', JSON.stringify(customRaces));
   } catch (error) {
     console.error('Error saving custom race:', error);
   }
@@ -93,7 +163,7 @@ export const saveCustomRace = (raceName: string): void => {
 
 // Função para obter todas as raças (padrão + personalizadas)
 export const getAllRaces = (): string[] => {
-  const standardRaces = Object.keys(raceAbilityBonuses);
-  const customRaces = getCustomRaces();
+  const standardRaces = Object.keys(racialFeaturesData);
+  const customRaces = Object.keys(getCustomRaces());
   return [...standardRaces, ...customRaces];
 };

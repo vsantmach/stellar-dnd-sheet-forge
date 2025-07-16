@@ -1,17 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
-import { racialFeaturesData, getAvailableSubraces } from '../../utils/racialFeatures';
+import { racialFeaturesData, getAvailableSubraces, getCustomRaces, saveCustomRace } from '../../utils/racialFeatures';
+import { RacialFeature, RaceData } from '../../utils/types';
 import CreateRaceForm from './CreateRaceForm';
-
-interface RacialFeature {
-  name: string;
-  description: string;
-  uses?: {
-    max: number;
-    rechargeOn: 'short' | 'long' | 'other';
-  };
-}
 
 interface RaceSelectorProps {
   selectedRace: string;
@@ -29,42 +21,25 @@ const RaceSelector: React.FC<RaceSelectorProps> = ({
   disabled = false
 }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [customRaces, setCustomRaces] = useState<{ [key: string]: any }>({});
+  const [customRaces, setCustomRaces] = useState<Record<string, RaceData>>({});
 
   // Load custom races from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem('custom-races');
-    if (saved) {
-      try {
-        setCustomRaces(JSON.parse(saved));
-      } catch (error) {
-        console.log('Error loading custom races:', error);
-      }
-    }
+    setCustomRaces(getCustomRaces());
   }, []);
-
-  // Save custom races to localStorage
-  const saveCustomRaces = (races: { [key: string]: any }) => {
-    localStorage.setItem('custom-races', JSON.stringify(races));
-    setCustomRaces(races);
-  };
 
   const handleCreateRace = (
     raceName: string, 
     features: RacialFeature[], 
     subraces?: { [key: string]: RacialFeature[] }
   ) => {
-    const newRace = {
+    const raceData: RaceData = {
       features,
       ...(subraces && Object.keys(subraces).length > 0 && { subraces })
     };
 
-    const updatedRaces = {
-      ...customRaces,
-      [raceName]: newRace
-    };
-
-    saveCustomRaces(updatedRaces);
+    saveCustomRace(raceName, raceData);
+    setCustomRaces(getCustomRaces());
     setShowCreateForm(false);
     onRaceChange(raceName);
   };
@@ -75,17 +50,7 @@ const RaceSelector: React.FC<RaceSelectorProps> = ({
     ...Object.keys(customRaces).sort()
   ];
 
-  const getAvailableSubracesForRace = (race: string): string[] => {
-    if (racialFeaturesData[race]) {
-      return getAvailableSubraces(race);
-    }
-    if (customRaces[race] && customRaces[race].subraces) {
-      return Object.keys(customRaces[race].subraces);
-    }
-    return [];
-  };
-
-  const availableSubraces = getAvailableSubracesForRace(selectedRace);
+  const availableSubraces = getAvailableSubraces(selectedRace);
 
   return (
     <>

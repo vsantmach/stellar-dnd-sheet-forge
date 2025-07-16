@@ -1,16 +1,7 @@
-
 import React, { useState } from 'react';
 import { Plus, X, Save, ArrowLeft } from 'lucide-react';
-import { racialFeaturesData } from '../../utils/racialFeatures';
-
-interface RacialFeature {
-  name: string;
-  description: string;
-  uses?: {
-    max: number;
-    rechargeOn: 'short' | 'long' | 'other';
-  };
-}
+import { racialFeaturesData, getCustomRaces } from '../../utils/racialFeatures';
+import { RacialFeature, RaceData } from '../../utils/types';
 
 interface CreateRaceFormProps {
   onSave: (raceName: string, features: RacialFeature[], subraces?: { [key: string]: RacialFeature[] }) => void;
@@ -30,7 +21,24 @@ const CreateRaceForm: React.FC<CreateRaceFormProps> = ({ onSave, onCancel }) => 
   const getExistingFeatureNames = (): string[] => {
     const featureNames = new Set<string>();
     
+    // Get from default races
     Object.values(racialFeaturesData).forEach(raceData => {
+      raceData.features.forEach(feature => {
+        featureNames.add(feature.name);
+      });
+      
+      if (raceData.subraces) {
+        Object.values(raceData.subraces).forEach(subraceFeatures => {
+          subraceFeatures.forEach(feature => {
+            featureNames.add(feature.name);
+          });
+        });
+      }
+    });
+
+    // Get from custom races
+    const customRaces = getCustomRaces();
+    Object.values(customRaces).forEach((raceData: RaceData) => {
       raceData.features.forEach(feature => {
         featureNames.add(feature.name);
       });
