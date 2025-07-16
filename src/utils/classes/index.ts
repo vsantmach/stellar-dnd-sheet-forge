@@ -1,9 +1,10 @@
 
 import { ClassFeature, SubclassFeature } from '../types';
-import { artificerSubclasses, artificerAvailableSubclasses } from './artificer';
+import { artificerFeatures, artificerSubclasses, artificerAvailableSubclasses } from './artificer';
 import { barbarianFeatures, barbarianSubclasses, barbarianAvailableSubclasses } from './barbarian';
 import { bardFeatures, bardSubclasses, bardAvailableSubclasses } from './bard';
 import { clericFeatures, clericSubclasses, clericAvailableSubclasses } from './cleric';
+import { druidFeatures, druidSubclasses, druidAvailableSubclasses } from './druid';
 import { fighterFeatures, fighterSubclasses, fighterAvailableSubclasses } from './fighter';
 import { monkFeatures, monkSubclasses, monkAvailableSubclasses } from './monk';
 import { paladinFeatures, paladinSubclasses, paladinAvailableSubclasses } from './paladin';
@@ -15,10 +16,11 @@ import { wizardFeatures, wizardSubclasses, wizardAvailableSubclasses } from './w
 
 // Combine all base class features
 const baseClassFeatures: Record<string, ClassFeature[]> = {
-  Artificer: [], // Artificer não tem características base definidas ainda
+  Artificer: artificerFeatures,
   Barbarian: barbarianFeatures,
   Bard: bardFeatures,
   Cleric: clericFeatures,
+  Druid: druidFeatures,
   Fighter: fighterFeatures,
   Monk: monkFeatures,
   Paladin: paladinFeatures,
@@ -35,6 +37,7 @@ const allSubclassFeatures: Record<string, SubclassFeature[]> = {
   ...barbarianSubclasses,
   ...bardSubclasses,
   ...clericSubclasses,
+  ...druidSubclasses,
   ...fighterSubclasses,
   ...monkSubclasses,
   ...paladinSubclasses,
@@ -51,6 +54,7 @@ const allAvailableSubclasses: Record<string, string[]> = {
   Barbarian: barbarianAvailableSubclasses,
   Bard: bardAvailableSubclasses,
   Cleric: clericAvailableSubclasses,
+  Druid: druidAvailableSubclasses,
   Fighter: fighterAvailableSubclasses,
   Monk: monkAvailableSubclasses,
   Paladin: paladinAvailableSubclasses,

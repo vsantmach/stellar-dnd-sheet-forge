@@ -1,55 +1,9 @@
 
 import { ClassFeature, SubclassFeature } from './types';
-
-// Combine all base class features
-const baseClassFeatures: Record<string, ClassFeature[]> = {
-  Artificer: [],
-  Barbarian: [],
-  Bard: [],
-  Cleric: [],
-  Fighter: [],
-  Monk: [],
-  Paladin: [],
-  Ranger: [],
-  Rogue: [],
-  Sorcerer: [],
-  Warlock: [],
-  Wizard: [],
-};
-
-// Combine all subclass features
-const allSubclassFeatures: Record<string, SubclassFeature[]> = {};
-
-// Combine all available subclasses mappings
-const allAvailableSubclasses: Record<string, string[]> = {
-  Artificer: [],
-  Barbarian: ['Path of the Berserker', 'Path of the Totem Warrior'],
-  Bard: ['College of Lore', 'College of Valor'],
-  Cleric: ['Life Domain', 'Light Domain', 'Trickery Domain'],
-  Fighter: ['Champion', 'Battle Master', 'Eldritch Knight'],
-  Monk: ['Way of the Open Hand', 'Way of Shadow', 'Way of the Four Elements'],
-  Paladin: ['Oath of Devotion', 'Oath of the Ancients', 'Oath of Vengeance'],
-  Ranger: ['Hunter', 'Beast Master'],
-  Rogue: ['Thief', 'Assassin', 'Arcane Trickster'],
-  Sorcerer: ['Draconic Bloodline', 'Wild Magic'],
-  Warlock: ['The Fiend', 'The Great Old One', 'The Archfey'],
-  Wizard: ['School of Evocation', 'School of Abjuration', 'School of Divination'],
-};
+import { baseClassFeatures, allSubclassFeatures, allAvailableSubclasses } from './classes/index';
 
 // Classes
-export const classFeatures: Record<string, ClassFeature[]> = {
-  Barbarian: [],
-  Bard: [],
-  Cleric: [],
-  Fighter: [],
-  Monk: [],
-  Paladin: [],
-  Ranger: [],
-  Rogue: [],
-  Sorcerer: [],
-  Warlock: [],
-  Wizard: [],
-};
+export const classFeatures: Record<string, ClassFeature[]> = baseClassFeatures;
 
 // Função para obter características de classe
 export const getClassFeatures = (className: string, level: number, subclass?: string): ClassFeature[] => {
