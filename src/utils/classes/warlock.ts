@@ -1,4 +1,3 @@
-
 import { ClassFeature, SubclassFeature } from '../types';
 
 export const warlockFeatures: ClassFeature[] = [
@@ -25,6 +24,13 @@ export const warlockFeatures: ClassFeature[] = [
     name: 'Arcano Místico',
     description: 'No 11º nível, seu patrono lhe concede um segredo mágico chamado arcanum.',
     level: 11
+  },
+  // Nova habilidade (Tasha's Cauldron)
+  {
+    id: 'invocation',
+    name: 'Invocações',
+    description: 'Começando no 2º nível, você ganha a habilidade de aprender invocações, permitindo-lhe modificar suas magias ou habilidades com seu pacto.',
+    level: 2
   }
 ];
 
@@ -155,11 +161,46 @@ export const warlockSubclasses: Record<string, SubclassFeature[]> = {
         rechargeOn: 'long'
       }
     }
+  ],
+
+  // Nova subclasse: O Infernal (Tasha's Cauldron)
+  'O Infernal': [
+    {
+      name: 'Lista de Magias Expandida',
+      description: 'O Infernal concede a você acesso a uma lista expandida de magias quando você aprende uma magia de bruxo.',
+      level: 1,
+      subclass: 'O Infernal'
+    },
+    {
+      name: 'Marca do Inferno',
+      description: 'A partir do 1º nível, você pode marcar uma criatura com a marca infernal, causando dano adicional quando você a atinge.',
+      level: 1,
+      subclass: 'O Infernal'
+    },
+    {
+      name: 'Desprezo Demoníaco',
+      description: 'A partir do 6º nível, você pode lançar uma magia de desprezo a partir de um aliado para desacelerar ou amedrontar seus inimigos.',
+      level: 6,
+      subclass: 'O Infernal'
+    },
+    {
+      name: 'Conjuração Infernal',
+      description: 'No 10º nível, você pode invocar um demônio menor do plano infernal para lutar ao seu lado.',
+      level: 10,
+      subclass: 'O Infernal'
+    },
+    {
+      name: 'Domínio Infernal',
+      description: 'No 14º nível, você ganha controle sobre criaturas do plano infernal e pode ordenar que elas obedeçam sua vontade.',
+      level: 14,
+      subclass: 'O Infernal'
+    }
   ]
 };
 
 export const warlockAvailableSubclasses = [
   'O Arquifada',
   'O Corruptor',
-  'O Grande Antigo'
+  'O Grande Antigo',
+  'O Infernal'  // Nova subclasse adicionada
 ];
