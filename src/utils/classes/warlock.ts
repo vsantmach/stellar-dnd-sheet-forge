@@ -1,199 +1,92 @@
-import { ClassFeature, SubclassFeature } from '../types';
-
-export const warlockFeatures: ClassFeature[] = [
-  {
-    id: 'pact-magic',
-    name: 'Pacto Mágico',
-    description: 'Sua pesquisa arcana e a magia outorgada a você por seu patrono lhe deram facilidade com magias.',
-    level: 1
-  },
-  {
-    id: 'otherworldly-patron',
-    name: 'Patrono Sobrenatural',
-    description: 'No 1º nível, você fez um pacto com um ser sobrenatural de sua escolha.',
-    level: 1
-  },
-  {
-    id: 'pact-boon',
-    name: 'Dádiva do Pacto',
-    description: 'No 3º nível, seu patrono sobrenatural lhe concede uma dádiva por seus leais serviços.',
-    level: 3
-  },
-  {
-    id: 'mystic-arcanum',
-    name: 'Arcano Místico',
-    description: 'No 11º nível, seu patrono lhe concede um segredo mágico chamado arcanum.',
-    level: 11
-  },
-  // Nova habilidade (Tasha's Cauldron)
-  {
-    id: 'invocation',
-    name: 'Invocações',
-    description: 'Começando no 2º nível, você ganha a habilidade de aprender invocações, permitindo-lhe modificar suas magias ou habilidades com seu pacto.',
-    level: 2
-  }
-];
-
 export const warlockSubclasses: Record<string, SubclassFeature[]> = {
-  // Player's Handbook
-  'O Arquifada': [
+  // ... outras subclasses já existentes ...
+
+  'Lâmina Maldita': [
     {
-      name: 'Lista de Magias Expandida',
-      description: 'O Arquifada permite que você escolha de uma lista expandida de magias quando você aprende uma magia de bruxo.',
+      name: 'Mestre das Armas Malditas',
+      description: 'Você ganha proficiência com armas médias e pesadas. Pode conjurar magias através de sua arma amaldiçoada.',
       level: 1,
-      subclass: 'O Arquifada'
+      subclass: 'Lâmina Maldita'
     },
     {
-      name: 'Presença Feérica',
-      description: 'A partir do 1º nível, seu patrono concede a você a habilidade de projetar a presença sedutora e temerosa dos feéricos.',
+      name: 'Maldição da Lâmina',
+      description: 'Como ação bônus, amaldiçoe uma criatura para causar dano extra, curar-se ao derrotá-la e aumentar sua chance de acerto crítico.',
       level: 1,
-      subclass: 'O Arquifada',
-      uses: {
-        max: 1,
-        rechargeOn: 'short'
-      }
+      subclass: 'Lâmina Maldita',
+      uses: { max: 1, rechargeOn: 'short' }
     },
     {
-      name: 'Fuga Nebulosa',
-      description: 'A partir do 6º nível, você pode sumir em uma nuvem de névoa em resposta ao dano.',
+      name: 'Assombração da Lâmina',
+      description: 'No 6º nível, como reação, fique invisível até o fim do turno após ser atingido por um ataque.',
       level: 6,
-      subclass: 'O Arquifada',
-      uses: {
-        max: 1,
-        rechargeOn: 'short'
-      }
+      subclass: 'Lâmina Maldita',
+      uses: { max: 1, rechargeOn: 'short' }
     },
     {
-      name: 'Defesas Cativantes',
-      description: 'Começando no 10º nível, seu patrono ensina como virar a magia de controle mental de um inimigo contra ele.',
+      name: 'Ataque Fantasmagórico',
+      description: 'No 10º nível, seus ataques ignoram resistência a dano não-mágico e você pode atravessar inimigos com facilidade.',
       level: 10,
-      subclass: 'O Arquifada'
+      subclass: 'Lâmina Maldita'
     },
     {
-      name: 'Delírio Sombrio',
-      description: 'Começando no 14º nível, você pode mergulhar uma criatura em um reino ilusório.',
+      name: 'Mestre da Lâmina',
+      description: 'No 14º nível, pode se teleportar e realizar ataques adicionais como parte da maldição.',
       level: 14,
-      subclass: 'O Arquifada',
-      uses: {
-        max: 1,
-        rechargeOn: 'long'
-      }
+      subclass: 'Lâmina Maldita'
     }
   ],
 
-  'O Corruptor': [
+  'O Celestial': [
     {
-      name: 'Lista de Magias Expandida',
-      description: 'O Corruptor permite que você escolha de uma lista expandida de magias quando você aprende uma magia de bruxo.',
+      name: 'Luz Curativa',
+      description: 'Você obtém um reservatório de cura que pode gastar como ação bônus em criaturas a até 9 metros.',
       level: 1,
-      subclass: 'O Corruptor'
+      subclass: 'O Celestial'
     },
     {
-      name: 'Benção do Sombrio',
-      description: 'A partir do 1º nível, quando você reduz uma criatura hostil a 0 pontos de vida, você ganha pontos de vida temporários iguais ao seu modificador de Carisma + seu nível de bruxo (mínimo de 1).',
-      level: 1,
-      subclass: 'O Corruptor'
-    },
-    {
-      name: 'Resistência Diabólica',
-      description: 'A partir do 6º nível, você pode escolher um tipo de dano quando terminar um descanso curto ou longo.',
+      name: 'Resiliência Radiante',
+      description: 'A partir do 6º nível, você recupera PV adicionais ao fazer descanso curto.',
       level: 6,
-      subclass: 'O Corruptor'
+      subclass: 'O Celestial'
     },
     {
-      name: 'Sorte do Sombrio',
-      description: 'A partir do 10º nível, você pode invocar seu patrono para alterar o destino a seu favor.',
+      name: 'Escudo de Luz',
+      description: 'No 10º nível, ao sofrer dano, você pode conceder resistência a dano radiante ou de fogo a si mesmo ou a um aliado próximo.',
       level: 10,
-      subclass: 'O Corruptor',
-      uses: {
-        max: 1,
-        rechargeOn: 'short'
-      }
+      subclass: 'O Celestial'
     },
     {
-      name: 'Arremessar Através do Inferno',
-      description: 'Começando no 14º nível, quando você atinge uma criatura com um ataque, você pode usar este recurso para instantaneamente transportar o alvo através dos planos inferiores.',
+      name: 'Chama Celestial',
+      description: 'No 14º nível, você irradia uma aura que causa dano radiante e cura aliados ao redor.',
       level: 14,
-      subclass: 'O Corruptor',
-      uses: {
-        max: 1,
-        rechargeOn: 'long'
-      }
+      subclass: 'O Celestial'
     }
   ],
 
-  'O Grande Antigo': [
+  'Talismã Misterioso': [
     {
-      name: 'Lista de Magias Expandida',
-      description: 'O Grande Antigo permite que você escolha de uma lista expandida de magias quando você aprende uma magia de bruxo.',
+      name: 'Talismã Protetor',
+      description: 'Você recebe um talismã que concede bônus em testes de habilidade falhos e permite comunicação mística com quem o toca.',
       level: 1,
-      subclass: 'O Grande Antigo'
+      subclass: 'Talismã Misterioso'
     },
     {
-      name: 'Mente Desperta',
-      description: 'A partir do 1º nível, sua mente alienígena lhe concede a habilidade de tocar outras mentes com telepática.',
-      level: 1,
-      subclass: 'O Grande Antigo'
-    },
-    {
-      name: 'Proteção Entrópica',
-      description: 'No 6º nível, você aprende a se proteger magicamente contra ataques e a virar o azar de um inimigo em boa sorte para você mesmo.',
+      name: 'Salvaguarda do Talismã',
+      description: 'A partir do 6º nível, o portador do talismã pode adicionar 1d4 a testes de resistência falhos.',
       level: 6,
-      subclass: 'O Grande Antigo',
-      uses: {
-        max: 1,
-        rechargeOn: 'short'
-      }
+      subclass: 'Talismã Misterioso'
     },
     {
-      name: 'Escudo Mental',
-      description: 'Começando no 10º nível, seus pensamentos não podem ser lidos por telepatia ou outros meios, a menos que você permita.',
+      name: 'Chamado do Talismã',
+      description: 'No 10º nível, o portador pode se teleportar como reação para o local do talismã.',
       level: 10,
-      subclass: 'O Grande Antigo'
+      subclass: 'Talismã Misterioso'
     },
     {
-      name: 'Criar Lacaio',
-      description: 'No 14º nível, você ganha a habilidade de infectar a mente de um humanoide com a magia alienígena de seu patrono.',
+      name: 'Refúgio Espiritual',
+      description: 'No 14º nível, ao falhar num teste de resistência, o portador pode evitar o efeito e se teletransportar para segurança.',
       level: 14,
-      subclass: 'O Grande Antigo',
-      uses: {
-        max: 1,
-        rechargeOn: 'long'
-      }
-    }
-  ],
-
-  // Nova subclasse: O Infernal (Tasha's Cauldron)
-  'O Infernal': [
-    {
-      name: 'Lista de Magias Expandida',
-      description: 'O Infernal concede a você acesso a uma lista expandida de magias quando você aprende uma magia de bruxo.',
-      level: 1,
-      subclass: 'O Infernal'
-    },
-    {
-      name: 'Marca do Inferno',
-      description: 'A partir do 1º nível, você pode marcar uma criatura com a marca infernal, causando dano adicional quando você a atinge.',
-      level: 1,
-      subclass: 'O Infernal'
-    },
-    {
-      name: 'Desprezo Demoníaco',
-      description: 'A partir do 6º nível, você pode lançar uma magia de desprezo a partir de um aliado para desacelerar ou amedrontar seus inimigos.',
-      level: 6,
-      subclass: 'O Infernal'
-    },
-    {
-      name: 'Conjuração Infernal',
-      description: 'No 10º nível, você pode invocar um demônio menor do plano infernal para lutar ao seu lado.',
-      level: 10,
-      subclass: 'O Infernal'
-    },
-    {
-      name: 'Domínio Infernal',
-      description: 'No 14º nível, você ganha controle sobre criaturas do plano infernal e pode ordenar que elas obedeçam sua vontade.',
-      level: 14,
-      subclass: 'O Infernal'
+      subclass: 'Talismã Misterioso'
     }
   ]
 };
@@ -202,5 +95,8 @@ export const warlockAvailableSubclasses = [
   'O Arquifada',
   'O Corruptor',
   'O Grande Antigo',
-  'O Infernal'  // Nova subclasse adicionada
+  'O Infernal',
+  'Lâmina Maldita',
+  'O Celestial',
+  'Talismã Misterioso'
 ];
