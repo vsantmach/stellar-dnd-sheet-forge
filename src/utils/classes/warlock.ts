@@ -1,3 +1,106 @@
+import { ClassFeature, SubclassFeature } from '../types';
+
+export const warlockFeatures: ClassFeature[] = [
+  {
+    id: 'warlock-otherworldly-patron',
+    name: 'Patrono Transcendental',
+    description: 'Você fez um pacto com um ser transcendental de poder desconhecido.',
+    level: 1
+  },
+  {
+    id: 'warlock-pact-magic',
+    name: 'Magia Pactuada',
+    description: 'Você pode conjurar magias usando Carisma como habilidade de conjuração.',
+    level: 1
+  },
+  {
+    id: 'warlock-eldritch-invocations',
+    name: 'Invocações Transcendentais',
+    description: 'Você aprende invocações que concedem habilidades mágicas.',
+    level: 2
+  },
+  {
+    id: 'warlock-pact-boon',
+    name: 'Dádiva do Pacto',
+    description: 'Seu patrono lhe concede uma dádiva especial.',
+    level: 3
+  },
+  {
+    id: 'warlock-asi-4',
+    name: 'Melhoria de Atributo',
+    description: 'Você pode aumentar seus atributos ou escolher um talento.',
+    level: 4
+  },
+  {
+    id: 'warlock-mystic-arcanum-6',
+    name: 'Resistência Mística',
+    description: 'Você pode adicionar seu bônus de proficiência a um teste de resistência que falhar.',
+    level: 6,
+    uses: { max: 1, current: 1, rechargeOn: 'long' }
+  },
+  {
+    id: 'warlock-asi-8',
+    name: 'Melhoria de Atributo',
+    description: 'Você pode aumentar seus atributos ou escolher um talento.',
+    level: 8
+  },
+  {
+    id: 'warlock-otherworldly-patron-10',
+    name: 'Proteção Transcendental',
+    description: 'Seu patrono protege sua mente de efeitos de charme.',
+    level: 10
+  },
+  {
+    id: 'warlock-mystic-arcanum-6th',
+    name: 'Arcanum Místico (6º nível)',
+    description: 'Seu patrono lhe concede uma magia de 6º nível.',
+    level: 11
+  },
+  {
+    id: 'warlock-asi-12',
+    name: 'Melhoria de Atributo',
+    description: 'Você pode aumentar seus atributos ou escolher um talento.',
+    level: 12
+  },
+  {
+    id: 'warlock-mystic-arcanum-7th',
+    name: 'Arcanum Místico (7º nível)',
+    description: 'Seu patrono lhe concede uma magia de 7º nível.',
+    level: 13
+  },
+  {
+    id: 'warlock-otherworldly-patron-14',
+    name: 'Resistência Mística Aprimorada',
+    description: 'Você recupera o uso de Resistência Mística em descanso curto.',
+    level: 14
+  },
+  {
+    id: 'warlock-mystic-arcanum-8th',
+    name: 'Arcanum Místico (8º nível)',
+    description: 'Seu patrono lhe concede uma magia de 8º nível.',
+    level: 15
+  },
+  {
+    id: 'warlock-asi-16',
+    name: 'Melhoria de Atributo',
+    description: 'Você pode aumentar seus atributos ou escolher um talento.',
+    level: 16
+  },
+  {
+    id: 'warlock-mystic-arcanum-9th',
+    name: 'Arcanum Místico (9º nível)',
+    description: 'Seu patrono lhe concede uma magia de 9º nível.',
+    level: 17
+  },
+  {
+    id: 'warlock-eldritch-master',
+    name: 'Mestre Transcendental',
+    description: 'Você pode recuperar todos os seus espaços de magia de bruxo em descanso curto.',
+    level: 20,
+    uses: { max: 1, current: 1, rechargeOn: 'long' }
+  }
+];
+
 export const warlockSubclasses: Record<string, SubclassFeature[]> = {
   // ... outras subclasses já existentes ...
 
