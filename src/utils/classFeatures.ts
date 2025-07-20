@@ -88,3 +88,4 @@ export const getAllClasses = (): string[] => {
 };
 
 export { baseClassFeatures, allSubclassFeatures, allAvailableSubclasses };
+
