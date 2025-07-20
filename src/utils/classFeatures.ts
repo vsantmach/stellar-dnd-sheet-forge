@@ -15,8 +15,30 @@ export const getClassFeatures = (className: string, level: number, subclass?: st
     return classData.features.filter(feature => feature.level <= level);
   }
   
-  // Return default class features (empty for now)
-  return baseClassFeatures[className] || [];
+  // Get base class features
+  const baseFeatures = baseClassFeatures[className] || [];
+  const classFeaturesList = baseFeatures.filter(feature => feature.level <= level);
+  
+  // Add subclass features if a subclass is specified
+  if (subclass && allSubclassFeatures[subclass]) {
+    const subclassFeatures = allSubclassFeatures[subclass]
+      .filter(feature => feature.level <= level)
+      .map((feature): ClassFeature => ({
+        id: `${feature.subclass}-${feature.name}-${feature.level}`,
+        name: feature.name,
+        description: feature.description,
+        level: feature.level,
+        subclass: feature.subclass,
+        uses: feature.uses ? {
+          max: feature.uses.max,
+          current: feature.uses.max,
+          rechargeOn: feature.uses.rechargeOn
+        } : undefined
+      }));
+    classFeaturesList.push(...subclassFeatures);
+  }
+  
+  return classFeaturesList;
 };
 
 // Função para obter subclasses disponíveis
