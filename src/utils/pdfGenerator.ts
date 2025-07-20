@@ -12,21 +12,27 @@ export const generateCharacterPDF = (character: Character) => {
   const pdf = new jsPDF();
   const pageWidth = pdf.internal.pageSize.width;
   const pageHeight = pdf.internal.pageSize.height;
-  
-  // Helper function to draw a bordered box with label
-  const drawField = (x: number, y: number, width: number, height: number, label: string, value?: string) => {
-    // Draw border
-    pdf.setDrawColor(0);
-    pdf.setLineWidth(1);
-    pdf.rect(x, y, width, height);
-    
-    // Draw label
+
+  // Header cinza para seções
+  const drawSectionHeader = (x: number, y: number, width: number, label: string) => {
+    pdf.setFillColor(50);
+    pdf.rect(x, y, width, 8, 'F');
     pdf.setFontSize(8);
+    pdf.setTextColor(255);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text(label, x + 2, y + 6);
+    pdf.setTextColor(0);
+  };
+
+  // Campo básico com borda e rótulo
+  const drawField = (x: number, y: number, width: number, height: number, label: string, value?: string) => {
+    pdf.setDrawColor(0);
+    pdf.setLineWidth(0.5);
+    pdf.rect(x, y, width, height);
+    pdf.setFontSize(7);
     pdf.setTextColor(100);
     pdf.setFont('helvetica', 'normal');
     pdf.text(label, x + 2, y + height - 2);
-    
-    // Draw value if provided
     if (value) {
       pdf.setFontSize(10);
       pdf.setTextColor(0);
@@ -35,53 +41,37 @@ export const generateCharacterPDF = (character: Character) => {
     }
   };
 
-  // Helper function to draw ability score box (official layout)
+  // Atributos (como na ficha oficial)
   const drawAbilityScore = (x: number, y: number, ability: string, score: number = 10) => {
     const modifier = Math.floor((score - 10) / 2);
     const modText = modifier >= 0 ? `+${modifier}` : `${modifier}`;
-    
-    // Main box
     pdf.setDrawColor(0);
     pdf.setLineWidth(1);
     pdf.rect(x, y, 35, 60);
-    
-    // Ability name
     pdf.setFontSize(10);
-    pdf.setTextColor(0);
     pdf.setFont('helvetica', 'bold');
     pdf.text(ability, x + 17.5, y + 12, { align: 'center' });
-    
-    // Score circle
     pdf.circle(x + 17.5, y + 30, 12);
     pdf.setFontSize(16);
     pdf.text(score.toString(), x + 17.5, y + 34, { align: 'center' });
-    
-    // Modifier box
     pdf.rect(x + 7, y + 45, 21, 12);
     pdf.setFontSize(12);
     pdf.text(modText, x + 17.5, y + 54, { align: 'center' });
   };
 
-  // Helper function to draw skill with proficiency
+  // Habilidades (perícias e salvaguardas)
   const drawSkill = (x: number, y: number, skill: string, bonus: string = '+0', proficient: boolean = false) => {
-    // Proficiency circle
     pdf.circle(x + 5, y + 5, 3);
-    if (proficient) {
-      pdf.circle(x + 5, y + 5, 2);
-    }
-    
-    // Bonus box
+    if (proficient) pdf.circle(x + 5, y + 5, 2);
     pdf.rect(x + 12, y + 1, 18, 8);
     pdf.setFontSize(8);
     pdf.setFont('helvetica', 'normal');
     pdf.setTextColor(0);
     pdf.text(bonus, x + 21, y + 6, { align: 'center' });
-    
-    // Skill name
     pdf.text(skill, x + 35, y + 6);
   };
 
-  // Title
+  // Título
   pdf.setFontSize(14);
   pdf.setFont('helvetica', 'bold');
   pdf.setTextColor(0);
@@ -89,66 +79,43 @@ export const generateCharacterPDF = (character: Character) => {
   pdf.setFontSize(20);
   pdf.text('CHARACTER SHEET', pageWidth / 2, 18, { align: 'center' });
 
-  // Top section - Character basic info
+  // INFO PRINCIPAL
   let yPos = 25;
-  
-  // First row
   drawField(10, yPos, 85, 12, 'CHARACTER NAME', character.name);
   drawField(100, yPos, 45, 12, 'CLASS & LEVEL', `${character.class} ${character.level}`);
   drawField(150, yPos, 45, 12, 'BACKGROUND');
-  
   yPos += 15;
-  
-  // Second row  
   drawField(10, yPos, 45, 12, 'RACE', character.race);
   drawField(60, yPos, 45, 12, 'ALIGNMENT');
   drawField(110, yPos, 40, 12, 'PLAYER NAME');
   drawField(155, yPos, 40, 12, 'EXPERIENCE POINTS');
-  
   yPos += 20;
 
-  // Main layout - 3 columns like official sheet
-  const leftColumnX = 10;
-  const centerColumnX = 65;
-  const rightColumnX = 145;
-  
-  // LEFT COLUMN - Ability Scores
+  // COLUNAS
+  const leftX = 10;
+  const centerX = 65;
+  const rightX = 145;
+  const abilities = ['STRENGTH', 'DEXTERITY', 'CONSTITUTION', 'INTELLIGENCE', 'WISDOM', 'CHARISMA'];
+
+  // COLUNA ESQUERDA - Atributos
   let leftY = yPos;
-  const abilities = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'];
-  const abilityNames = ['STRENGTH', 'DEXTERITY', 'CONSTITUTION', 'INTELLIGENCE', 'WISDOM', 'CHARISMA'];
-  
-  abilities.forEach((ability, index) => {
-    drawAbilityScore(leftColumnX, leftY + (index * 65), abilityNames[index], 10);
+  abilities.forEach((ability, i) => {
+    drawAbilityScore(leftX, leftY + (i * 65), ability, 10);
   });
 
-  // Inspiration
-  drawField(leftColumnX, leftY + 400, 50, 15, 'INSPIRATION');
-  
-  // Proficiency Bonus
-  drawField(leftColumnX, leftY + 420, 50, 15, 'PROFICIENCY BONUS', '+2');
+  drawField(leftX, leftY + 400, 50, 15, 'INSPIRATION');
+  drawField(leftX, leftY + 420, 50, 15, 'PROFICIENCY BONUS', '+2');
 
-  // CENTER COLUMN - Skills, Saves, etc.
+  // COLUNA CENTRAL - Salvaguardas e Perícias
   let centerY = yPos;
-  
-  // Saving Throws
-  pdf.setFontSize(10);
-  pdf.setFont('helvetica', 'bold');
-  pdf.text('SAVING THROWS', centerColumnX, centerY);
+  drawSectionHeader(centerX, centerY, 90, 'SAVING THROWS');
   centerY += 10;
-  
   const saves = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
-  saves.forEach((save, index) => {
-    drawSkill(centerColumnX, centerY + (index * 12), save);
-  });
-  
+  saves.forEach((save, i) => drawSkill(centerX, centerY + (i * 12), save));
+
   centerY += 85;
-  
-  // Skills
-  pdf.setFontSize(10);
-  pdf.setFont('helvetica', 'bold');
-  pdf.text('SKILLS', centerColumnX, centerY);
+  drawSectionHeader(centerX, centerY, 90, 'SKILLS');
   centerY += 10;
-  
   const skills = [
     'Acrobatics (Dex)', 'Animal Handling (Wis)', 'Arcana (Int)', 'Athletics (Str)',
     'Deception (Cha)', 'History (Int)', 'Insight (Wis)', 'Intimidation (Cha)',
@@ -156,115 +123,75 @@ export const generateCharacterPDF = (character: Character) => {
     'Performance (Cha)', 'Persuasion (Cha)', 'Religion (Int)', 'Sleight of Hand (Dex)',
     'Stealth (Dex)', 'Survival (Wis)'
   ];
-  
-  skills.forEach((skill, index) => {
-    drawSkill(centerColumnX, centerY + (index * 10), skill);
-  });
+  skills.forEach((skill, i) => drawSkill(centerX, centerY + (i * 10), skill));
 
-  // RIGHT COLUMN - Combat Stats
+  // COLUNA DIREITA - Combate
   let rightY = yPos;
-  
-  // Armor Class
-  pdf.rect(rightColumnX, rightY, 35, 35);
-  pdf.setFontSize(8);
-  pdf.setFont('helvetica', 'bold');
-  pdf.text('ARMOR CLASS', rightColumnX + 17.5, rightY + 8, { align: 'center' });
-  pdf.setFontSize(20);
-  pdf.text('10', rightColumnX + 17.5, rightY + 25, { align: 'center' });
-  
-  // Initiative
-  pdf.rect(rightColumnX + 40, rightY, 35, 35);
-  pdf.setFontSize(8);
-  pdf.text('INITIATIVE', rightColumnX + 57.5, rightY + 8, { align: 'center' });
-  pdf.setFontSize(20);
-  pdf.text('+0', rightColumnX + 57.5, rightY + 25, { align: 'center' });
-  
+  const statBox = (label: string, value: string, x: number, y: number) => {
+    pdf.rect(x, y, 35, 35);
+    pdf.setFontSize(8);
+    pdf.text(label, x + 17.5, y + 8, { align: 'center' });
+    pdf.setFontSize(20);
+    pdf.text(value, x + 17.5, y + 25, { align: 'center' });
+  };
+  statBox('ARMOR CLASS', '10', rightX, rightY);
+  statBox('INITIATIVE', '+0', rightX + 40, rightY);
   rightY += 40;
-  
-  // Speed
-  pdf.rect(rightColumnX, rightY, 35, 35);
-  pdf.setFontSize(8);
-  pdf.text('SPEED', rightColumnX + 17.5, rightY + 8, { align: 'center' });
-  pdf.setFontSize(20);
-  pdf.text('30', rightColumnX + 17.5, rightY + 25, { align: 'center' });
-  
-  rightY += 50;
-  
-  // Hit Points
-  drawField(rightColumnX, rightY, 75, 20, 'HIT POINT MAXIMUM');
-  rightY += 25;
-  drawField(rightColumnX, rightY, 75, 20, 'CURRENT HIT POINTS');
-  rightY += 25;
-  drawField(rightColumnX, rightY, 75, 20, 'TEMPORARY HIT POINTS');
-  
-  rightY += 35;
-  
-  // Hit Dice
-  drawField(rightColumnX, rightY, 35, 20, 'HIT DICE');
-  pdf.setFontSize(10);
-  pdf.text('1d8', rightColumnX + 17.5, rightY + 12, { align: 'center' });
-  
-  // Death Saves
-  pdf.rect(rightColumnX + 40, rightY, 35, 30);
-  pdf.setFontSize(8);
-  pdf.setFont('helvetica', 'bold');
-  pdf.text('DEATH SAVES', rightColumnX + 57.5, rightY + 8, { align: 'center' });
-  pdf.setFontSize(6);
-  pdf.text('SUCCESSES', rightColumnX + 42, rightY + 15);
-  pdf.text('○ ○ ○', rightColumnX + 67, rightY + 15);
-  pdf.text('FAILURES', rightColumnX + 42, rightY + 25);
-  pdf.text('○ ○ ○', rightColumnX + 67, rightY + 25);
+  statBox('SPEED', '30', rightX, rightY);
 
-  // Bottom section - Attacks & Equipment
-  rightY += 45;
-  
-  // Attacks & Spellcasting
-  pdf.setFontSize(12);
-  pdf.setFont('helvetica', 'bold');
-  pdf.text('ATTACKS & SPELLCASTING', leftColumnX, rightY);
-  
-  rightY += 10;
-  
-  // Attack table headers
-  pdf.rect(leftColumnX, rightY, 60, 10);
-  pdf.rect(leftColumnX + 60, rightY, 25, 10);
-  pdf.rect(leftColumnX + 85, rightY, 40, 10);
+  rightY += 50;
+  drawField(rightX, rightY, 75, 20, 'HIT POINT MAXIMUM');
+  rightY += 25;
+  drawField(rightX, rightY, 75, 20, 'CURRENT HIT POINTS');
+  rightY += 25;
+  drawField(rightX, rightY, 75, 20, 'TEMPORARY HIT POINTS');
+  rightY += 35;
+
+  drawField(rightX, rightY, 35, 20, 'HIT DICE');
+  pdf.setFontSize(10);
+  pdf.text('1d8', rightX + 17.5, rightY + 12, { align: 'center' });
+
+  pdf.rect(rightX + 40, rightY, 35, 30);
   pdf.setFontSize(8);
-  pdf.text('NAME', leftColumnX + 2, rightY + 7);
-  pdf.text('ATK BONUS', leftColumnX + 62, rightY + 7);
-  pdf.text('DAMAGE/TYPE', leftColumnX + 87, rightY + 7);
-  
-  // Attack rows
+  pdf.text('DEATH SAVES', rightX + 57.5, rightY + 8, { align: 'center' });
+  pdf.setFontSize(6);
+  pdf.text('SUCCESSES', rightX + 42, rightY + 15);
+  pdf.text('○ ○ ○', rightX + 67, rightY + 15);
+  pdf.text('FAILURES', rightX + 42, rightY + 25);
+  pdf.text('○ ○ ○', rightX + 67, rightY + 25);
+
+  // ATAQUES
+  rightY += 45;
+  drawSectionHeader(leftX, rightY, 125, 'ATTACKS & SPELLCASTING');
+  rightY += 10;
+  const attackHeaders = ['NAME', 'ATK BONUS', 'DAMAGE/TYPE'];
+  const attackX = [leftX, leftX + 60, leftX + 85];
+  const widths = [60, 25, 40];
+  attackHeaders.forEach((text, i) => {
+    pdf.rect(attackX[i], rightY, widths[i], 10);
+    pdf.setFontSize(8);
+    pdf.text(text, attackX[i] + 2, rightY + 7);
+  });
   for (let i = 0; i < 3; i++) {
     rightY += 10;
-    pdf.rect(leftColumnX, rightY, 60, 15);
-    pdf.rect(leftColumnX + 60, rightY, 25, 15);
-    pdf.rect(leftColumnX + 85, rightY, 40, 15);
+    pdf.rect(leftX, rightY, 60, 15);
+    pdf.rect(leftX + 60, rightY, 25, 15);
+    pdf.rect(leftX + 85, rightY, 40, 15);
   }
 
-  // Second Page
+  // PÁGINA 2 - Equipamentos e Traços
   pdf.addPage();
-  
   yPos = 20;
-  
-  // Equipment
-  pdf.setFontSize(14);
-  pdf.setFont('helvetica', 'bold');
-  pdf.text('EQUIPMENT', leftColumnX, yPos);
-  
-  yPos += 10;
-  drawField(leftColumnX, yPos, 90, 100, 'OTHER PROFICIENCIES & LANGUAGES');
-  
-  // Features & Traits
-  pdf.text('FEATURES & TRAITS', rightColumnX, yPos);
-  drawField(rightColumnX, yPos, 90, 100, '');
-  
-  yPos += 110;
-  
-  // Additional sections
-  drawField(leftColumnX, yPos, 90, 60, 'EQUIPMENT');
-  drawField(rightColumnX, yPos, 90, 60, 'CHARACTER BACKSTORY');
+  drawSectionHeader(leftX, yPos, 90, 'OTHER PROFICIENCIES & LANGUAGES');
+  drawField(leftX, yPos + 8, 90, 100, '');
+  drawSectionHeader(rightX, yPos, 90, 'FEATURES & TRAITS');
+  drawField(rightX, yPos + 8, 90, 100, '');
+  yPos += 118;
+  drawSectionHeader(leftX, yPos, 90, 'EQUIPMENT');
+  drawField(leftX, yPos + 8, 90, 60, '');
+  drawSectionHeader(rightX, yPos, 90, 'CHARACTER BACKSTORY');
+  drawField(rightX, yPos + 8, 90, 60, '');
 
-  // Save PDF
+  // Salvar PDF
   pdf.save(`ficha-${character.name.toLowerCase().replace(/\s+/g, '-')}.pdf`);
 };
