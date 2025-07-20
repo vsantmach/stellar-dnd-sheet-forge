@@ -8,6 +8,7 @@ import { druidFeatures, druidSubclasses, druidAvailableSubclasses } from './drui
 import { fighterFeatures, fighterSubclasses, fighterAvailableSubclasses } from './fighter';
 import { monkFeatures, monkSubclasses, monkAvailableSubclasses } from './monk';
 import { paladinFeatures, paladinSubclasses, paladinAvailableSubclasses } from './paladin';
+import { psionicoFeatures, psionicoSubclasses, psionicoAvailableSubclasses } from './psionico';
 import { rangerFeatures, rangerSubclasses, rangerAvailableSubclasses } from './ranger';
 import { rogueFeatures, rogueSubclasses, rogueAvailableSubclasses } from './rogue';
 import { sorcererFeatures, sorcererSubclasses, sorcererAvailableSubclasses } from './sorcerer';
@@ -24,6 +25,7 @@ const baseClassFeatures: Record<string, ClassFeature[]> = {
   Fighter: fighterFeatures,
   Monk: monkFeatures,
   Paladin: paladinFeatures,
+  Psionico: psionicoFeatures,
   Ranger: rangerFeatures,
   Rogue: rogueFeatures,
   Sorcerer: sorcererFeatures,
@@ -41,6 +43,7 @@ const allSubclassFeatures: Record<string, SubclassFeature[]> = {
   ...fighterSubclasses,
   ...monkSubclasses,
   ...paladinSubclasses,
+  ...psionicoSubclasses,
   ...rangerSubclasses,
   ...rogueSubclasses,
   ...sorcererSubclasses,
@@ -58,6 +61,7 @@ const allAvailableSubclasses: Record<string, string[]> = {
   Fighter: fighterAvailableSubclasses,
   Monk: monkAvailableSubclasses,
   Paladin: paladinAvailableSubclasses,
+  Psionico: psionicoAvailableSubclasses,
   Ranger: rangerAvailableSubclasses,
   Rogue: rogueAvailableSubclasses,
   Sorcerer: sorcererAvailableSubclasses,
