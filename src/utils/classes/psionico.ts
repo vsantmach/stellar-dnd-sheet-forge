@@ -66,6 +66,7 @@ export const psionicoFeatures: ClassFeature[] = [
   }
 ];
 
+
 export const psionicoSubclasses: Record<string, SubclassFeature[]> = {
   'Ordem do Grande Espírito': [
     {
