@@ -1,4 +1,3 @@
-
 import { ClassFeature, SubclassFeature } from '../types';
 import { artificerFeatures, artificerSubclasses, artificerAvailableSubclasses } from './artificer';
 import { barbarianFeatures, barbarianSubclasses, barbarianAvailableSubclasses } from './barbarian';
