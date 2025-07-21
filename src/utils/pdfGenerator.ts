@@ -15,7 +15,7 @@ export const generateCharacterPDF = (character: Character) => {
 
   // Header cinza para seções
   const drawSectionHeader = (x: number, y: number, width: number, label: string) => {
-    pdf.setFillColor(50);
+    pdf.setFillColor(50, 50, 50);
     pdf.rect(x, y, width, 8, 'F');
     pdf.setFontSize(8);
     pdf.setTextColor(255);

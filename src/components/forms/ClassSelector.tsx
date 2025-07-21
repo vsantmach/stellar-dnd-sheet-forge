@@ -33,7 +33,7 @@ const ClassSelector: React.FC<ClassSelectorProps> = ({
 
   const defaultClasses = [
     'Bárbaro', 'Bardo', 'Bruxo', 'Clérigo', 'Druida', 'Feiticeiro',
-    'Guerreiro', 'Ladino', 'Mago', 'Monge', 'Paladino', 'Patrulheiro'
+    'Guerreiro', 'Ladino', 'Mago', 'Monge', 'Paladino', 'Patrulheiro', 'Psionico'
   ];
 
   // Load custom classes from localStorage
