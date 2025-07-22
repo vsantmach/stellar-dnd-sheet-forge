@@ -4,14 +4,7 @@ import { getAvailableSubclasses, isCustomClass } from '../../utils/classFeatures
 import ClassAbilitiesModal from './ClassAbilitiesModal';
 import RaceSelector from '../forms/RaceSelector';
 import ClassSelector from '../forms/ClassSelector';
-
-interface Character {
-  id: string;
-  name: string;
-  class: string;
-  level: number;
-  race: string;
-}
+import { Character } from '../../utils/types';
 
 interface BasicInfoProps {
   character: Character;

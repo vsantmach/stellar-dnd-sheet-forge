@@ -9,14 +9,7 @@ import BackgroundSheet from './sheets/BackgroundSheet';
 import FeaturesSheet from './sheets/FeaturesSheet';
 import ClassFeaturesSheet from './sheets/ClassFeaturesSheet';
 import { useTheme } from '../hooks/useTheme';
-
-interface Character {
-  id: string;
-  name: string;
-  class: string;
-  level: number;
-  race: string;
-}
+import { Character } from '../utils/types';
 
 interface CharacterSheetProps {
   character: Character;
@@ -37,7 +30,7 @@ const CharacterSheet: React.FC<CharacterSheetProps> = ({ character }) => {
   ];
 
   const getTabButtonClass = (isActive: boolean) => {
-    const baseClass = "flex items-center gap-2 px-4 py-3 min-w-max whitespace-nowrap transition-colors";
+    const baseClass = "flex flex-col sm:flex-row items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 min-w-max whitespace-nowrap transition-colors touch-manipulation";
     
     if (isActive) {
       const colorMap = {
@@ -76,25 +69,28 @@ const CharacterSheet: React.FC<CharacterSheetProps> = ({ character }) => {
 
   return (
     <div className={`flex flex-col h-screen ${getBackgroundColor()}`}>
-      {/* Navigation Tabs */}
-      <div className={`flex overflow-x-auto ${mode === 'dark' ? 'bg-gray-900 border-gray-800' : 'bg-gray-50 border-gray-200'} border-b`}>
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={getTabButtonClass(activeTab === tab.id)}
-            >
-              <Icon size={18} />
-              <span className="text-sm font-medium">{tab.label}</span>
-            </button>
-          );
-        })}
+      {/* Navigation Tabs - Mobile optimized */}
+      <div className={`flex overflow-x-auto scrollbar-hide ${mode === 'dark' ? 'bg-gray-900 border-gray-800' : 'bg-gray-50 border-gray-200'} border-b`}>
+        <div className="flex min-w-max">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={getTabButtonClass(activeTab === tab.id)}
+              >
+                <Icon size={18} />
+                <span className="text-xs sm:text-sm font-medium hidden sm:inline">{tab.label}</span>
+                <span className="text-xs font-medium sm:hidden">{tab.label.slice(0, 4)}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Sheet Content */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto p-2 sm:p-4">
         {renderActiveSheet()}
       </div>
     </div>

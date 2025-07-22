@@ -1,50 +1,5 @@
 import jsPDF from 'jspdf';
-
-
-interface Character {
-  id: string;
-  name: string;
-  class: string;
-  level: number;
-  race: string;
-  background?: string;
-  alignment?: string;
-  playerName?: string;
-  experiencePoints?: number;
-  abilityScores: {
-    strength: number;
-    dexterity: number;
-    constitution: number;
-    intelligence: number;
-    wisdom: number;
-    charisma: number;
-  };
-  proficiencyBonus: number;
-  savingThrows: {
-    [key: string]: { bonus: string; proficient: boolean };
-  };
-  skills: {
-    [key: string]: { bonus: string; proficient: boolean };
-  };
-  armorClass: number;
-  initiative: number;
-  speed: number;
-  hitPoints: {
-    max: number;
-    current: number;
-    temp?: number;
-    hitDice: string;
-  };
-  attacks?: {
-    name: string;
-    bonus: string;
-    damage: string;
-  }[];
-  proficiencies?: string;
-  features?: string;
-  equipment?: string;
-  backstory?: string;
-}
+import { Character } from './types';
 
 export const generateCharacterPDF = (character: Character) => {
   const pdf = new jsPDF();
@@ -115,12 +70,12 @@ export const generateCharacterPDF = (character: Character) => {
   let yPos = 25;
   drawField(10, yPos, 85, 12, 'CHARACTER NAME', character.name);
   drawField(100, yPos, 45, 12, 'CLASS & LEVEL', `${character.class} ${character.level}`);
-  drawField(150, yPos, 45, 12, 'BACKGROUND', character.background);
+  drawField(150, yPos, 45, 12, 'BACKGROUND', character.background || '');
   yPos += 15;
   drawField(10, yPos, 45, 12, 'RACE', character.race);
-  drawField(60, yPos, 45, 12, 'ALIGNMENT', character.alignment);
-  drawField(110, yPos, 40, 12, 'PLAYER NAME', character.playerName);
-  drawField(155, yPos, 40, 12, 'EXPERIENCE POINTS', character.experiencePoints?.toString());
+  drawField(60, yPos, 45, 12, 'ALIGNMENT', character.alignment || '');
+  drawField(110, yPos, 40, 12, 'PLAYER NAME', '');
+  drawField(155, yPos, 40, 12, 'EXPERIENCE POINTS', character.experiencePoints?.toString() || '0');
   yPos += 20;
 
   const leftX = 10;
@@ -128,12 +83,12 @@ export const generateCharacterPDF = (character: Character) => {
   const rightX = 145;
   const abilities = ['STRENGTH', 'DEXTERITY', 'CONSTITUTION', 'INTELLIGENCE', 'WISDOM', 'CHARISMA'];
   const abilityMap = {
-    STRENGTH: character.abilityScores.strength,
-    DEXTERITY: character.abilityScores.dexterity,
-    CONSTITUTION: character.abilityScores.constitution,
-    INTELLIGENCE: character.abilityScores.intelligence,
-    WISDOM: character.abilityScores.wisdom,
-    CHARISMA: character.abilityScores.charisma,
+    STRENGTH: character.abilityScores?.strength || 10,
+    DEXTERITY: character.abilityScores?.dexterity || 10,
+    CONSTITUTION: character.abilityScores?.constitution || 10,
+    INTELLIGENCE: character.abilityScores?.intelligence || 10,
+    WISDOM: character.abilityScores?.wisdom || 10,
+    CHARISMA: character.abilityScores?.charisma || 10,
   };
 
   let leftY = yPos;
@@ -142,14 +97,14 @@ export const generateCharacterPDF = (character: Character) => {
   });
 
   drawField(leftX, leftY + 400, 50, 15, 'INSPIRATION');
-  drawField(leftX, leftY + 420, 50, 15, 'PROFICIENCY BONUS', `+${character.proficiencyBonus}`);
+  drawField(leftX, leftY + 420, 50, 15, 'PROFICIENCY BONUS', `+${character.proficiencyBonus || 2}`);
 
   let centerY = yPos;
   drawSectionHeader(centerX, centerY, 90, 'SAVING THROWS');
   centerY += 10;
   const saves = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
   saves.forEach((save, i) => {
-    const st = character.savingThrows[save.toLowerCase()];
+    const st = character.savingThrows?.[save.toLowerCase()];
     drawSkill(centerX, centerY + (i * 12), save, st?.bonus ?? '+0', st?.proficient ?? false);
   });
 
@@ -165,7 +120,7 @@ export const generateCharacterPDF = (character: Character) => {
   ];
   skills.forEach((skill, i) => {
     const key = skill.split(' ')[0].toLowerCase();
-    const sk = character.skills[key];
+    const sk = character.skills?.[key];
     drawSkill(centerX, centerY + (i * 10), skill, sk?.bonus ?? '+0', sk?.proficient ?? false);
   });
 
@@ -177,21 +132,21 @@ export const generateCharacterPDF = (character: Character) => {
     pdf.setFontSize(20);
     pdf.text(value, x + 17.5, y + 25, { align: 'center' });
   };
-  statBox('ARMOR CLASS', character.armorClass.toString(), rightX, rightY);
-  statBox('INITIATIVE', character.initiative >= 0 ? `+${character.initiative}` : `${character.initiative}`, rightX + 40, rightY);
+  statBox('ARMOR CLASS', (character.armorClass || 10).toString(), rightX, rightY);
+  statBox('INITIATIVE', '+0', rightX + 40, rightY);
   rightY += 40;
-  statBox('SPEED', character.speed.toString(), rightX, rightY);
+  statBox('SPEED', (character.speed || 30).toString(), rightX, rightY);
 
   rightY += 50;
-  drawField(rightX, rightY, 75, 20, 'HIT POINT MAXIMUM', character.hitPoints.max.toString());
+  drawField(rightX, rightY, 75, 20, 'HIT POINT MAXIMUM', (character.hitPoints?.maximum || 8).toString());
   rightY += 25;
-  drawField(rightX, rightY, 75, 20, 'CURRENT HIT POINTS', character.hitPoints.current.toString());
+  drawField(rightX, rightY, 75, 20, 'CURRENT HIT POINTS', (character.hitPoints?.current || 8).toString());
   rightY += 25;
-  drawField(rightX, rightY, 75, 20, 'TEMPORARY HIT POINTS', character.hitPoints.temp?.toString() ?? '');
+  drawField(rightX, rightY, 75, 20, 'TEMPORARY HIT POINTS', (character.hitPoints?.temporary || 0).toString());
   rightY += 35;
   drawField(rightX, rightY, 35, 20, 'HIT DICE');
   pdf.setFontSize(10);
-  pdf.text(character.hitPoints.hitDice, rightX + 17.5, rightY + 12, { align: 'center' });
+  pdf.text(character.hitDice || '1d8', rightX + 17.5, rightY + 12, { align: 'center' });
 
   pdf.rect(rightX + 40, rightY, 35, 30);
   pdf.setFontSize(8);
@@ -215,29 +170,22 @@ export const generateCharacterPDF = (character: Character) => {
   });
   for (let i = 0; i < 3; i++) {
     rightY += 10;
-    const atk = character.attacks?.[i];
     pdf.rect(leftX, rightY, 60, 15);
     pdf.rect(leftX + 60, rightY, 25, 15);
     pdf.rect(leftX + 85, rightY, 40, 15);
-    if (atk) {
-      pdf.setFontSize(8);
-      pdf.text(atk.name, leftX + 2, rightY + 10);
-      pdf.text(atk.bonus, leftX + 62, rightY + 10);
-      pdf.text(atk.damage, leftX + 87, rightY + 10);
-    }
   }
 
   pdf.addPage();
   yPos = 20;
   drawSectionHeader(leftX, yPos, 90, 'OTHER PROFICIENCIES & LANGUAGES');
-  drawField(leftX, yPos + 8, 90, 100, character.proficiencies ?? '');
+  drawField(leftX, yPos + 8, 90, 100, '');
   drawSectionHeader(rightX, yPos, 90, 'FEATURES & TRAITS');
-  drawField(rightX, yPos + 8, 90, 100, character.features ?? '');
+  drawField(rightX, yPos + 8, 90, 100, '');
   yPos += 118;
   drawSectionHeader(leftX, yPos, 90, 'EQUIPMENT');
-  drawField(leftX, yPos + 8, 90, 60, character.equipment ?? '');
+  drawField(leftX, yPos + 8, 90, 60, '');
   drawSectionHeader(rightX, yPos, 90, 'CHARACTER BACKSTORY');
-  drawField(rightX, yPos + 8, 90, 60, character.backstory ?? '');
+  drawField(rightX, yPos + 8, 90, 60, '');
 
   pdf.save(`ficha-${character.name.toLowerCase().replace(/\s+/g, '-')}.pdf`);
 };

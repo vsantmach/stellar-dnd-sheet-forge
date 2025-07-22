@@ -2,14 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Sword, CheckCircle, Plus, Minus } from 'lucide-react';
 import { getClassFeatures, getAvailableSubclasses } from '../../utils/classFeatures';
-
-interface Character {
-  id: string;
-  name: string;
-  class: string;
-  level: number;
-  race: string;
-}
+import { Character } from '../../utils/types';
 
 interface ClassFeaturesSheetProps {
   character: Character;

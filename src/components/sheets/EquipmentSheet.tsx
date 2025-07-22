@@ -5,14 +5,7 @@ import { predefinedEquipment, EquipmentItem } from '../../utils/equipment';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-
-interface Character {
-  id: string;
-  name: string;
-  class: string;
-  level: number;
-  race: string;
-}
+import { Character } from '../../utils/types';
 
 interface EquipmentSheetProps {
   character: Character;

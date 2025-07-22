@@ -47,3 +47,38 @@ export interface RaceData {
   features: RacialFeature[];
   subraces?: { [key: string]: RacialFeature[] };
 }
+
+export interface Character {
+  id: string;
+  name: string;
+  class: string;
+  level: number;
+  race: string;
+  subclass?: string;
+  background?: string;
+  alignment?: string;
+  experiencePoints?: number;
+  abilityScores?: {
+    strength: number;
+    dexterity: number;
+    constitution: number;
+    intelligence: number;
+    wisdom: number;
+    charisma: number;
+  };
+  proficiencyBonus?: number;
+  savingThrows?: {
+    [key: string]: { bonus: string; proficient: boolean };
+  };
+  skills?: {
+    [key: string]: { bonus: string; proficient: boolean };
+  };
+  hitPoints?: {
+    current: number;
+    maximum: number;
+    temporary: number;
+  };
+  armorClass?: number;
+  speed?: number;
+  hitDice?: string;
+}

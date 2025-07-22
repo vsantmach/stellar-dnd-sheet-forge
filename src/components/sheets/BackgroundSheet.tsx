@@ -1,14 +1,7 @@
 
 import React, { useState } from 'react';
 import { Star, Users, MapPin } from 'lucide-react';
-
-interface Character {
-  id: string;
-  name: string;
-  class: string;
-  level: number;
-  race: string;
-}
+import { Character } from '../../utils/types';
 
 interface BackgroundSheetProps {
   character: Character;

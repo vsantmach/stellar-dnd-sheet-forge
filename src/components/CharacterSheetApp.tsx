@@ -9,14 +9,7 @@ import { generateCharacterPDF } from '../utils/pdfGenerator';
 import { useTheme } from '../hooks/useTheme';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { toast } from './ui/use-toast';
-
-interface Character {
-  id: string;
-  name: string;
-  class: string;
-  level: number;
-  race: string;
-}
+import { Character } from '../utils/types';
 
 const CharacterSheetApp = () => {
   const [characters, setCharacters] = useLocalStorage<Character[]>('dnd-characters', []);

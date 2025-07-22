@@ -5,14 +5,7 @@ import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { Button } from './ui/button';
 import { getStorageUsage } from '../hooks/useLocalStorage';
 import { generateCharacterPDF } from '../utils/pdfGenerator';
-
-interface Character {
-  id: string;
-  name: string;
-  class: string;
-  level: number;
-  race: string;
-}
+import { Character } from '../utils/types';
 
 interface StorageAlertProps {
   characters: Character[];

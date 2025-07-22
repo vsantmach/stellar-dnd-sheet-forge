@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Settings, Star } from 'lucide-react';
 import { getRacialFeatures, getAvailableSubraces } from '../../utils/racialFeatures';
-
-interface Character {
-  id: string;
-  name: string;
-  class: string;
-  level: number;
-  race: string;
-}
+import { Character } from '../../utils/types';
 
 interface FeaturesSheetProps {
   character: Character;

@@ -1,14 +1,7 @@
 
 import React, { useState } from 'react';
 import { Dice6 } from 'lucide-react';
-
-interface Character {
-  id: string;
-  name: string;
-  class: string;
-  level: number;
-  race: string;
-}
+import { Character } from '../../utils/types';
 
 interface StatusSheetProps {
   character: Character;
