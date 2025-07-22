@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf';
 
+
 interface Character {
   id: string;
   name: string;
