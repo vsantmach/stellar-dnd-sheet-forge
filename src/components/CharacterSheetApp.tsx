@@ -112,29 +112,39 @@ const CharacterSheetApp = () => {
 
   return (
     <div className={`min-h-screen ${getBackgroundColor()}`}>
-      <div className="flex items-center justify-between p-4 border-b border-gray-800">
-        <button
-          onClick={() => setShowManager(true)}
-          className="flex items-center gap-2 dnd-button"
-        >
-          <Users size={20} />
-          Personagens
-        </button>
-        <h1 className={`text-xl font-bold ${getTextColor()}`}>{selectedCharacter.name}</h1>
-        <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-4 border-b border-gray-800 gap-2 sm:gap-4">
+        <div className="flex items-center justify-between w-full sm:w-auto">
+          <button
+            onClick={() => setShowManager(true)}
+            className="flex items-center gap-1 sm:gap-2 dnd-button text-sm sm:text-base py-2 px-3 touch-manipulation"
+          >
+            <Users size={18} />
+            <span className="hidden xs:inline">Personagens</span>
+            <span className="xs:hidden">Lista</span>
+          </button>
+          <h1 className={`text-base sm:text-xl font-bold ${getTextColor()} truncate max-w-[150px] sm:max-w-none mx-2 sm:hidden`}>
+            {selectedCharacter.name}
+          </h1>
+        </div>
+        
+        <h1 className={`text-xl font-bold ${getTextColor()} hidden sm:block truncate`}>
+          {selectedCharacter.name}
+        </h1>
+        
+        <div className="flex gap-1 sm:gap-2 w-full sm:w-auto justify-end">
           <button
             onClick={() => setShowSettings(true)}
-            className="flex items-center gap-2 dnd-button"
+            className="flex items-center gap-1 dnd-button text-sm py-2 px-2 sm:px-3 touch-manipulation"
           >
-            <Settings size={20} />
-            Configurações
+            <Settings size={16} />
+            <span className="hidden sm:inline">Config</span>
           </button>
           <button
             onClick={handleGeneratePDF}
-            className="flex items-center gap-2 dnd-button"
+            className="flex items-center gap-1 dnd-button text-sm py-2 px-2 sm:px-3 touch-manipulation"
           >
-            <FileText size={20} />
-            PDF
+            <FileText size={16} />
+            <span className="hidden sm:inline">PDF</span>
           </button>
         </div>
       </div>

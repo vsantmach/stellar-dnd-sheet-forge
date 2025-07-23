@@ -137,4 +137,30 @@
   textarea {
     font-size: 16px;
   }
+  
+  /* Improve mobile spacing */
+  .mobile-compact {
+    @apply px-2 py-1;
+  }
+  
+  /* Better touch targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Responsive text sizing */
+@media (max-width: 480px) {
+  .responsive-text-lg {
+    @apply text-base;
+  }
+  
+  .responsive-text-xl {
+    @apply text-lg;
+  }
+  
+  .responsive-text-2xl {
+    @apply text-xl;
+  }
 }
