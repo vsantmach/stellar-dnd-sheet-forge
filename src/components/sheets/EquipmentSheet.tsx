@@ -1,10 +1,13 @@
 
 import React, { useState } from 'react';
-import { Plus, Trash2, Search, Filter } from 'lucide-react';
+import { Plus, Trash2, Search, Filter, Package, X } from 'lucide-react';
 import { predefinedEquipment, EquipmentItem } from '../../utils/equipment';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
+import { Label } from '../ui/label';
 import { Character } from '../../utils/types';
 
 interface EquipmentSheetProps {
@@ -36,9 +39,20 @@ const EquipmentSheet: React.FC<EquipmentSheetProps> = ({ character }) => {
   ]);
 
   const [showEquipmentSelector, setShowEquipmentSelector] = useState(false);
+  const [showCreateForm, setShowCreateForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [rarityFilter, setRarityFilter] = useState<string>('all');
+
+  // Estado do formulário de criação
+  const [newEquipment, setNewEquipment] = useState({
+    name: '',
+    type: 'item' as Equipment['type'],
+    description: '',
+    category: '',
+    rarity: 'common',
+    quantity: 1
+  });
 
   const filteredEquipment = predefinedEquipment.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -72,6 +86,37 @@ const EquipmentSheet: React.FC<EquipmentSheetProps> = ({ character }) => {
       setEquipment([...equipment, newEquipment]);
     }
     setShowEquipmentSelector(false);
+  };
+
+  const createCustomEquipment = () => {
+    if (!newEquipment.name.trim() || !newEquipment.description.trim()) {
+      return;
+    }
+
+    const customEquipment: Equipment = {
+      id: `custom-${Date.now()}`,
+      name: newEquipment.name,
+      type: newEquipment.type,
+      description: newEquipment.description,
+      quantity: newEquipment.quantity,
+      category: newEquipment.category || 'Item Personalizado',
+      icon: Package,
+      rarity: newEquipment.rarity
+    };
+
+    setEquipment([...equipment, customEquipment]);
+    
+    // Resetar formulário
+    setNewEquipment({
+      name: '',
+      type: 'item',
+      description: '',
+      category: '',
+      rarity: 'common',
+      quantity: 1
+    });
+    
+    setShowCreateForm(false);
   };
 
   const removeEquipment = (id: string) => {
@@ -121,6 +166,117 @@ const EquipmentSheet: React.FC<EquipmentSheetProps> = ({ character }) => {
       default: return 'text-gray-400';
     }
   };
+
+  if (showCreateForm) {
+    return (
+      <div className="p-4 space-y-4">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-white">Criar Equipamento</h2>
+          <button
+            onClick={() => setShowCreateForm(false)}
+            className="text-gray-400 hover:text-white"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <Card className="dnd-card">
+          <CardContent className="p-4 space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="name" className="text-white">Nome do Equipamento</Label>
+                <Input
+                  id="name"
+                  value={newEquipment.name}
+                  onChange={(e) => setNewEquipment({...newEquipment, name: e.target.value})}
+                  placeholder="Ex: Poção de Cura"
+                  className="dnd-input mt-1"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="type" className="text-white">Tipo</Label>
+                <Select value={newEquipment.type} onValueChange={(value: Equipment['type']) => setNewEquipment({...newEquipment, type: value})}>
+                  <SelectTrigger className="dnd-input mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="weapon">Arma</SelectItem>
+                    <SelectItem value="armor">Armadura</SelectItem>
+                    <SelectItem value="item">Item</SelectItem>
+                    <SelectItem value="tool">Ferramenta</SelectItem>
+                    <SelectItem value="accessory">Acessório</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="category" className="text-white">Categoria (opcional)</Label>
+                <Input
+                  id="category"
+                  value={newEquipment.category}
+                  onChange={(e) => setNewEquipment({...newEquipment, category: e.target.value})}
+                  placeholder="Ex: Consumível"
+                  className="dnd-input mt-1"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="rarity" className="text-white">Raridade</Label>
+                <Select value={newEquipment.rarity} onValueChange={(value) => setNewEquipment({...newEquipment, rarity: value})}>
+                  <SelectTrigger className="dnd-input mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="common">Comum</SelectItem>
+                    <SelectItem value="uncommon">Incomum</SelectItem>
+                    <SelectItem value="rare">Raro</SelectItem>
+                    <SelectItem value="very-rare">Muito Raro</SelectItem>
+                    <SelectItem value="legendary">Lendário</SelectItem>
+                    <SelectItem value="artifact">Artefato</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="description" className="text-white">Descrição</Label>
+              <Textarea
+                id="description"
+                value={newEquipment.description}
+                onChange={(e) => setNewEquipment({...newEquipment, description: e.target.value})}
+                placeholder="Descreva o equipamento, seus efeitos, dano, etc."
+                className="dnd-input mt-1 min-h-[100px]"
+              />
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div>
+                <Label htmlFor="quantity" className="text-white">Quantidade</Label>
+                <Input
+                  id="quantity"
+                  type="number"
+                  min="1"
+                  value={newEquipment.quantity}
+                  onChange={(e) => setNewEquipment({...newEquipment, quantity: parseInt(e.target.value) || 1})}
+                  className="dnd-input mt-1 w-20"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-4">
+              <Button onClick={createCustomEquipment} className="flex-1">
+                Criar Equipamento
+              </Button>
+              <Button variant="outline" onClick={() => setShowCreateForm(false)}>
+                Cancelar
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (showEquipmentSelector) {
     return (
@@ -224,13 +380,22 @@ const EquipmentSheet: React.FC<EquipmentSheetProps> = ({ character }) => {
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold text-white">Equipamentos</h2>
-        <button
-          onClick={() => setShowEquipmentSelector(true)}
-          className="flex items-center gap-2 dnd-button"
-        >
-          <Plus size={16} />
-          Adicionar
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setShowEquipmentSelector(true)}
+            className="flex items-center gap-2 dnd-button text-sm"
+          >
+            <Search size={16} />
+            <span className="hidden sm:inline">Da Lista</span>
+          </button>
+          <button
+            onClick={() => setShowCreateForm(true)}
+            className="flex items-center gap-2 dnd-button text-sm"
+          >
+            <Plus size={16} />
+            <span className="hidden sm:inline">Criar</span>
+          </button>
+        </div>
       </div>
 
       <div className="space-y-3">
