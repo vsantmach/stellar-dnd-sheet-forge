@@ -170,7 +170,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
     <div className="p-4 space-y-6 bg-black">
       {/* Character Header */}
       <div className="dnd-card">
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
               Nome do Personagem
@@ -195,7 +195,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
 
         <div className="space-y-4">
           {/* Main Class and Level */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Classe Principal
@@ -206,7 +206,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
                 </div>
                 <button
                   onClick={() => openAbilitiesModal(character.class, mainSubclass, mainLevel)}
-                  className="dnd-button px-3 py-2 flex items-center gap-1"
+                  className="dnd-button px-3 py-2 flex items-center gap-1 touch-manipulation"
                   title="Ver habilidades da classe"
                 >
                   <Settings size={16} />
@@ -264,7 +264,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
             
             {multiclass.map((mc, index) => (
               <div key={index} className="space-y-2 mb-4 p-3 bg-gray-800 rounded">
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <div className="flex gap-2">
                     <ClassSelector
                       selectedClass={mc.class}
@@ -273,7 +273,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
                     />
                     <button
                       onClick={() => openAbilitiesModal(mc.class, mc.subclass, mc.level)}
-                      className="dnd-button px-2 py-1 flex items-center"
+                      className="dnd-button px-2 py-1 flex items-center touch-manipulation"
                       title="Ver habilidades da classe"
                     >
                       <Settings size={14} />
@@ -290,7 +290,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
                     />
                     <button
                       onClick={() => removeMulticlass(index)}
-                      className="text-red-400 hover:text-red-300 p-1"
+                      className="text-red-400 hover:text-red-300 p-1 touch-manipulation min-h-[44px] min-w-[44px] flex items-center justify-center"
                     >
                       <X size={16} />
                     </button>
@@ -345,7 +345,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
       <div className="dnd-card">
         <h3 className="text-lg font-semibold text-white mb-4">Informações Básicas</h3>
         
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
               Tendência
@@ -380,7 +380,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
               Bônus de Proficiência
@@ -421,7 +421,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
       <div className="dnd-card">
         <h3 className="text-lg font-semibold text-white mb-4">Pontos de Vida</h3>
         
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
               Máximo de PV
@@ -446,7 +446,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
               PV Temporários

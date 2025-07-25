@@ -112,17 +112,17 @@ const CharacterSheetApp = () => {
 
   return (
     <div className={`min-h-screen ${getBackgroundColor()}`}>
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-4 border-b border-gray-800 gap-2 sm:gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2 sm:p-4 border-b border-gray-800 gap-2 sm:gap-4">
         <div className="flex items-center justify-between w-full sm:w-auto">
           <button
             onClick={() => setShowManager(true)}
-            className="flex items-center gap-1 sm:gap-2 dnd-button text-sm sm:text-base py-2 px-3 touch-manipulation"
+            className="flex items-center gap-1 sm:gap-2 dnd-button text-sm sm:text-base py-2 px-3 touch-manipulation min-h-[44px]"
           >
             <Users size={18} />
             <span className="hidden xs:inline">Personagens</span>
             <span className="xs:hidden">Lista</span>
           </button>
-          <h1 className={`text-base sm:text-xl font-bold ${getTextColor()} truncate max-w-[150px] sm:max-w-none mx-2 sm:hidden`}>
+          <h1 className={`text-sm sm:text-xl font-bold ${getTextColor()} truncate max-w-[120px] sm:max-w-none mx-2 sm:hidden`}>
             {selectedCharacter.name}
           </h1>
         </div>
@@ -134,14 +134,14 @@ const CharacterSheetApp = () => {
         <div className="flex gap-1 sm:gap-2 w-full sm:w-auto justify-end">
           <button
             onClick={() => setShowSettings(true)}
-            className="flex items-center gap-1 dnd-button text-sm py-2 px-2 sm:px-3 touch-manipulation"
+            className="flex items-center gap-1 dnd-button text-xs sm:text-sm py-2 px-2 sm:px-3 touch-manipulation min-h-[44px]"
           >
             <Settings size={16} />
             <span className="hidden sm:inline">Config</span>
           </button>
           <button
             onClick={handleGeneratePDF}
-            className="flex items-center gap-1 dnd-button text-sm py-2 px-2 sm:px-3 touch-manipulation"
+            className="flex items-center gap-1 dnd-button text-xs sm:text-sm py-2 px-2 sm:px-3 touch-manipulation min-h-[44px]"
           >
             <FileText size={16} />
             <span className="hidden sm:inline">PDF</span>

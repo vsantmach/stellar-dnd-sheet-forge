@@ -85,7 +85,7 @@ const StatusSheet: React.FC<StatusSheetProps> = ({ character }) => {
           Atributos
         </h3>
         
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {Object.entries(attributes).map(([key, value]) => {
             const modifier = getModifier(value);
             const attributeNames: Record<string, string> = {

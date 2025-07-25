@@ -57,6 +57,13 @@
   @apply bg-gray-900 border border-gray-800 rounded-lg p-3 sm:p-4;
 }
 
+/* Mobile optimizations for cards */
+@media (max-width: 640px) {
+  .dnd-card {
+    @apply p-3 mx-1;
+  }
+}
+
 .dnd-card-light {
   @apply bg-gray-100 border border-gray-200 rounded-lg p-3 sm:p-4;
 }
@@ -121,6 +128,18 @@
 
 .touch-manipulation {
   touch-action: manipulation;
+}
+
+/* Better mobile scrolling */
+@media (max-width: 640px) {
+  .overflow-x-auto {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .overflow-x-auto::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Mobile-friendly focus styles */
