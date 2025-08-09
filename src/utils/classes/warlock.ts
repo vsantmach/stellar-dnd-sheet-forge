@@ -16,8 +16,43 @@ export const warlockFeatures: ClassFeature[] = [
   {
     id: 'warlock-eldritch-invocations',
     name: 'Invocações Transcendentais',
-    description: 'Você aprende invocações que concedem habilidades mágicas.',
-    level: 2
+    description: 'Você aprende invocações que concedem habilidades mágicas. Você escolhe da lista de invocações místicas disponíveis para o Bruxo.',
+    level: 2,
+    options: [
+      // Player’s Handbook
+      'Visão do Diabo (Devil’s Sight)',
+      'Voz do Mestre das Correntes (Voice of the Chain Master)',
+      'Armadura de Sombras (Armor of Shadows)',
+      'Visão das Profundezas (Eldritch Sight)',
+      'Lança de Agonia (Agonizing Blast)',
+      'Presa do Livro das Sombras (Book of Ancient Secrets)',
+      'Passos do Vento (Misty Visions)',
+      'Toque Gélido de Hadar (Grasp of Hadar)',
+      'Olhar de Duas Mentes (Gaze of Two Minds)',
+      'Lança Repulsora (Repelling Blast)',
+      'Alma do Mestre da Lâmina (Thirsting Blade)',
+      'Golpe da Lâmina da Vida (Lifedrinker)',
+      'Chicote de Eldritch (Eldritch Spear)',
+      'Vontade de Mente (Bewitching Whispers)',
+      'Cadeias de Carceri (Chains of Carceri)',
+      'Visão de Bruxo (Witch Sight)',
+
+      // Xanathar’s Guide to Everything
+      'Golpe de Lança da Letargia (Lance of Lethargy)',
+      'Garras de Hadar (Grasp of Hadar)',
+      'Visão Fantasmagórica (Ghostly Gaze)',
+      'Passos do Medo (Maddening Hex)',
+      'Toque do Inferno (Relentless Hex)',
+      'Presença Aterradora (Tomb of Levistus)',
+      'Passo Místico Aprimorado (Improved Pact Weapon)',
+
+      // Tasha’s Cauldron of Everything
+      'Poder da Lâmina Amaldiçoada (Eldritch Mind)',
+      'Marca de Proteção (Investment of the Chain Master)',
+      'Proteção Sombria (Bond of the Talisman)',
+      'Revelar Segredos (Gift of the Protectors)',
+      'Caminho entre Sombras (Aspect of the Moon)'
+    ]
   },
   {
     id: 'warlock-pact-boon',
@@ -102,8 +137,6 @@ export const warlockFeatures: ClassFeature[] = [
 ];
 
 export const warlockSubclasses: Record<string, SubclassFeature[]> = {
-  // ... outras subclasses já existentes ...
-
   'Lâmina Maldita': [
     {
       name: 'Mestre das Armas Malditas',
