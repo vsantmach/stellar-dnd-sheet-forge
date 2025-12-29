@@ -40,32 +40,61 @@
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
     @apply bg-background text-foreground;
     font-family: system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+}
+
+/* Safe area for mobile devices with notches */
+@supports (padding: max(0px)) {
+  .safe-area-inset {
+    padding-left: max(0.5rem, env(safe-area-inset-left));
+    padding-right: max(0.5rem, env(safe-area-inset-right));
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
   }
 }
 
 /* Custom D&D styling */
 .dnd-container {
   @apply bg-black text-white min-h-screen;
+  min-height: 100dvh;
 }
 
 .dnd-card {
-  @apply bg-gray-900 border border-gray-800 rounded-lg p-3 sm:p-4;
+  @apply bg-gray-900 border border-gray-800 rounded-lg;
+  padding: 0.75rem;
 }
 
-/* Mobile optimizations for cards */
-@media (max-width: 640px) {
+@media (min-width: 640px) {
   .dnd-card {
-    @apply p-3 mx-1;
+    padding: 1rem;
   }
 }
 
 .dnd-card-light {
-  @apply bg-gray-100 border border-gray-200 rounded-lg p-3 sm:p-4;
+  @apply bg-gray-100 border border-gray-200 rounded-lg;
+  padding: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .dnd-card-light {
+    padding: 1rem;
+  }
 }
 
 .dnd-accent {
@@ -109,11 +138,29 @@
 }
 
 .dnd-input {
-  @apply bg-gray-800 border border-gray-700 text-white px-3 py-3 sm:py-2 rounded-lg focus:border-blue-400 focus:outline-none text-base sm:text-sm;
+  @apply bg-gray-800 border border-gray-700 text-white rounded-lg focus:border-blue-400 focus:outline-none;
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+@media (min-width: 640px) {
+  .dnd-input {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
 }
 
 .dnd-input-light {
-  @apply bg-white border border-gray-300 text-gray-900 px-3 py-3 sm:py-2 rounded-lg focus:border-blue-400 focus:outline-none text-base sm:text-sm;
+  @apply bg-white border border-gray-300 text-gray-900 rounded-lg focus:border-blue-400 focus:outline-none;
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+@media (min-width: 640px) {
+  .dnd-input-light {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
 }
 
 /* Mobile optimizations */
@@ -130,8 +177,9 @@
   touch-action: manipulation;
 }
 
-/* Better mobile scrolling */
+/* Global mobile responsive utilities */
 @media (max-width: 640px) {
+  /* Hide scrollbars on mobile */
   .overflow-x-auto {
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -140,13 +188,23 @@
   .overflow-x-auto::-webkit-scrollbar {
     display: none;
   }
+
+  /* Full width containers on mobile */
+  .container,
+  .max-w-4xl,
+  .max-w-3xl,
+  .max-w-2xl {
+    width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
 
 /* Mobile-friendly focus styles */
 @media (max-width: 640px) {
   .dnd-input:focus,
   .dnd-button:focus {
-    @apply ring-2 ring-blue-400 ring-opacity-50;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.5);
   }
   
   /* Prevent zoom on input focus on iOS */
@@ -154,12 +212,12 @@
   input[type="number"],
   select,
   textarea {
-    font-size: 16px;
+    font-size: 16px !important;
   }
   
   /* Improve mobile spacing */
   .mobile-compact {
-    @apply px-2 py-1;
+    padding: 0.25rem 0.5rem;
   }
   
   /* Better touch targets */
@@ -167,19 +225,31 @@
     min-height: 44px;
     min-width: 44px;
   }
+
+  /* Mobile button adjustments */
+  button {
+    min-height: 40px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 380px) {
+  .dnd-card {
+    padding: 0.5rem;
+  }
 }
 
 /* Responsive text sizing */
 @media (max-width: 480px) {
   .responsive-text-lg {
-    @apply text-base;
+    font-size: 1rem;
   }
   
   .responsive-text-xl {
-    @apply text-lg;
+    font-size: 1.125rem;
   }
   
   .responsive-text-2xl {
-    @apply text-xl;
+    font-size: 1.25rem;
   }
 }
