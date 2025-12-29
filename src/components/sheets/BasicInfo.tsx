@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, X, Settings } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import { getAvailableSubclasses, isCustomClass } from '../../utils/classFeatures';
-import ClassAbilitiesModal from './ClassAbilitiesModal';
 import RaceSelector from '../forms/RaceSelector';
 import ClassSelector from '../forms/ClassSelector';
 import { Character } from '../../utils/types';
@@ -36,12 +35,6 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
   const [mainLevel, setMainLevel] = useState(character.level);
   const [mainSubclass, setMainSubclass] = useState<string>('');
   const [multiclass, setMulticlass] = useState<ClassLevel[]>([]);
-  const [showAbilitiesModal, setShowAbilitiesModal] = useState(false);
-  const [selectedClassForAbilities, setSelectedClassForAbilities] = useState<{
-    className: string;
-    subclass?: string;
-    level: number;
-  } | null>(null);
   const [raceSubrace, setRaceSubrace] = useState<string>('');
 
   const classes = [
@@ -145,17 +138,6 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
     return level >= 3; // Most classes get subclasses at level 3
   };
 
-  const openAbilitiesModal = (className: string, subclass?: string, level?: number) => {
-    // For custom classes, use the class name directly
-    const englishClassName = isCustomClass(className) ? className : (classNameMap[className] || className);
-    setSelectedClassForAbilities({
-      className: englishClassName,
-      subclass,
-      level: level || mainLevel
-    });
-    setShowAbilitiesModal(true);
-  };
-
   const handleRaceChange = (race: string) => {
     // Race is read-only in BasicInfo as it comes from character prop
     // This is just for display purposes
@@ -200,17 +182,8 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Classe Principal
               </label>
-              <div className="flex gap-2">
-                <div className="dnd-input cursor-not-allowed opacity-75 flex-1">
-                  {character.class}
-                </div>
-                <button
-                  onClick={() => openAbilitiesModal(character.class, mainSubclass, mainLevel)}
-                  className="dnd-button px-3 py-2 flex items-center gap-1 touch-manipulation"
-                  title="Ver habilidades da classe"
-                >
-                  <Settings size={16} />
-                </button>
+              <div className="dnd-input cursor-not-allowed opacity-75">
+                {character.class}
               </div>
             </div>
             <div>
@@ -265,19 +238,12 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
             {multiclass.map((mc, index) => (
               <div key={index} className="space-y-2 mb-4 p-3 bg-gray-800 rounded">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <div className="flex gap-2">
+                  <div>
                     <ClassSelector
                       selectedClass={mc.class}
                       onClassChange={(className) => updateMulticlass(index, 'class', className)}
                       disabled={false}
                     />
-                    <button
-                      onClick={() => openAbilitiesModal(mc.class, mc.subclass, mc.level)}
-                      className="dnd-button px-2 py-1 flex items-center touch-manipulation"
-                      title="Ver habilidades da classe"
-                    >
-                      <Settings size={14} />
-                    </button>
                   </div>
                   <div className="flex gap-2">
                     <input
@@ -473,16 +439,6 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ character }) => {
         </div>
       </div>
 
-      {/* Class Abilities Modal */}
-      {selectedClassForAbilities && (
-        <ClassAbilitiesModal
-          isOpen={showAbilitiesModal}
-          onClose={() => setShowAbilitiesModal(false)}
-          className={selectedClassForAbilities.className}
-          subclass={selectedClassForAbilities.subclass}
-          characterLevel={selectedClassForAbilities.level}
-        />
-      )}
     </div>
   );
 };
