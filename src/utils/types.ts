@@ -5,6 +5,7 @@ export interface ClassFeature {
   description: string;
   level: number;
   subclass?: string;
+  options?: string[];
   uses?: {
     max: number;
     current: number;

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dice6 } from 'lucide-react';
 import { Character } from '../../utils/types';
 
@@ -7,17 +7,29 @@ interface StatusSheetProps {
   character: Character;
 }
 
-const StatusSheet: React.FC<StatusSheetProps> = ({ character }) => {
-  const [attributes, setAttributes] = useState({
+interface CharacterStatus {
+  attributes: {
+    strength: number;
+    dexterity: number;
+    constitution: number;
+    intelligence: number;
+    wisdom: number;
+    charisma: number;
+  };
+  skills: Record<string, boolean>;
+  savingThrows: Record<string, boolean>;
+}
+
+const getDefaultStatus = (): CharacterStatus => ({
+  attributes: {
     strength: 10,
     dexterity: 10,
     constitution: 10,
     intelligence: 10,
     wisdom: 10,
     charisma: 10
-  });
-
-  const [skills, setSkills] = useState({
+  },
+  skills: {
     acrobatics: false,
     animalHandling: false,
     arcana: false,
@@ -36,16 +48,49 @@ const StatusSheet: React.FC<StatusSheetProps> = ({ character }) => {
     sleightOfHand: false,
     stealth: false,
     survival: false
-  });
-
-  const [savingThrows, setSavingThrows] = useState({
+  },
+  savingThrows: {
     strength: false,
     dexterity: false,
     constitution: false,
     intelligence: false,
     wisdom: false,
     charisma: false
+  }
+});
+
+const StatusSheet: React.FC<StatusSheetProps> = ({ character }) => {
+  const storageKey = `character-status-${character.id}`;
+  
+  const [status, setStatus] = useState<CharacterStatus>(() => {
+    const saved = localStorage.getItem(storageKey);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return getDefaultStatus();
+      }
+    }
+    return getDefaultStatus();
   });
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(status));
+  }, [status, storageKey]);
+
+  const { attributes, skills, savingThrows } = status;
+
+  const setAttributes = (newAttributes: typeof attributes) => {
+    setStatus(prev => ({ ...prev, attributes: newAttributes }));
+  };
+
+  const setSkills = (newSkills: typeof skills) => {
+    setStatus(prev => ({ ...prev, skills: newSkills }));
+  };
+
+  const setSavingThrows = (newSavingThrows: typeof savingThrows) => {
+    setStatus(prev => ({ ...prev, savingThrows: newSavingThrows }));
+  };
 
   const getModifier = (score: number) => {
     return Math.floor((score - 10) / 2);
