@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Users, Plus, FileText, Settings } from 'lucide-react';
+import { Users, Plus, FileText, Settings, Minimize2, Maximize2 } from 'lucide-react';
 import CharacterManager from './CharacterManager';
 import CharacterSheet from './CharacterSheet';
 import ThemeSelector from './ThemeSelector';
@@ -8,6 +8,7 @@ import StorageAlert from './StorageAlert';
 import { generateCharacterPDF } from '../utils/pdfGenerator';
 import { useTheme } from '../hooks/useTheme';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useCompactMode } from '../hooks/useCompactMode';
 import { toast } from './ui/use-toast';
 import { Character } from '../utils/types';
 
@@ -17,6 +18,7 @@ const CharacterSheetApp = () => {
   const [showManager, setShowManager] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const { getBackgroundColor, getTextColor, getAccentColor } = useTheme();
+  const { isCompact, toggleCompact } = useCompactMode();
 
   const selectedCharacter = characters.find(c => c.id === selectedCharacterId) || null;
 
@@ -132,6 +134,13 @@ const CharacterSheetApp = () => {
         </h1>
         
         <div className="flex gap-1 sm:gap-2 w-full sm:w-auto justify-end">
+          <button
+            onClick={toggleCompact}
+            className="flex items-center gap-1 dnd-button text-xs sm:text-sm py-2 px-2 sm:px-3 touch-manipulation min-h-[44px] sm:hidden"
+            title={isCompact ? "Modo normal" : "Modo compacto"}
+          >
+            {isCompact ? <Maximize2 size={16} /> : <Minimize2 size={16} />}
+          </button>
           <button
             onClick={() => setShowSettings(true)}
             className="flex items-center gap-1 dnd-button text-xs sm:text-sm py-2 px-2 sm:px-3 touch-manipulation min-h-[44px]"

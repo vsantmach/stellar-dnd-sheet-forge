@@ -253,3 +253,94 @@
     font-size: 1.25rem;
   }
 }
+
+/* Compact Mode Styles - using non-nested selectors for Tailwind compatibility */
+body.compact-mode .dnd-card {
+  padding: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+body.compact-mode h1 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+body.compact-mode h2,
+body.compact-mode h3 {
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+body.compact-mode label {
+  font-size: 0.75rem;
+  margin-bottom: 0.125rem;
+}
+
+body.compact-mode .dnd-input,
+body.compact-mode input,
+body.compact-mode select,
+body.compact-mode textarea {
+  padding: 0.375rem 0.5rem;
+  font-size: 0.875rem !important;
+  min-height: 32px;
+}
+
+body.compact-mode button {
+  min-height: 32px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+body.compact-mode input[type="checkbox"] {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+/* Compact spacing overrides */
+body.compact-mode .space-y-6 > * + * {
+  margin-top: 0.5rem;
+}
+
+body.compact-mode .space-y-4 > * + * {
+  margin-top: 0.375rem;
+}
+
+body.compact-mode .space-y-2 > * + * {
+  margin-top: 0.25rem;
+}
+
+body.compact-mode .gap-4 {
+  gap: 0.375rem;
+}
+
+body.compact-mode .gap-2 {
+  gap: 0.25rem;
+}
+
+body.compact-mode .p-4 {
+  padding: 0.5rem;
+}
+
+body.compact-mode .mb-4 {
+  margin-bottom: 0.375rem;
+}
+
+body.compact-mode .mb-2 {
+  margin-bottom: 0.25rem;
+}
+
+body.compact-mode .text-sm {
+  font-size: 0.75rem;
+}
+
+body.compact-mode .text-xs {
+  font-size: 0.625rem;
+}
+
+body.compact-mode .text-lg {
+  font-size: 0.875rem;
+}
+
+body.compact-mode .text-xl {
+  font-size: 1rem;
+}
