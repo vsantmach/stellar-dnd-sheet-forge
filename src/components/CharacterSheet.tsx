@@ -1,13 +1,12 @@
 
 import React, { useState } from 'react';
-import { User, TrendingUp, Backpack, Book, Star, Settings, Sword } from 'lucide-react';
+import { User, TrendingUp, Backpack, Book, Star, Settings } from 'lucide-react';
 import BasicInfo from './sheets/BasicInfo';
 import StatusSheet from './sheets/StatusSheet';
 import EquipmentSheet from './sheets/EquipmentSheet';
 import SpellsSheet from './sheets/SpellsSheet';
 import BackgroundSheet from './sheets/BackgroundSheet';
 import FeaturesSheet from './sheets/FeaturesSheet';
-import ClassFeaturesSheet from './sheets/ClassFeaturesSheet';
 import { useTheme } from '../hooks/useTheme';
 import { Character } from '../utils/types';
 
@@ -22,7 +21,6 @@ const CharacterSheet: React.FC<CharacterSheetProps> = ({ character }) => {
   const tabs = [
     { id: 'basic', label: 'Básico', icon: User },
     { id: 'status', label: 'Status', icon: TrendingUp },
-    { id: 'class-features', label: 'Classe', icon: Sword },
     { id: 'equipment', label: 'Equipamentos', icon: Backpack },
     { id: 'spells', label: 'Magias', icon: Book },
     { id: 'background', label: 'Background', icon: Star },
@@ -52,8 +50,6 @@ const CharacterSheet: React.FC<CharacterSheetProps> = ({ character }) => {
         return <BasicInfo character={character} />;
       case 'status':
         return <StatusSheet character={character} />;
-      case 'class-features':
-        return <ClassFeaturesSheet character={character} />;
       case 'equipment':
         return <EquipmentSheet character={character} />;
       case 'spells':
